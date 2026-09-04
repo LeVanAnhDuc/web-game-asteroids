@@ -1,34 +1,21 @@
 # Bất biến chịu lực
 
 > **Trả lời:** Sửa gì thì hệ thống sai **âm thầm** — test vẫn xanh mà kết quả vẫn sai?
-> **Trạng thái:** 🟡 mặc định đề xuất, chưa rà theo dự án
-> **Cập nhật:** — · commit —
+> **Trạng thái:** 🟢 đủ — đã rà theo dự án
+> **Cập nhật:** 2026-09-04 · commit —
 > **Cập nhật khi:** phát hiện một bất biến mới — thường là ngay sau khi ai đó vừa phá nó
 
-<!-- CÁCH ĐIỀN
-ĐỌC FILE NÀY TRƯỚC KHI SỬA BẤT KỲ DÒNG CODE NÀO.
-
-Bất biến ở đây KHÁC quy ước code. Quy ước format/naming thì ESLint bắt được; bất
-biến thì không có công cụ nào bắt, và vi phạm nó thì code vẫn chạy, test vẫn xanh,
-chỉ có kết quả là sai.
-
-VIỆC CỦA BẠN: xoá dòng không áp dụng, thêm bất biến riêng của dự án, đổi sang 🟢.
-
-GIỮ FILE NÀY < 40 DÒNG NỘI DUNG. Nó được đọc mỗi lần sửa code; dài ra là không ai
-đọc nữa. Thứ gì không thuộc loại "sai âm thầm" thì bỏ ra khỏi đây.
-
-KHÔNG chứa: quy ước format/naming (-> lint config), kiến trúc (-> architecture.md).
--->
+Bản mặc định của template nói về múi giờ, quyền ở server, ORM, migration, soft-delete. Dự án không có server và không có database, nên toàn bộ đã bị thay bằng bất biến của một game canvas deterministic.
 
 | # | Bất biến | Vi phạm thì sao |
 | --- | --- | --- |
-| 1 | Thời gian lưu ở **UTC**. Đổi múi giờ chỉ xảy ra ở tầng hiển thị | Lệch một ngày ở biên múi giờ. Test viết theo giờ máy vẫn xanh |
-| 2 | Mọi mutation kiểm quyền ở **server**, kể cả khi UI đã ẩn nút | Người dùng gọi API trực tiếp và sửa được dữ liệu của người khác |
-| 3 | Chỉ tầng service truy vấn datastore. Route/handler không query trực tiếp | Bỏ qua lớp kiểm quyền và validate nằm trong service |
-| 4 | Tiền và số cần chính xác **không dùng float** | Sai số tích luỹ, không tái tạo được, phát hiện sau nhiều tháng |
-| 5 | Bản ghi đang được tham chiếu thì **soft-delete**, không hard-delete | Dữ liệu tham chiếu mồ côi, báo cáo cũ thiếu dòng |
-| 6 | Tác vụ ghi quan trọng phải **idempotent** theo một khoá | Retry hoặc double-click tạo bản ghi trùng |
-| 7 | Migration **chỉ tiến**. Không sửa migration đã chạy ở bất kỳ môi trường nào | Lịch sử schema giữa các môi trường lệch nhau, không hoà giải được |
-| 8 | Thứ tự middleware: **auth → validate → handler** | Handler nhận dữ liệu chưa validate, hoặc validate chạy khi chưa biết người gọi |
-| 9 | Không tin `id` gửi từ client để xác định quyền sở hữu. Luôn đối chiếu với session | Truy cập chéo dữ liệu giữa các người dùng |
-| 10 | <!-- TODO: bất biến riêng của dự án này --> | |
+| 1 | `src/game/core/**` không gọi `Math.random`, `Date.now`, `performance.now`, `window`, `document`. Ngẫu nhiên vào qua `state.rng`, thời gian vào qua `dt` | Test hết tái lập được: chạy 100 lần xanh, lần 101 đỏ, và không dựng lại được ván đã lỗi. Có ESLint chặn, đừng tắt rule |
+| 2 | RNG chỉ lấy từ `state.rng`. Không có instance RNG toàn cục, không import chéo | Hai ván cùng seed cho kết quả khác nhau. `NFR-ROB-04` chết âm thầm |
+| 3 | Mọi vận tốc, gia tốc, đồng hồ đếm ghi theo **đơn vị/giây** rồi nhân `dt`. Không có hằng số nào tính theo "mỗi frame" | Máy 144Hz chạy nhanh gấp 2.4 lần máy 60Hz. Trên máy dev thấy bình thường |
+| 4 | Toạ độ trong lõi luôn là đơn vị thế giới 1600×1200. Chỉ tầng vẽ mới đổi sang pixel màn hình | Màn hình to có nhiều chỗ né hơn màn hình nhỏ; cùng một game mà điện thoại khó hơn desktop, và điểm số giữa hai thiết bị không so được |
+| 5 | Khoảng cách giữa hai vật thể tính theo **khoảng cách ngắn nhất trên hình xuyến** (có wrap), không phải hiệu toạ độ thẳng | Đạn bay qua mép không trúng thiên thạch dù trên màn hình nhìn rõ là chạm. Chỉ sai ở rìa nên rất khó tái hiện |
+| 6 | Góc tính bằng radian, `0` là hướng **lên** (−Y), tăng theo chiều kim đồng hồ | Tàu bay ngang khi bấm đẩy, hoặc đạn ra khỏi hông tàu. Sai 90° nhìn giống lỗi vật lý hơn là lỗi quy ước |
+| 7 | Chỉ `step()` được sửa `GameState`. Tầng vẽ, React và input chỉ đọc | Logic game phụ thuộc vào việc có vẽ hay không; mọi thứ lệch khi tab chạy nền hoặc khi bật dev overlay |
+| 8 | React không giữ `GameState` trong `useState`/`useRef` để render. Chỉ nhận snapshot HUD và chỉ re-render khi giá trị đổi | 60 lần reconciliation mỗi giây, tụt frame trên điện thoại. Trên máy dev không thấy |
+| 9 | Mọi thứ đọc từ `localStorage` phải qua validate rồi mới dùng | Một chuỗi JSON bị sửa tay làm trắng màn hình toàn bộ game, ngay ở lần tải trang |
+| 10 | Hitbox của tàu nhỏ hơn hình vẽ **20%**. Đây là chủ ý, không phải sai số | "Sửa cho khớp hình" làm game khó lên rõ rệt mà không ai biết vì sao |
