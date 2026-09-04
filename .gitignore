@@ -4,3 +4,16 @@
 .env
 .env.*
 !.env.example
+
+# Phụ thuộc và kết quả build
+/node_modules/
+/.next/
+/out/
+next-env.d.ts
+*.tsbuildinfo
+yarn-error.log
+npm-debug.log*
+
+# Công cụ
+/coverage/
+.DS_Store

@@ -15,7 +15,7 @@ Bản mặc định của template nói về múi giờ, quyền ở server, ORM
 | 4 | Toạ độ trong lõi luôn là đơn vị thế giới 1600×1200. Chỉ tầng vẽ mới đổi sang pixel màn hình | Màn hình to có nhiều chỗ né hơn màn hình nhỏ; cùng một game mà điện thoại khó hơn desktop, và điểm số giữa hai thiết bị không so được |
 | 5 | Khoảng cách giữa hai vật thể tính theo **khoảng cách ngắn nhất trên hình xuyến** (có wrap), không phải hiệu toạ độ thẳng | Đạn bay qua mép không trúng thiên thạch dù trên màn hình nhìn rõ là chạm. Chỉ sai ở rìa nên rất khó tái hiện |
 | 6 | Góc tính bằng radian, `0` là hướng **lên** (−Y), tăng theo chiều kim đồng hồ | Tàu bay ngang khi bấm đẩy, hoặc đạn ra khỏi hông tàu. Sai 90° nhìn giống lỗi vật lý hơn là lỗi quy ước |
-| 7 | Chỉ `step()` được sửa `GameState`. Tầng vẽ, React và input chỉ đọc | Logic game phụ thuộc vào việc có vẽ hay không; mọi thứ lệch khi tab chạy nền hoặc khi bật dev overlay |
+| 7 | Chỉ `step()` và các hàm chuyển pha có tên trong `core/state.ts` được sửa `GameState`. Tầng vẽ, React và input chỉ đọc, không bao giờ gán thẳng vào một trường | Logic game phụ thuộc vào việc có vẽ hay không; mọi thứ lệch khi tab chạy nền hoặc khi bật dev overlay |
 | 8 | React không giữ `GameState` trong `useState`/`useRef` để render. Chỉ nhận snapshot HUD và chỉ re-render khi giá trị đổi | 60 lần reconciliation mỗi giây, tụt frame trên điện thoại. Trên máy dev không thấy |
 | 9 | Mọi thứ đọc từ `localStorage` phải qua validate rồi mới dùng | Một chuỗi JSON bị sửa tay làm trắng màn hình toàn bộ game, ngay ở lần tải trang |
 | 10 | Hitbox của tàu nhỏ hơn hình vẽ **20%**. Đây là chủ ý, không phải sai số | "Sửa cho khớp hình" làm game khó lên rõ rệt mà không ai biết vì sao |

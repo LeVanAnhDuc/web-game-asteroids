@@ -8,7 +8,13 @@
 <!-- BEGIN:auto — bảng dưới do .claude/scripts/docs-regen.sh sinh từ các file ADR. Đừng sửa tay. -->
 | ID | Tiêu đề | Ngày | Trạng thái |
 | --- | --- | --- | --- |
-| — | _chưa có ADR nào_ | — | — |
+| [ADR-0001](0001-nextjs-static-export-with-yarn.md) | Dùng Next.js 15 static export + React 19 + Tailwind + Vitest, quản lý gói bằng Yarn classic | 2026-09-04 | accepted |
+| [ADR-0002](0002-canvas-2d-with-pure-typescript-core.md) | Vẽ bằng Canvas 2D, lõi game là TypeScript thuần và React chỉ là vỏ | 2026-09-04 | accepted |
+| [ADR-0003](0003-fixed-timestep-and-fixed-world-size.md) | Fixed timestep 60Hz và thế giới cố định 1600×1200, canvas chỉ scale-to-fit | 2026-09-04 | accepted |
+| [ADR-0004](0004-single-weapon-slot-for-powerups.md) | Ba power-up vũ khí dùng chung một khe, khiên và mạng có khe riêng | 2026-09-04 | accepted |
+| [ADR-0005](0005-hyperspace-cooldown-no-random-death.md) | Hyperspace có cooldown và không có rủi ro nổ ngẫu nhiên | 2026-09-04 | accepted |
+| [ADR-0006](0006-scorestore-interface-local-only.md) | Lưu điểm qua interface `ScoreStore`, bản duy nhất là localStorage | 2026-09-04 | accepted |
+| [ADR-0007](0007-design-tokens-override-pixel-art-catalog.md) | Bỏ đề xuất Pixel Art của catalog, chốt vector phát sáng với Space Grotesk + JetBrains Mono | 2026-09-04 | accepted |
 <!-- END:auto -->
 
 Trạng thái: `accepted` · `superseded by ADR-00xx` · `deprecated`
