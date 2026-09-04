@@ -1,0 +1,55 @@
+{
+  "extends": ["next/core-web-vitals", "prettier"],
+  "rules": {},
+  "overrides": [
+    {
+      "files": ["src/game/core/**/*.ts"],
+      "excludedFiles": ["src/game/core/**/*.test.ts"],
+      "rules": {
+        "no-restricted-globals": [
+          "error",
+          {
+            "name": "window",
+            "message": "Bất biến #1: lõi game không được đụng DOM. Truyền dữ liệu vào qua tham số."
+          },
+          {
+            "name": "document",
+            "message": "Bất biến #1: lõi game không được đụng DOM."
+          },
+          {
+            "name": "localStorage",
+            "message": "Bất biến #1: lõi game không biết điểm được lưu ở đâu (ADR-0006)."
+          },
+          {
+            "name": "performance",
+            "message": "Bất biến #1: thời gian vào lõi qua tham số dt, không đọc đồng hồ."
+          }
+        ],
+        "no-restricted-properties": [
+          "error",
+          {
+            "object": "Math",
+            "property": "random",
+            "message": "Bất biến #1 và #2: dùng state.rng, nếu không thì test hết tái lập được (NFR-ROB-04)."
+          },
+          {
+            "object": "Date",
+            "property": "now",
+            "message": "Bất biến #1: thời gian vào lõi qua tham số dt."
+          }
+        ],
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["react", "react-dom", "next/*", "@/components/*", "@/storage/*", "@/hooks/*"],
+                "message": "Bất biến #1: lõi game là TypeScript thuần (ADR-0002)."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
