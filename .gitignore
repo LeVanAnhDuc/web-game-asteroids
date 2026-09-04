@@ -17,3 +17,4 @@ npm-debug.log*
 # Công cụ
 /coverage/
 .DS_Store
+dev.log
