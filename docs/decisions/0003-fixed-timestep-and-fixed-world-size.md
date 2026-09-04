@@ -10,16 +10,16 @@ Game chạy trên màn hình từ 375px đến 1440px trở lên, và trên màn
 
 ## 2. Quyết định
 
-Luật chơi chạy ở **bước cố định 1/60 giây**. Vòng lặp gom thời gian thật vào một accumulator, clamp mỗi frame ở **0.25 giây**, rồi gọi `step()` đúng số lần cần; render một lần mỗi frame. Không gian chơi luôn là **1600×1200 đơn vị thế giới (4:3)**; canvas chỉ *scale-to-fit* vào khung có sẵn, thêm viền letterbox khi tỉ lệ khung không khớp. Trên mobile dọc, canvas nằm nửa trên và nút cảm ứng nửa dưới; không bắt người chơi xoay ngang máy.
+Luật chơi chạy ở **bước cố định 1/60 giây**. Vòng lặp gom thời gian thật vào một accumulator, clamp mỗi frame ở **0.25 giây**, rồi gọi `step()` đúng số lần cần; render một lần mỗi frame. Không gian chơi luôn là **1600×1200 đơn vị thế giới (4:3)**; canvas chỉ _scale-to-fit_ vào khung có sẵn, thêm viền letterbox khi tỉ lệ khung không khớp. Trên mobile dọc, canvas nằm nửa trên và nút cảm ứng nửa dưới; không bắt người chơi xoay ngang máy.
 
 ## 3. Phương án đã loại
 
-| Phương án | Vì sao loại |
-| --- | --- |
-| Dùng thẳng `dt` biến thiên của `requestAnimationFrame` | Ít code hơn, nhưng cùng một chuỗi phím cho kết quả khác nhau giữa máy 60Hz và 144Hz, và test không tái lập được |
+| Phương án                                               | Vì sao loại                                                                                                                                                                               |
+| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dùng thẳng `dt` biến thiên của `requestAnimationFrame`  | Ít code hơn, nhưng cùng một chuỗi phím cho kết quả khác nhau giữa máy 60Hz và 144Hz, và test không tái lập được                                                                           |
 | Thế giới bằng đúng kích thước viewport (pixel màn hình) | Dùng hết màn hình to, nhưng màn hình càng lớn càng nhiều chỗ né, nên điện thoại khó hơn desktop và điểm giữa hai thiết bị không so được — mà điểm số là cơ chế động lực duy nhất của game |
-| Bắt buộc xoay ngang trên mobile | Cho canvas to hơn, nhưng chặn người chơi ngay giây đầu tiên bằng một màn hình yêu cầu thao tác — mâu thuẫn với Non-Goal "chơi được trong 2 giây" |
-| Thế giới đổi tỉ lệ theo hướng máy (dọc thì 3:4) | Không loại vì kỹ thuật mà vì gameplay: khoảng cách tới mép đổi thì cảm giác né đổi, tức là hai game khác nhau |
+| Bắt buộc xoay ngang trên mobile                         | Cho canvas to hơn, nhưng chặn người chơi ngay giây đầu tiên bằng một màn hình yêu cầu thao tác — mâu thuẫn với Non-Goal "chơi được trong 2 giây"                                          |
+| Thế giới đổi tỉ lệ theo hướng máy (dọc thì 3:4)         | Không loại vì kỹ thuật mà vì gameplay: khoảng cách tới mép đổi thì cảm giác né đổi, tức là hai game khác nhau                                                                             |
 
 ## 4. Hệ quả
 

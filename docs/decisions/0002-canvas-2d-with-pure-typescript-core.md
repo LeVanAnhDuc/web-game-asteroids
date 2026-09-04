@@ -14,11 +14,11 @@ Asteroids có lúc khoảng 40–60 vật thể cộng với particle khi thiên
 
 ## 3. Phương án đã loại
 
-| Phương án | Vì sao loại |
-| --- | --- |
-| Mỗi vật thể là một element React/DOM hoặc SVG | Style bằng Tailwind trực tiếp và soi được từng vật thể trong devtools, nhưng 40–60 element cập nhật 60 lần/giây làm React reconciliation thành nút cổ chai đúng trên nhóm thiết bị yếu nhất |
-| WebGL qua PixiJS hoặc Three.js | Thừa sức về hiệu năng và particle đẹp hơn, nhưng thêm một dependency lớn vào một game không cần tới nó (phá `NFR-PERF-04`), và lõi game dính vào scene graph nên khó test bằng hàm thuần |
-| Canvas 2D nhưng để luật chơi ngay trong component React | Ít file hơn, nhưng luật chơi khi đó chỉ test được qua DOM, và mọi test đều phải dựng render — đắt và giòn |
+| Phương án                                               | Vì sao loại                                                                                                                                                                                 |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mỗi vật thể là một element React/DOM hoặc SVG           | Style bằng Tailwind trực tiếp và soi được từng vật thể trong devtools, nhưng 40–60 element cập nhật 60 lần/giây làm React reconciliation thành nút cổ chai đúng trên nhóm thiết bị yếu nhất |
+| WebGL qua PixiJS hoặc Three.js                          | Thừa sức về hiệu năng và particle đẹp hơn, nhưng thêm một dependency lớn vào một game không cần tới nó (phá `NFR-PERF-04`), và lõi game dính vào scene graph nên khó test bằng hàm thuần    |
+| Canvas 2D nhưng để luật chơi ngay trong component React | Ít file hơn, nhưng luật chơi khi đó chỉ test được qua DOM, và mọi test đều phải dựng render — đắt và giòn                                                                                   |
 
 ## 4. Hệ quả
 

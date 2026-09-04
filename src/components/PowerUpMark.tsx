@@ -7,7 +7,14 @@ import type { PowerUpKind } from '@/game/core/types'
  */
 export function PowerUpMark({ kind, className = '' }: { kind: PowerUpKind; className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.6">
+    <svg
+      viewBox="0 0 24 24"
+      className={className}
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+    >
       {kind === 'shield' && <path d="M12 3 L20 7.5 L20 16.5 L12 21 L4 16.5 L4 7.5 Z" />}
       {kind === 'rapid' && (
         <>

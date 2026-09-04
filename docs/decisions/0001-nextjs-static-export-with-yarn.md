@@ -14,11 +14,11 @@ Next.js 15 App Router với `output: 'export'`, React 19, TypeScript 5, Tailwind
 
 ## 3. Phương án đã loại
 
-| Phương án | Vì sao loại |
-| --- | --- |
-| Vite + React (như `tetris`) | Nhẹ hơn và hợp lý về kỹ thuật, nhưng lệch khỏi khuôn của ba dự án còn lại. Cái giá của việc trộn hai khuôn trong cùng một thư mục lớn hơn phần bundle tiết kiệm được |
-| HTML + TypeScript thuần, không framework | Bundle nhỏ nhất và đủ cho phần canvas, nhưng phần menu, bảng điểm và overlay là UI thật, và viết lại tay thứ React làm sẵn không đổi lấy được gì |
-| npm thay Yarn | `CLAUDE.md` của workspace ghi rõ hai thế hệ dùng hai toolchain khác nhau; nhóm `web-game` theo khuôn Yarn classic. Trộn lockfile trong cùng nhóm là bẫy cho phiên làm việc sau |
+| Phương án                                | Vì sao loại                                                                                                                                                                    |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Vite + React (như `tetris`)              | Nhẹ hơn và hợp lý về kỹ thuật, nhưng lệch khỏi khuôn của ba dự án còn lại. Cái giá của việc trộn hai khuôn trong cùng một thư mục lớn hơn phần bundle tiết kiệm được           |
+| HTML + TypeScript thuần, không framework | Bundle nhỏ nhất và đủ cho phần canvas, nhưng phần menu, bảng điểm và overlay là UI thật, và viết lại tay thứ React làm sẵn không đổi lấy được gì                               |
+| npm thay Yarn                            | `CLAUDE.md` của workspace ghi rõ hai thế hệ dùng hai toolchain khác nhau; nhóm `web-game` theo khuôn Yarn classic. Trộn lockfile trong cùng nhóm là bẫy cho phiên làm việc sau |
 
 ## 4. Hệ quả
 

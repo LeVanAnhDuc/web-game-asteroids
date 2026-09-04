@@ -54,7 +54,11 @@ export function GameShell() {
 
       {/* Canvas luôn tồn tại: gỡ nó ra khỏi DOM sẽ phá renderer và loop. Khi
           không chơi thì nó lùi xuống làm nền. */}
-      <div className={playing ? 'flex min-h-0 flex-1 flex-col' : 'pointer-events-none absolute inset-0 opacity-25'}>
+      <div
+        className={
+          playing ? 'flex min-h-0 flex-1 flex-col' : 'pointer-events-none absolute inset-0 opacity-25'
+        }
+      >
         {playing ? (
           <div className="px-2 pt-2">
             <Hud hud={hud} onPause={actions.pause} />
@@ -62,7 +66,12 @@ export function GameShell() {
         ) : null}
 
         <div className="relative min-h-0 flex-1">
-          <canvas ref={canvasRef} aria-label={vi.a11y.canvasLabel} role="img" className="block h-full w-full" />
+          <canvas
+            ref={canvasRef}
+            aria-label={vi.a11y.canvasLabel}
+            role="img"
+            className="block h-full w-full"
+          />
         </div>
 
         {playing && coarse ? <TouchControls touch={touch} /> : null}

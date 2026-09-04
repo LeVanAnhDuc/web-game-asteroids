@@ -15,7 +15,7 @@ Một interface hẹp:
 ```ts
 interface ScoreStore {
   top(limit?: number): ScoreEntry[]
-  rankOf(score: number): number | null   // null = không lọt bảng
+  rankOf(score: number): number | null // null = không lọt bảng
   submit(entry: ScoreEntry): void
   clear(): void
 }
@@ -25,11 +25,11 @@ Bản hiện thực duy nhất tồn tại lúc này là `localScoreStore` dùng
 
 ## 3. Phương án đã loại
 
-| Phương án | Vì sao loại |
-| --- | --- |
-| Gọi `localStorage` trực tiếp ở component | Ít hơn một file, nhưng khi thêm bản online phải sửa rải rác, và test phải giả lập `localStorage` toàn cục thay vì truyền một bản giả |
-| Dựng luôn cả hai bản, một local một HTTP, ngay từ đầu | Tưởng là chuẩn bị trước, thực tế là viết code cho một API chưa tồn tại và chưa biết hình dạng. YAGNI |
-| `IndexedDB` thay `localStorage` | Đúng công cụ nếu dữ liệu lớn hoặc cần truy vấn, nhưng đây là 10 dòng dữ liệu, và API bất đồng bộ của nó làm phức tạp đường ghi điểm mà không đổi lấy gì |
+| Phương án                                             | Vì sao loại                                                                                                                                             |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Gọi `localStorage` trực tiếp ở component              | Ít hơn một file, nhưng khi thêm bản online phải sửa rải rác, và test phải giả lập `localStorage` toàn cục thay vì truyền một bản giả                    |
+| Dựng luôn cả hai bản, một local một HTTP, ngay từ đầu | Tưởng là chuẩn bị trước, thực tế là viết code cho một API chưa tồn tại và chưa biết hình dạng. YAGNI                                                    |
+| `IndexedDB` thay `localStorage`                       | Đúng công cụ nếu dữ liệu lớn hoặc cần truy vấn, nhưng đây là 10 dòng dữ liệu, và API bất đồng bộ của nó làm phức tạp đường ghi điểm mà không đổi lấy gì |
 
 ## 4. Hệ quả
 
@@ -42,6 +42,6 @@ Bản hiện thực duy nhất tồn tại lúc này là `localScoreStore` dùng
 **Mất / phải chấp nhận:**
 
 - Một lớp trừu tượng cho đúng một bản hiện thực — chi phí có thật, nhận vì interface chỉ có bốn phương thức.
-- Điểm là dữ liệu client nên người dùng sửa được. Chấp nhận: bảng điểm này là *của máy đó*, không có ý nghĩa thi đấu. Đây chính là vấn đề mà bản online sau này sẽ phải giải, và là một trong những lý do nó chưa được làm.
+- Điểm là dữ liệu client nên người dùng sửa được. Chấp nhận: bảng điểm này là _của máy đó_, không có ý nghĩa thi đấu. Đây chính là vấn đề mà bản online sau này sẽ phải giải, và là một trong những lý do nó chưa được làm.
 
 **Điều kiện xem lại quyết định này:** khi bảng xếp hạng online được đưa vào phạm vi — lúc đó viết ADR mới, `supersedes ADR-0006`.

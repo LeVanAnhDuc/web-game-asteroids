@@ -64,8 +64,10 @@ body {
   background:
     linear-gradient(to right, rgba(242, 245, 249, 0.3) 12px, transparent 12px) top left / 100% 1px no-repeat,
     linear-gradient(to left, rgba(242, 245, 249, 0.3) 12px, transparent 12px) top right / 100% 1px no-repeat,
-    linear-gradient(to right, rgba(242, 245, 249, 0.3) 12px, transparent 12px) bottom left / 100% 1px no-repeat,
-    linear-gradient(to left, rgba(242, 245, 249, 0.3) 12px, transparent 12px) bottom right / 100% 1px no-repeat;
+    linear-gradient(to right, rgba(242, 245, 249, 0.3) 12px, transparent 12px) bottom left / 100% 1px
+      no-repeat,
+    linear-gradient(to left, rgba(242, 245, 249, 0.3) 12px, transparent 12px) bottom right / 100% 1px
+      no-repeat;
 }
 
 .panel::after {

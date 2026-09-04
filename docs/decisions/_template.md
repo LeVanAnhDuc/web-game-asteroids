@@ -27,8 +27,8 @@ Giữ 15–40 dòng. Dài hơn nghĩa là đang gộp nhiều quyết định v�
 ## 3. Phương án đã loại
 
 | Phương án | Vì sao loại |
-| --- | --- |
-| | |
+| --------- | ----------- |
+|           |             |
 
 ## 4. Hệ quả
 

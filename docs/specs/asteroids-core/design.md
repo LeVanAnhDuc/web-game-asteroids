@@ -12,37 +12,68 @@ type AsteroidSize = 'large' | 'medium' | 'small'
 type PowerUpKind = 'shield' | 'rapid' | 'spread' | 'pierce' | 'life'
 type WeaponKind = Extract<PowerUpKind, 'rapid' | 'spread' | 'pierce'>
 
-interface Body { x: number; y: number; vx: number; vy: number; r: number }
-
-interface Ship extends Body {
-  angle: number          // radian, 0 = hướng lên (-Y), tăng theo chiều kim đồng hồ
-  thrusting: boolean
-  invulnMs: number       // > 0 nghĩa là đang bất tử, tàu nhấp nháy
-  cooldownMs: number     // giữa hai viên đạn
-  hyperMs: number        // cooldown hyperspace
-  shield: boolean
-  weapon: WeaponKind | null
-  weaponMs: number       // thời gian còn lại của khe vũ khí
+interface Body {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  r: number
 }
 
-interface Asteroid extends Body { size: AsteroidSize; spin: number; angle: number; shape: number[] }
-interface Bullet   extends Body { lifeMs: number; pierce: boolean; fromUfo: boolean }
-interface Ufo      extends Body { big: boolean; fireMs: number; turnMs: number }
-interface PowerUp  extends Body { kind: PowerUpKind; lifeMs: number }
-interface Particle extends Body { lifeMs: number; maxLifeMs: number; hue: string }
+interface Ship extends Body {
+  angle: number // radian, 0 = hướng lên (-Y), tăng theo chiều kim đồng hồ
+  thrusting: boolean
+  invulnMs: number // > 0 nghĩa là đang bất tử, tàu nhấp nháy
+  cooldownMs: number // giữa hai viên đạn
+  hyperMs: number // cooldown hyperspace
+  shield: boolean
+  weapon: WeaponKind | null
+  weaponMs: number // thời gian còn lại của khe vũ khí
+}
+
+interface Asteroid extends Body {
+  size: AsteroidSize
+  spin: number
+  angle: number
+  shape: number[]
+}
+interface Bullet extends Body {
+  lifeMs: number
+  pierce: boolean
+  fromUfo: boolean
+}
+interface Ufo extends Body {
+  big: boolean
+  fireMs: number
+  turnMs: number
+}
+interface PowerUp extends Body {
+  kind: PowerUpKind
+  lifeMs: number
+}
+interface Particle extends Body {
+  lifeMs: number
+  maxLifeMs: number
+  hue: string
+}
 
 interface GameState {
   phase: Phase
-  rng: Rng                 // hàm có state riêng, KHÔNG dùng Math.random (bất biến #1, #2)
+  rng: Rng // hàm có state riêng, KHÔNG dùng Math.random (bất biến #1, #2)
   ship: Ship
-  asteroids: Asteroid[]; bullets: Bullet[]; ufos: Ufo[]
-  powerUps: PowerUp[]; particles: Particle[]
-  score: number; lives: number; wave: number
-  nextExtraLifeAt: number  // mốc điểm kế tiếp được +1 mạng
+  asteroids: Asteroid[]
+  bullets: Bullet[]
+  ufos: Ufo[]
+  powerUps: PowerUp[]
+  particles: Particle[]
+  score: number
+  lives: number
+  wave: number
+  nextExtraLifeAt: number // mốc điểm kế tiếp được +1 mạng
   shakeMs: number
-  waveClearMs: number      // khoảng nghỉ giữa hai wave
+  waveClearMs: number // khoảng nghỉ giữa hai wave
   ufoTimerMs: number
-  announce: string | null  // chuỗi cho aria-live, đọc xong thì xoá (NFR-A11Y-06)
+  announce: string | null // chuỗi cho aria-live, đọc xong thì xoá (NFR-A11Y-06)
 }
 ```
 
@@ -67,16 +98,16 @@ Mọi khoảng cách ở bước 5 dùng khoảng cách ngắn nhất **có wrap
 
 Đơn vị: thế giới 1600×1200, thời gian tính bằng giây.
 
-| Nhóm | Giá trị |
-| --- | --- |
-| Tàu | xoay 3.6 rad/s · đẩy 520 đv/s² · ma sát 0.6/s · trần tốc độ 620 đv/s · bán kính vẽ 18, hitbox 14 (≈ 78%, bất biến #10) |
-| Đạn | tốc độ 780 đv/s · sống 1.2s · tối đa 4 viên · nhịp bắn 0.28s |
-| Thiên thạch | bán kính 76 / 40 / 20 · tốc độ nền 60–130 đv/s · điểm 20 / 50 / 100 · vỡ thành 2 mảnh |
-| Wave | `min(2 + wave, 11)` thiên thạch to · hệ số tốc độ `1 + 0.06 × (wave − 1)`, trần 1.8 · nghỉ 1.5s giữa hai wave |
-| UFO | từ wave 3 · mỗi 18–28s · to: bán kính 26, bắn lệch ±0.4 rad, 200đ · nhỏ: bán kính 16, ngắm chuẩn, 1000đ, tỉ lệ xuất hiện tăng theo điểm tới tối đa 60% |
-| Mạng | bắt đầu 3 · +1 mỗi 10.000 điểm · bất tử sau hồi sinh 2.0s |
-| Hyperspace | cooldown 5.0s |
-| Power-up | rơi 8% mỗi thiên thạch vỡ · tối đa 2 trên màn · sống 10s, nhấp nháy 3s cuối · hiệu lực 12s, cộng dồn trần 20s · `life` chiếm 1/12 số lần rơi |
+| Nhóm        | Giá trị                                                                                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Tàu         | xoay 3.6 rad/s · đẩy 520 đv/s² · ma sát 0.6/s · trần tốc độ 620 đv/s · bán kính vẽ 18, hitbox 14 (≈ 78%, bất biến #10)                                 |
+| Đạn         | tốc độ 780 đv/s · sống 1.2s · tối đa 4 viên · nhịp bắn 0.28s                                                                                           |
+| Thiên thạch | bán kính 76 / 40 / 20 · tốc độ nền 60–130 đv/s · điểm 20 / 50 / 100 · vỡ thành 2 mảnh                                                                  |
+| Wave        | `min(2 + wave, 11)` thiên thạch to · hệ số tốc độ `1 + 0.06 × (wave − 1)`, trần 1.8 · nghỉ 1.5s giữa hai wave                                          |
+| UFO         | từ wave 3 · mỗi 18–28s · to: bán kính 26, bắn lệch ±0.4 rad, 200đ · nhỏ: bán kính 16, ngắm chuẩn, 1000đ, tỉ lệ xuất hiện tăng theo điểm tới tối đa 60% |
+| Mạng        | bắt đầu 3 · +1 mỗi 10.000 điểm · bất tử sau hồi sinh 2.0s                                                                                              |
+| Hyperspace  | cooldown 5.0s                                                                                                                                          |
+| Power-up    | rơi 8% mỗi thiên thạch vỡ · tối đa 2 trên màn · sống 10s, nhấp nháy 3s cuối · hiệu lực 12s, cộng dồn trần 20s · `life` chiếm 1/12 số lần rơi           |
 
 Tất cả nằm trong `src/game/core/constants.ts`. Chúng là ước lượng trên giấy — mục "Việc tiếp theo" của `backlog.md` ghi việc chỉnh lại sau khi chơi thật.
 
@@ -88,15 +119,15 @@ Tất cả nằm trong `src/game/core/constants.ts`. Chúng là ước lượng 
 
 ## 5. Tầng React
 
-| Thành phần | Việc |
-| --- | --- |
-| `GameShell` | Máy trạng thái `Phase`, quyết định overlay nào hiện |
-| `GameCanvas` | Giữ `<canvas>`, dựng loop qua `useGame`, xử lý resize |
-| `Hud` | Mạng, điểm, wave, thanh power-up, nút tạm dừng |
-| `TouchControls` | Chỉ hiện trên thiết bị có `pointer: coarse`; nút giữ được, ≥ 44px, `touch-action: none` |
-| `MenuScreen` · `HelpScreen` · `HighScoresScreen` | Ba màn tĩnh |
-| `PauseOverlay` · `GameOverOverlay` | Hai overlay, có `InitialsInput` ba ký tự |
-| `LiveRegion` | `aria-live="polite"`, phát `state.announce` (`NFR-A11Y-06`) |
+| Thành phần                                       | Việc                                                                                    |
+| ------------------------------------------------ | --------------------------------------------------------------------------------------- |
+| `GameShell`                                      | Máy trạng thái `Phase`, quyết định overlay nào hiện                                     |
+| `GameCanvas`                                     | Giữ `<canvas>`, dựng loop qua `useGame`, xử lý resize                                   |
+| `Hud`                                            | Mạng, điểm, wave, thanh power-up, nút tạm dừng                                          |
+| `TouchControls`                                  | Chỉ hiện trên thiết bị có `pointer: coarse`; nút giữ được, ≥ 44px, `touch-action: none` |
+| `MenuScreen` · `HelpScreen` · `HighScoresScreen` | Ba màn tĩnh                                                                             |
+| `PauseOverlay` · `GameOverOverlay`               | Hai overlay, có `InitialsInput` ba ký tự                                                |
+| `LiveRegion`                                     | `aria-live="polite"`, phát `state.announce` (`NFR-A11Y-06`)                             |
 
 Chuỗi hiển thị tập trung ở `src/i18n/vi.ts` (`NFR-I18N-01`).
 

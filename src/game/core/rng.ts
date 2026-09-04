@@ -21,7 +21,7 @@ export function createRng(seed: number): Rng {
     next,
     range: (min, max) => min + next() * (max - min),
     int: (min, max) => min + Math.floor(next() * (max - min + 1)),
-    pick: <T,>(items: readonly T[]): T => {
+    pick: <T>(items: readonly T[]): T => {
       if (items.length === 0) throw new Error('rng.pick: mảng rỗng')
       return items[Math.floor(next() * items.length)] as T
     },
