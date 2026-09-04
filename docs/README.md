@@ -1,4 +1,4 @@
-# Tài liệu dự án `web-game/web-game-asteroids`
+# Tài liệu dự án `web-game-asteroids`
 
 ## Bản đồ
 
