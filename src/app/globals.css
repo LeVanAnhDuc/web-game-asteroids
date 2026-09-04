@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Token từ docs/design-system/asteroids/MASTER.md §0.
+   Tầng vẽ canvas đọc các biến này qua getComputedStyle, nên hai thế giới render
+   (canvas và DOM) dùng chung đúng một bảng màu. */
+:root {
+  --color-background: #08090f;
+  --color-card: #13151d;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-foreground: #f2f5f9;
+  --color-muted-foreground: #98a2b3;
+  --color-primary: #4f7cff;
+  --color-accent: #ffd166;
+  --color-destructive: #f04438;
+
+  --color-asteroid: #8b94a7;
+  --color-ufo: #ff5d8f;
+
+  --color-power-shield: #22d3ee;
+  --color-power-rapid: #ffd166;
+  --color-power-spread: #a78bfa;
+  --color-power-pierce: #fb7185;
+  --color-power-life: #34d399;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  overscroll-behavior: none;
+}
+
+/* Signature element: khung hairline có bốn vạch góc (MASTER.md §0).
+   Vạch góc vẽ bằng hai lớp gradient, không cần phần tử phụ. */
+.panel {
+  position: relative;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+}
+
+.panel::before,
+.panel::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  border-radius: 10px;
+}
+
+.panel::before {
+  background:
+    linear-gradient(to right, rgba(242, 245, 249, 0.3) 12px, transparent 12px) top left / 100% 1px no-repeat,
+    linear-gradient(to left, rgba(242, 245, 249, 0.3) 12px, transparent 12px) top right / 100% 1px no-repeat,
+    linear-gradient(to right, rgba(242, 245, 249, 0.3) 12px, transparent 12px) bottom left / 100% 1px no-repeat,
+    linear-gradient(to left, rgba(242, 245, 249, 0.3) 12px, transparent 12px) bottom right / 100% 1px no-repeat;
+}
+
+.panel::after {
+  background:
+    linear-gradient(to bottom, rgba(242, 245, 249, 0.3) 12px, transparent 12px) top left / 1px 100% no-repeat,
+    linear-gradient(to top, rgba(242, 245, 249, 0.3) 12px, transparent 12px) bottom left / 1px 100% no-repeat,
+    linear-gradient(to bottom, rgba(242, 245, 249, 0.3) 12px, transparent 12px) top right / 1px 100% no-repeat,
+    linear-gradient(to top, rgba(242, 245, 249, 0.3) 12px, transparent 12px) bottom right / 1px 100% no-repeat;
+}
+
+/* Focus luôn thấy được — NFR-A11Y-02 */
+:where(button, a, input, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* NFR-A11Y-05. Chỉ tắt chuyển động của DOM; gameplay không đổi. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
