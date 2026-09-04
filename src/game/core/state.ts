@@ -43,6 +43,7 @@ export function createGameState(seed: number): GameState {
     nextExtraLifeAt: SCORING.extraLifeEvery,
     shakeMs: 0,
     waveClearMs: 0,
+    waveBannerMs: 0,
     ufoTimerMs: 0,
     elapsedMs: 0,
     announce: null,
@@ -65,6 +66,7 @@ export function resetForNewGame(state: GameState, seed?: number): void {
   state.nextExtraLifeAt = SCORING.extraLifeEvery
   state.shakeMs = 0
   state.waveClearMs = 0
+  state.waveBannerMs = 0
   state.ufoTimerMs = 0
   state.elapsedMs = 0
   state.announce = null

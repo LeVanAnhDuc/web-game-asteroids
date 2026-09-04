@@ -58,9 +58,7 @@ export function Hud({ hud, onPause }: { hud: HudSnapshot; onPause: () => void })
               style={{ width: `${Math.min(100, (hud.weaponMs / POWERUP.effectMs) * 100)}%` }}
             />
           </div>
-          <span className="font-mono text-xs tabular-nums text-muted">
-            {Math.ceil(hud.weaponMs / 1000)}s
-          </span>
+          <span className="font-mono text-xs tabular-nums text-muted">{Math.ceil(hud.weaponMs / 1000)}s</span>
         </div>
       ) : null}
     </div>

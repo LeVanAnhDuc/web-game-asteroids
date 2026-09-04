@@ -41,15 +41,15 @@ Chú ý chiều mũi tên giữa `Loop` và `React`: React đẩy input **vào**
 
 ## 3. Module và ranh giới
 
-| Module | Trách nhiệm một câu | Được phép gọi | **Không** được gọi |
-| --- | --- | --- | --- |
-| `game/core` | Toàn bộ luật chơi, dưới dạng hàm thuần trên `GameState` | chính nó | React, DOM, `window`, `Math.random`, `Date.now`, `storage` |
-| `game/render` | Vẽ một `GameState` lên `CanvasRenderingContext2D` | `game/core` (chỉ đọc types) | mọi thứ sửa state |
-| `game/loop` | Gom thời gian thật thành các bước 1/60s, gọi `step` rồi gọi `draw` | `game/core`, `game/render` | React |
-| `input` | Đổi sự kiện bàn phím và chạm thành một `InputState` duy nhất | DOM events | `game/core` |
-| `storage` | Đọc/ghi top 10 qua interface `ScoreStore` | `localStorage` | `game/core` |
-| `components` | Mọi thứ hiện ra ngoài canvas | `hooks`, `storage`, `input` | `game/core` trực tiếp |
-| `hooks/useGame` | Cây cầu duy nhất: dựng loop, bơm input vào, phát snapshot HUD ra | tất cả các module trên | — |
+| Module          | Trách nhiệm một câu                                                | Được phép gọi               | **Không** được gọi                                         |
+| --------------- | ------------------------------------------------------------------ | --------------------------- | ---------------------------------------------------------- |
+| `game/core`     | Toàn bộ luật chơi, dưới dạng hàm thuần trên `GameState`            | chính nó                    | React, DOM, `window`, `Math.random`, `Date.now`, `storage` |
+| `game/render`   | Vẽ một `GameState` lên `CanvasRenderingContext2D`                  | `game/core` (chỉ đọc types) | mọi thứ sửa state                                          |
+| `game/loop`     | Gom thời gian thật thành các bước 1/60s, gọi `step` rồi gọi `draw` | `game/core`, `game/render`  | React                                                      |
+| `input`         | Đổi sự kiện bàn phím và chạm thành một `InputState` duy nhất       | DOM events                  | `game/core`                                                |
+| `storage`       | Đọc/ghi top 10 qua interface `ScoreStore`                          | `localStorage`              | `game/core`                                                |
+| `components`    | Mọi thứ hiện ra ngoài canvas                                       | `hooks`, `storage`, `input` | `game/core` trực tiếp                                      |
+| `hooks/useGame` | Cây cầu duy nhất: dựng loop, bơm input vào, phát snapshot HUD ra   | tất cả các module trên      | —                                                          |
 
 ## 4. Luồng dữ liệu của đường đi quan trọng nhất
 
@@ -65,13 +65,13 @@ Một frame, kể từ khi người chơi bấm phím:
 
 ## 5. Tech stack
 
-| Lớp | Công nghệ | Biện minh |
-| --- | --- | --- |
-| Khung ứng dụng | Next.js 15 App Router, `output: export` | ADR-0001 |
-| UI | React 19 · TypeScript 5 · Tailwind CSS 3 | ADR-0001 |
-| Vẽ game | Canvas 2D API, không thư viện | ADR-0002 |
-| Vòng lặp | Fixed timestep 60Hz tự viết | ADR-0003 |
-| Lưu điểm | `localStorage` sau interface `ScoreStore` | ADR-0006 |
-| Test | Vitest + happy-dom + Testing Library | ADR-0001 |
-| Quản lý gói | Yarn classic 1.x | ADR-0001 |
-| Design tokens | `docs/design-system/asteroids/MASTER.md` | ADR-0007 |
+| Lớp            | Công nghệ                                 | Biện minh |
+| -------------- | ----------------------------------------- | --------- |
+| Khung ứng dụng | Next.js 15 App Router, `output: export`   | ADR-0001  |
+| UI             | React 19 · TypeScript 5 · Tailwind CSS 3  | ADR-0001  |
+| Vẽ game        | Canvas 2D API, không thư viện             | ADR-0002  |
+| Vòng lặp       | Fixed timestep 60Hz tự viết               | ADR-0003  |
+| Lưu điểm       | `localStorage` sau interface `ScoreStore` | ADR-0006  |
+| Test           | Vitest + happy-dom + Testing Library      | ADR-0001  |
+| Quản lý gói    | Yarn classic 1.x                          | ADR-0001  |
+| Design tokens  | `docs/design-system/asteroids/MASTER.md`  | ADR-0007  |

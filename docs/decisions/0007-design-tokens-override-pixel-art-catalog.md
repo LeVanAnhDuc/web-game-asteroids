@@ -16,12 +16,12 @@ Chốt: nền gần-đen `#08090F`, surface `#13151D`, chữ `#F2F5F9`, primary 
 
 ## 3. Phương án đã loại
 
-| Phương án | Vì sao loại |
-| --- | --- |
+| Phương án                                         | Vì sao loại                                                                                                                                                                                                                                                                                                                 |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Nhận nguyên Pixel Art + Press Start 2P từ catalog | Ba lý do cụ thể: yêu cầu là hiện đại chứ không hoài cổ 8-bit; Press Start 2P không có chữ thường, giãn ký tự rất rộng và mất đọc được dưới 14px trong khi HUD là chữ nhỏ trên màn 375px; và Pixel Art buộc phải có sprite, trong khi `ADR-0002` chốt vẽ bằng hình học thuần — phong cách sẽ mâu thuẫn với chính cách render |
-| Neon synthwave rực rỡ | Hợp thể loại và làm power-up nổi bật, nhưng glow mạnh trên nền tối kéo tương phản chữ xuống dưới 4.5:1 ở đúng chỗ chữ nhỏ nhất, và nó là lựa chọn sáo mòn thứ hai sau pixel art |
-| Một họ chữ duy nhất cho cả giao diện và số | `frontend-design` đòi tối thiểu hai họ khác biệt, và ở đây có lý do kỹ thuật thật: chữ số không đều bề rộng làm khối HUD giật ngang mỗi lần cộng điểm |
-| Dùng Google Fonts qua CDN lúc chạy | Vi phạm `NFR-SEC-03` — không gọi ra ngoài lúc chạy. Font tải kèm build qua `next/font` |
+| Neon synthwave rực rỡ                             | Hợp thể loại và làm power-up nổi bật, nhưng glow mạnh trên nền tối kéo tương phản chữ xuống dưới 4.5:1 ở đúng chỗ chữ nhỏ nhất, và nó là lựa chọn sáo mòn thứ hai sau pixel art                                                                                                                                             |
+| Một họ chữ duy nhất cho cả giao diện và số        | `frontend-design` đòi tối thiểu hai họ khác biệt, và ở đây có lý do kỹ thuật thật: chữ số không đều bề rộng làm khối HUD giật ngang mỗi lần cộng điểm                                                                                                                                                                       |
+| Dùng Google Fonts qua CDN lúc chạy                | Vi phạm `NFR-SEC-03` — không gọi ra ngoài lúc chạy. Font tải kèm build qua `next/font`                                                                                                                                                                                                                                      |
 
 ## 4. Hệ quả
 

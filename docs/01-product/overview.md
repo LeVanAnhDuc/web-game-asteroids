@@ -29,10 +29,10 @@ Người muốn chơi vài phút trong trình duyệt, không muốn cài gì, k
 
 ## 5. Mô hình
 
-| Câu hỏi | Trả lời |
-| --- | --- |
-| Ai trả tiền | Không ai — dự án học tập |
-| Trả bằng gì | — |
+| Câu hỏi                          | Trả lời                                                                                                                    |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Ai trả tiền                      | Không ai — dự án học tập                                                                                                   |
+| Trả bằng gì                      | —                                                                                                                          |
 | **Trần chi phí hạ tầng / tháng** | **0 đồng.** Build tĩnh, deploy GitHub Pages. Ràng buộc này là lý do trực tiếp khiến bảng xếp hạng online nằm ngoài phạm vi |
 
 ## 6. Thế nào là thành công

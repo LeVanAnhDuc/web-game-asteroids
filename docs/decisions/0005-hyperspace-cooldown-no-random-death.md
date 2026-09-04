@@ -10,15 +10,15 @@ Máy arcade 1979 cho hyperspace một xác suất tự nổ khi dịch chuyển,
 
 ## 2. Quyết định
 
-Hyperspace dịch chuyển tàu tới một điểm ngẫu nhiên trong thế giới, đặt vận tốc về 0, và vào **cooldown 5 giây**. Không có xác suất nổ. Điểm đến ngẫu nhiên vẫn có thể ngay cạnh một thiên thạch — rủi ro của hyperspace là *vị trí xấu*, không phải xúc xắc chết.
+Hyperspace dịch chuyển tàu tới một điểm ngẫu nhiên trong thế giới, đặt vận tốc về 0, và vào **cooldown 5 giây**. Không có xác suất nổ. Điểm đến ngẫu nhiên vẫn có thể ngay cạnh một thiên thạch — rủi ro của hyperspace là _vị trí xấu_, không phải xúc xắc chết.
 
 ## 3. Phương án đã loại
 
-| Phương án | Vì sao loại |
-| --- | --- |
-| Giữ nguyên xác suất tự nổ như bản gốc | Trung thành tuyệt đối, nhưng chết vì tung xúc xắc là kiểu bất công mà người chơi bây giờ đọc thành lỗi game, không đọc thành luật |
-| Giới hạn số lần dùng mỗi mạng (ví dụ 3 lần) | Cũng chặn được lạm dụng, nhưng thêm một con số nữa phải hiện lên HUD vốn đã chật, và người chơi phải nhớ mình còn mấy lần |
-| Không giới hạn gì cả | Hyperspace thành nút "thoát mọi tình huống", và cách chơi tối ưu là spam nó — mất luôn phần né tránh, tức là mất phần cốt lõi của game |
+| Phương án                                   | Vì sao loại                                                                                                                            |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Giữ nguyên xác suất tự nổ như bản gốc       | Trung thành tuyệt đối, nhưng chết vì tung xúc xắc là kiểu bất công mà người chơi bây giờ đọc thành lỗi game, không đọc thành luật      |
+| Giới hạn số lần dùng mỗi mạng (ví dụ 3 lần) | Cũng chặn được lạm dụng, nhưng thêm một con số nữa phải hiện lên HUD vốn đã chật, và người chơi phải nhớ mình còn mấy lần              |
+| Không giới hạn gì cả                        | Hyperspace thành nút "thoát mọi tình huống", và cách chơi tối ưu là spam nó — mất luôn phần né tránh, tức là mất phần cốt lõi của game |
 
 ## 4. Hệ quả
 

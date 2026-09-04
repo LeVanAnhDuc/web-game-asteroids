@@ -11,48 +11,49 @@
 **Category:** Arcade & Retro Game
 
 ---
+
 ## 0. Chốt cuối — ghi đè catalog bên dưới
 
 `ui-ux-pro-max` (step 1) đề xuất **Pixel Art · Press Start 2P / VT323 · đỏ #DC2626 + xanh #2563EB trên navy #0F172A**. `frontend-design` (step 2) **ghi đè phần màu và font**; các ràng buộc a11y/UX của step 1 giữ nguyên, không được ghi đè.
 
-**Vì sao ghi đè:** "Pixel Art + Press Start 2P" là đúng cái mặc định rập khuôn mà catalog trả về cho mọi thứ có chữ "game". Ba vấn đề cụ thể: (1) yêu cầu của dự án là *hiện đại*, không phải hoài cổ 8-bit; (2) Press Start 2P không có chữ thường, giãn ký tự rất rộng và mất đọc được dưới 14px — trong khi HUD của game này là chữ nhỏ ở góc màn hình 375px; (3) Pixel Art buộc phải có sprite, còn lõi game này vẽ bằng hình học thuần trên canvas, nên phong cách đó sẽ mâu thuẫn với chính cách render.
+**Vì sao ghi đè:** "Pixel Art + Press Start 2P" là đúng cái mặc định rập khuôn mà catalog trả về cho mọi thứ có chữ "game". Ba vấn đề cụ thể: (1) yêu cầu của dự án là _hiện đại_, không phải hoài cổ 8-bit; (2) Press Start 2P không có chữ thường, giãn ký tự rất rộng và mất đọc được dưới 14px — trong khi HUD của game này là chữ nhỏ ở góc màn hình 375px; (3) Pixel Art buộc phải có sprite, còn lõi game này vẽ bằng hình học thuần trên canvas, nên phong cách đó sẽ mâu thuẫn với chính cách render.
 
-**Phong cách chốt: vector phát sáng tiết chế trên nền tối gần-đen.** Nét mảnh, không tô đặc, glow đủ để tách vật thể khỏi nền chứ không loè. Cùng một ngôn ngữ nét đó dùng cho *cả* canvas và giao diện DOM — đó là thứ giữ hai thế giới render nhìn như một.
+**Phong cách chốt: vector phát sáng tiết chế trên nền tối gần-đen.** Nét mảnh, không tô đặc, glow đủ để tách vật thể khỏi nền chứ không loè. Cùng một ngôn ngữ nét đó dùng cho _cả_ canvas và giao diện DOM — đó là thứ giữ hai thế giới render nhìn như một.
 
 ### Màu — chốt
 
-| Vai | Hex | Biến CSS |
-|------|-----|----------|
-| Background | `#08090F` | `--color-background` |
-| Surface / Card | `#13151D` | `--color-card` |
-| Border (hairline) | `rgba(255,255,255,0.10)` | `--color-border` |
-| Foreground | `#F2F5F9` | `--color-foreground` |
-| Muted Foreground | `#98A2B3` | `--color-muted-foreground` |
-| Primary (CTA · focus ring · lửa đẩy) | `#4F7CFF` | `--color-primary` |
-| On Primary | `#08090F` | `--color-on-primary` |
-| Accent (điểm · nhấn) | `#FFD166` | `--color-accent` |
-| On Accent | `#08090F` | `--color-on-accent` |
-| Destructive | `#F04438` | `--color-destructive` |
+| Vai                                  | Hex                      | Biến CSS                   |
+| ------------------------------------ | ------------------------ | -------------------------- |
+| Background                           | `#08090F`                | `--color-background`       |
+| Surface / Card                       | `#13151D`                | `--color-card`             |
+| Border (hairline)                    | `rgba(255,255,255,0.10)` | `--color-border`           |
+| Foreground                           | `#F2F5F9`                | `--color-foreground`       |
+| Muted Foreground                     | `#98A2B3`                | `--color-muted-foreground` |
+| Primary (CTA · focus ring · lửa đẩy) | `#4F7CFF`                | `--color-primary`          |
+| On Primary                           | `#08090F`                | `--color-on-primary`       |
+| Accent (điểm · nhấn)                 | `#FFD166`                | `--color-accent`           |
+| On Accent                            | `#08090F`                | `--color-on-accent`        |
+| Destructive                          | `#F04438`                | `--color-destructive`      |
 
 ### Màu vật thể trong canvas
 
-| Vật thể | Hex | Ghi chú |
-|---------|-----|---------|
-| Tàu | `#F2F5F9` | nét trắng, glow xanh `--color-primary` khi đẩy |
-| Đạn | `#F2F5F9` | |
-| Thiên thạch | `#8B94A7` | xám lạnh — không tranh chú ý với power-up |
-| UFO | `#FF5D8F` | hồng, chỉ UFO dùng màu này |
-| Bất tử (nhấp nháy) | `#F2F5F9` @ 40% | |
+| Vật thể            | Hex             | Ghi chú                                        |
+| ------------------ | --------------- | ---------------------------------------------- |
+| Tàu                | `#F2F5F9`       | nét trắng, glow xanh `--color-primary` khi đẩy |
+| Đạn                | `#F2F5F9`       |                                                |
+| Thiên thạch        | `#8B94A7`       | xám lạnh — không tranh chú ý với power-up      |
+| UFO                | `#FF5D8F`       | hồng, chỉ UFO dùng màu này                     |
+| Bất tử (nhấp nháy) | `#F2F5F9` @ 40% |                                                |
 
 ### Power-up — màu **và** hình, không bao giờ chỉ màu
 
-| Loại | Hex | Ký hiệu hình học |
-|------|-----|------------------|
-| Khiên | `#22D3EE` | lục giác viền |
+| Loại      | Hex       | Ký hiệu hình học   |
+| --------- | --------- | ------------------ |
+| Khiên     | `#22D3EE` | lục giác viền      |
 | Bắn nhanh | `#FFD166` | ba chevron xếp dọc |
-| Bắn toả | `#A78BFA` | hình quạt ba tia |
-| Đạn xuyên | `#FB7185` | mũi tên nét đôi |
-| +1 mạng | `#34D399` | dấu cộng |
+| Bắn toả   | `#A78BFA` | hình quạt ba tia   |
+| Đạn xuyên | `#FB7185` | mũi tên nét đôi    |
+| +1 mạng   | `#34D399` | dấu cộng           |
 
 Mã hoá kép (màu + hình) là bắt buộc, không phải trang trí: mù màu đỏ–lục sẽ không phân biệt được `#FB7185` với `#34D399`, và HUD còn ghi kèm tên bằng chữ.
 
@@ -75,10 +76,10 @@ Mỗi panel và overlay có một khung hairline 1px `--color-border` với **b�
 
 Bảng `Shadow Depths` bên dưới **không áp dụng** — shadow đen trên nền gần-đen là vô hình. Thay bằng:
 
-| Token | Giá trị | Dùng ở |
-|-------|---------|--------|
-| `--glow-sm` | `0 0 8px <màu> / 35%` | nét vật thể trong canvas |
-| `--glow-md` | `0 0 16px <màu> / 30%` | nút ở trạng thái hover/focus |
+| Token       | Giá trị                | Dùng ở                                    |
+| ----------- | ---------------------- | ----------------------------------------- |
+| `--glow-sm` | `0 0 8px <màu> / 35%`  | nét vật thể trong canvas                  |
+| `--glow-md` | `0 0 16px <màu> / 30%` | nút ở trạng thái hover/focus              |
 | `--glow-lg` | `0 0 32px <màu> / 25%` | overlay đang hoạt động, power-up vừa nhặt |
 
 ### Chuyển động
@@ -91,23 +92,23 @@ Bậc **tối giản**: chỉ CSS transition 150–200ms cho hover/focus/overlay
 
 ### Spacing Variables
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--space-xs` | `4px` / `0.25rem` | Tight gaps |
-| `--space-sm` | `8px` / `0.5rem` | Icon gaps, inline spacing |
-| `--space-md` | `16px` / `1rem` | Standard padding |
-| `--space-lg` | `24px` / `1.5rem` | Section padding |
-| `--space-xl` | `32px` / `2rem` | Large gaps |
-| `--space-2xl` | `48px` / `3rem` | Section margins |
-| `--space-3xl` | `64px` / `4rem` | Hero padding |
+| Token         | Value             | Usage                     |
+| ------------- | ----------------- | ------------------------- |
+| `--space-xs`  | `4px` / `0.25rem` | Tight gaps                |
+| `--space-sm`  | `8px` / `0.5rem`  | Icon gaps, inline spacing |
+| `--space-md`  | `16px` / `1rem`   | Standard padding          |
+| `--space-lg`  | `24px` / `1.5rem` | Section padding           |
+| `--space-xl`  | `32px` / `2rem`   | Large gaps                |
+| `--space-2xl` | `48px` / `3rem`   | Section margins           |
+| `--space-3xl` | `64px` / `4rem`   | Hero padding              |
 
 ### Shadow Depths
 
-| Level | Value | Usage |
-|-------|-------|-------|
-| `--shadow-sm` | `0 1px 2px rgba(0,0,0,0.05)` | Subtle lift |
-| `--shadow-md` | `0 4px 6px rgba(0,0,0,0.1)` | Cards, buttons |
-| `--shadow-lg` | `0 10px 15px rgba(0,0,0,0.1)` | Modals, dropdowns |
+| Level         | Value                          | Usage                       |
+| ------------- | ------------------------------ | --------------------------- |
+| `--shadow-sm` | `0 1px 2px rgba(0,0,0,0.05)`   | Subtle lift                 |
+| `--shadow-md` | `0 4px 6px rgba(0,0,0,0.1)`    | Cards, buttons              |
+| `--shadow-lg` | `0 10px 15px rgba(0,0,0,0.1)`  | Modals, dropdowns           |
 | `--shadow-xl` | `0 20px 25px rgba(0,0,0,0.15)` | Hero images, featured cards |
 
 ---
@@ -119,7 +120,7 @@ Bậc **tối giản**: chỉ CSS transition 150–200ms cho hover/focus/overlay
 ```css
 /* Primary Button */
 .btn-primary {
-  background: #22C55E;
+  background: #22c55e;
   color: white;
   padding: 12px 24px;
   border-radius: 8px;
@@ -136,8 +137,8 @@ Bậc **tối giản**: chỉ CSS transition 150–200ms cho hover/focus/overlay
 /* Secondary Button */
 .btn-secondary {
   background: transparent;
-  color: #DC2626;
-  border: 2px solid #DC2626;
+  color: #dc2626;
+  border: 2px solid #dc2626;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -150,7 +151,7 @@ Bậc **tối giản**: chỉ CSS transition 150–200ms cho hover/focus/overlay
 
 ```css
 .card {
-  background: #0F172A;
+  background: #0f172a;
   border-radius: 12px;
   padding: 24px;
   box-shadow: var(--shadow-md);
@@ -169,16 +170,16 @@ Bậc **tối giản**: chỉ CSS transition 150–200ms cho hover/focus/overlay
 ```css
 .input {
   padding: 12px 16px;
-  border: 1px solid #E2E8F0;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 200ms ease;
 }
 
 .input:focus {
-  border-color: #DC2626;
+  border-color: #dc2626;
   outline: none;
-  box-shadow: 0 0 0 3px #DC262620;
+  box-shadow: 0 0 0 3px #dc262620;
 }
 ```
 

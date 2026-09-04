@@ -93,6 +93,12 @@ export interface GameState {
   shakeMs: number
   /** Khoảng nghỉ sau khi bắn hết thiên thạch, trước khi wave sau bắt đầu. */
   waveClearMs: number
+  /**
+   * Đồng hồ riêng của banner "WAVE n". Tách khỏi `waveClearMs` vì hai thứ đếm
+   * ngược trong hai khoảng khác nhau: `waveClearMs` chỉ chạy khi màn đã sạch,
+   * còn banner phải mờ dần ngay sau khi wave bắt đầu — lúc màn đầy thiên thạch.
+   */
+  waveBannerMs: number
   ufoTimerMs: number
   /** Thời gian đã chơi của ván này, tính bằng ms. */
   elapsedMs: number

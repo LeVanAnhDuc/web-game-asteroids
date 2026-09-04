@@ -83,6 +83,8 @@ export const WAVE = {
   speedStep: 0.06,
   maxSpeedFactor: 1.8,
   clearDelayMs: 1500,
+  /** Banner "WAVE n" hiện rồi mờ hẳn trong ngần này. */
+  bannerMs: 1800,
   /** Wave 1 không sinh thiên thạch trong bán kính này quanh tàu. */
   safeRadius: 260,
 } as const
@@ -150,4 +152,16 @@ export const COLOR = {
   accent: '#FFD166',
   asteroid: '#8B94A7',
   ufo: '#FF5D8F',
+} as const
+
+/**
+ * Khoá cho `state.announce` (NFR-A11Y-06). Lõi phát KHOÁ chứ không phát chuỗi
+ * tiếng Việt: chuỗi hiển thị chỉ được nằm ở một module duy nhất (`NFR-I18N-01`),
+ * mà lõi thì không được import ra ngoài (bất biến #1). Tầng React dịch khoá này.
+ */
+export const ANNOUNCE = {
+  extraLife: 'extraLife',
+  gameOver: (score: number) => `gameOver:${score}`,
+  wave: (wave: number) => `wave:${wave}`,
+  lifeLost: (lives: number) => `lifeLost:${lives}`,
 } as const

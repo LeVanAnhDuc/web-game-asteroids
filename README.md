@@ -22,24 +22,24 @@ yarn dev          # http://localhost:3000
 
 Không cần biến môi trường nào — xem [`.env.example`](.env.example).
 
-| Lệnh | Việc |
-| --- | --- |
-| `yarn dev` | chạy dev server |
-| `yarn build` | build tĩnh ra `out/` |
-| `yarn test` | chạy toàn bộ test (vitest) |
-| `yarn test:watch` | chạy test ở chế độ watch |
-| `yarn typecheck` | `tsc --noEmit` |
-| `yarn lint` | ESLint, gồm cả rule chặn `Math.random` trong lõi game |
+| Lệnh              | Việc                                                  |
+| ----------------- | ----------------------------------------------------- |
+| `yarn dev`        | chạy dev server                                       |
+| `yarn build`      | build tĩnh ra `out/`                                  |
+| `yarn test`       | chạy toàn bộ test (vitest)                            |
+| `yarn test:watch` | chạy test ở chế độ watch                              |
+| `yarn typecheck`  | `tsc --noEmit`                                        |
+| `yarn lint`       | ESLint, gồm cả rule chặn `Math.random` trong lõi game |
 
 ## Điều khiển
 
-| Hành động | Phím |
-| --- | --- |
-| Xoay | `←` `→` hoặc `A` `D` |
-| Đẩy | `↑` hoặc `W` |
-| Bắn | `Space` |
-| Dịch chuyển | `Shift` |
-| Tạm dừng | `Esc` hoặc `P` |
+| Hành động   | Phím                 |
+| ----------- | -------------------- |
+| Xoay        | `←` `→` hoặc `A` `D` |
+| Đẩy         | `↑` hoặc `W`         |
+| Bắn         | `Space`              |
+| Dịch chuyển | `Shift`              |
+| Tạm dừng    | `Esc` hoặc `P`       |
 
 Trên thiết bị cảm ứng, các nút hiện ở nửa dưới màn hình.
 

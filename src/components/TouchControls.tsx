@@ -95,7 +95,13 @@ function RotateIcon({ flipped = false }: { flipped?: boolean }) {
         strokeWidth="1.8"
         strokeLinecap="round"
       />
-      <path d="M17 3 L17 9 L11 9" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      <path
+        d="M17 3 L17 9 L11 9"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
     </svg>
   )
 }
@@ -103,7 +109,13 @@ function RotateIcon({ flipped = false }: { flipped?: boolean }) {
 function ThrustIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-7 w-7" aria-hidden="true">
-      <path d="M12 3 L18 19 L12 15.5 L6 19 Z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      <path
+        d="M12 3 L18 19 L12 15.5 L6 19 Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
     </svg>
   )
 }
@@ -121,8 +133,21 @@ function HyperIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
       <path d="M4 12 H16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M12 7 L17 12 L12 17" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-      <path d="M20 6 V18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" opacity="0.6" />
+      <path
+        d="M12 7 L17 12 L12 17"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M20 6 V18"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        opacity="0.6"
+      />
     </svg>
   )
 }

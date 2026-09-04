@@ -14,10 +14,10 @@ Ba loại vũ khí dùng **một khe duy nhất**: nhặt loại mới thì thay
 
 ## 3. Phương án đã loại
 
-| Phương án | Vì sao loại |
-| --- | --- |
-| Cho ba loại vũ khí chồng nhau | Vui hơn trong 30 giây đầu, nhưng 8 tổ hợp phải cân bằng, HUD ba đồng hồ trên màn 375px, và tổ hợp đủ ba thứ làm game hết thách thức |
-| Cho chồng nhau nhưng giới hạn hai loại cùng lúc | Vẫn 4 tổ hợp, và thêm một luật "cái nào bị đẩy ra" mà người chơi không đoán được từ những gì thấy trên màn hình |
+| Phương án                                            | Vì sao loại                                                                                                                                           |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cho ba loại vũ khí chồng nhau                        | Vui hơn trong 30 giây đầu, nhưng 8 tổ hợp phải cân bằng, HUD ba đồng hồ trên màn 375px, và tổ hợp đủ ba thứ làm game hết thách thức                   |
+| Cho chồng nhau nhưng giới hạn hai loại cùng lúc      | Vẫn 4 tổ hợp, và thêm một luật "cái nào bị đẩy ra" mà người chơi không đoán được từ những gì thấy trên màn hình                                       |
 | Power-up là vật phẩm giữ trong túi, bấm nút mới dùng | Cho người chơi quyền chủ động, nhưng cần thêm một nút trên màn hình cảm ứng vốn đã có bốn nút, và biến một game phản xạ thành game quản lý tài nguyên |
 
 ## 4. Hệ quả
