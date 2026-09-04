@@ -70,6 +70,28 @@ export function resetForNewGame(state: GameState, seed?: number): void {
   state.announce = null
 }
 
+/**
+ * Chuyển pha là việc của lõi, kể cả khi lệnh đến từ một cú bấm nút — bất biến #7.
+ * React gọi những hàm có tên ở đây, không bao giờ gán thẳng `state.phase`.
+ */
+export function pauseGame(state: GameState): void {
+  if (state.phase === 'playing') state.phase = 'paused'
+}
+
+export function resumeGame(state: GameState): void {
+  if (state.phase === 'paused') state.phase = 'playing'
+}
+
+export function goToPhase(state: GameState, phase: GameState['phase']): void {
+  state.phase = phase
+}
+
+export function takeAnnouncement(state: GameState): string | null {
+  const message = state.announce
+  state.announce = null
+  return message
+}
+
 export function hudOf(state: GameState): HudSnapshot {
   return {
     phase: state.phase,
