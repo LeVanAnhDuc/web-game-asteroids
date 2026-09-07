@@ -28,11 +28,11 @@ Bản mặc định của template viết cho ứng dụng có server: phân tra
 
 ## Security
 
-| ID         | Ngưỡng                                                                                                                   | Cách kiểm                          |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- |
-| NFR-SEC-01 | Không có secret nào trong repo. Dự án không có backend nên cũng không có secret nào để lộ                                | grep + review                      |
-| NFR-SEC-02 | Dependency không có lỗ hổng mức high trở lên                                                                             | `yarn check:audit` — gate trong CI |
-| NFR-SEC-03 | Không gọi ra bất kỳ dịch vụ ngoài nào lúc chạy, kể cả analytics. Font được tải kèm theo build, không lấy từ CDN lúc chạy | review network tab                 |
+| ID         | Ngưỡng                                                                                                                   | Cách kiểm                                                                                                                                                                                                                     |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NFR-SEC-01 | Không có secret nào trong repo. Dự án không có backend nên cũng không có secret nào để lộ                                | grep + review                                                                                                                                                                                                                 |
+| NFR-SEC-02 | Dependency không có lỗ hổng mức high trở lên                                                                             | `dependency-review` trên mỗi PR + Dependabot alerts. **Không** dùng `yarn audit`: endpoint của yarn 1 trả về summary rỗng kèm exit 0, nên gate dựng trên nó xanh vĩnh viễn. `yarn check:audit` giờ báo đỏ chính tình trạng đó |
+| NFR-SEC-03 | Không gọi ra bất kỳ dịch vụ ngoài nào lúc chạy, kể cả analytics. Font được tải kèm theo build, không lấy từ CDN lúc chạy | review network tab                                                                                                                                                                                                            |
 
 ## Accessibility
 

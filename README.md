@@ -38,8 +38,10 @@ Hai ngưỡng dưới đây nếu không có script thì sẽ chỉ nằm trên 
 
 ```bash
 yarn check:bundle   # NFR-PERF-04: JS lần tải đầu, đo từ HTML đã export
-yarn check:audit    # NFR-SEC-02: chỉ đỏ ở mức high/critical
+yarn check:audit    # NFR-SEC-02: đọc yarn audit, và báo đỏ nếu audit không thật sự chạy
 ```
+
+⚠️ `yarn check:audit` **hiện đang đỏ ở máy**, và đó là hành vi đúng: endpoint audit của yarn 1 trả về một summary rỗng (`0 dependencies`, `0 devDependencies`) kèm exit code 0. Script phát hiện điều đó và báo "không kiểm được" thay vì in một dấu tích xanh vô nghĩa. Việc gate thật cho `NFR-SEC-02` do job `dependency-review` trên mỗi PR làm, cộng với Dependabot alerts.
 
 ## Điều khiển
 
