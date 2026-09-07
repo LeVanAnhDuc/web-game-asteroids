@@ -79,7 +79,7 @@ Chi tiết và các phương án đã loại: [ADR-0008](docs/decisions/0008-ci-
 
 E2E chạy trên **bản export tĩnh** — đúng thứ Pages phục vụ — ở `375 / 768 / 1024 / 1440` và trên một Pixel 5 cảm ứng. Đó là chỗ duy nhất kiểm tự động được bố cục ở các khổ hẹp và ngưỡng vùng bấm 44px.
 
-**Lần đầu bật deploy** cần vào repo Settings → Pages → Source: **GitHub Actions**. Workflow không tự bật được.
+`deploy.yml` truyền `enablement: true` cho `actions/configure-pages`, nên **workflow tự tạo Pages site** ở lần chạy đầu — không cần vào Settings bấm gì. Site lên tại <https://levananhduc.github.io/web-game-asteroids/>.
 
 ## Phát hành
 

@@ -47,6 +47,6 @@ Playwright chạy trên **bản export tĩnh** qua `scripts/serve.mjs`, ở **n�
 - CI chậm hơn: cài Chromium mỗi lần chạy job e2e.
 - Thêm `@playwright/test` và năm script vào repo. Chi phí bảo trì có thật.
 - E2E **không** assert vào điểm số hay vị trí vật thể: đó là mô phỏng thời gian thực trên máy CI chia sẻ, và test phụ thuộc vào nó sẽ đỏ vì máy bận chứ không vì game sai. Luật chơi vẫn thuộc phần test đơn vị gọi thẳng `step()`.
-- Cần bật GitHub Pages ở phần Settings của repo (`Source: GitHub Actions`) — workflow không tự bật được.
+- Workflow tự tạo Pages site qua `enablement: true`, nên không còn bước thủ công nào. Đánh đổi: `deploy.yml` cần quyền `pages: write` để làm việc đó, tức là nó **thay đổi cấu hình repo** chứ không chỉ đọc. Đây là quyền nó vốn đã cần để publish, nhưng đáng biết rõ.
 
 **Điều kiện xem lại quyết định này:** nếu thời gian CI thành nút cổ chai, bước đầu tiên là cache Chromium chứ không phải bỏ e2e.

@@ -40,7 +40,13 @@ jobs:
           # `yarn dev` và build ở máy vẫn chạy ở gốc.
           GITHUB_PAGES: 'true'
 
+      # `enablement: true` để chính workflow tạo Pages site nếu repo chưa bật.
+      # Không có nó, lần deploy đầu tiên đỏ với "Get Pages site failed" và phải
+      # vào Settings bấm tay — một bước thủ công mà người clone repo không
+      # biết là mình cần làm.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
