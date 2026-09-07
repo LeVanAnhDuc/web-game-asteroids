@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Đẩy tiếp lên cùng một branch thì lần chạy trước không còn ý nghĩa.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # Tách hai job có chủ ý: chúng chạy song song, và "lint hỏng" với "game hỏng" là
+  # hai tin khác nhau, không nên xếp hàng chờ nhau.
+  verify:
+    name: Lint, types, unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+
+      - name: Lint
+        # Gồm cả rule chặn Math.random / Date.now / DOM trong src/game/core —
+        # bất biến #1. Đây là chỗ duy nhất nó được kiểm tự động.
+        run: yarn lint
+
+      - name: Typecheck
+        run: yarn typecheck
+
+      - name: Unit and component tests
+        run: yarn test
+
+      # NFR-SEC-02. `yarn audit` một mình không diễn đạt được "high trở lên": yarn 1
+      # trả về một bitmask gộp mọi mức, nên một advisory mức moderate cũng làm đỏ
+      # build. Script gate đúng theo ngưỡng đã viết, không hơn.
+      - name: Dependency audit
+        run: yarn audit --json | node scripts/check-audit.mjs
+
+  e2e:
+    name: Build and end-to-end
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+
+      - name: Build the static export
+        run: yarn build
+
+      # NFR-PERF-04, đo từ HTML đã export chứ không đọc bảng của `next build`:
+      # thứ `out/index.html` tham chiếu chính là thứ trình duyệt tải về. Gate dựng
+      # trên bảng in ra sẽ vỡ mỗi lần Next đổi định dạng, gate này chỉ vỡ khi
+      # bundle thật sự phình.
+      - name: First-load JS budget
+        run: node scripts/check-bundle-size.mjs out
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Chạy trên out/ qua scripts/serve.mjs — đúng thứ GitHub Pages sẽ phục vụ —
+      # ở 375 / 768 / 1024 / 1440 và trên một điện thoại cảm ứng.
+      - name: End-to-end tests
+        run: yarn test:e2e
+
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

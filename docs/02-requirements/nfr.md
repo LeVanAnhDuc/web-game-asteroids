@@ -14,7 +14,7 @@ Bản mặc định của template viết cho ứng dụng có server: phân tra
 | NFR-PERF-01 | 60fps trên desktop và ≥ 50fps trên điện thoại tầm trung, với 60 vật thể trên màn       | overlay thống kê frame time ở chế độ dev, đo trên thiết bị thật |
 | NFR-PERF-02 | Một bước `step()` chạy < 4ms ở trường hợp xấu nhất (60 vật thể, 200 particle)          | benchmark trong vitest                                          |
 | NFR-PERF-03 | React chỉ re-render khi snapshot HUD đổi giá trị, không phải mỗi frame                 | test đếm số lần render trong 120 bước mô phỏng                  |
-| NFR-PERF-04 | Bundle JS lần tải đầu ≤ 200KB gzip                                                     | đọc báo cáo `next build`                                        |
+| NFR-PERF-04 | Bundle JS lần tải đầu ≤ 200KB gzip                                                     | `yarn check:bundle` — đo từ HTML đã export, gate trong CI       |
 | NFR-PERF-05 | Đường vẽ và đường va chạm không cấp phát mảng hay object mới cho mỗi vật thể mỗi frame | review code                                                     |
 
 ## Robustness
@@ -28,22 +28,22 @@ Bản mặc định của template viết cho ứng dụng có server: phân tra
 
 ## Security
 
-| ID         | Ngưỡng                                                                                                                   | Cách kiểm          |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------ |
-| NFR-SEC-01 | Không có secret nào trong repo. Dự án không có backend nên cũng không có secret nào để lộ                                | grep + review      |
-| NFR-SEC-02 | Dependency không có lỗ hổng mức high trở lên                                                                             | `yarn audit`       |
-| NFR-SEC-03 | Không gọi ra bất kỳ dịch vụ ngoài nào lúc chạy, kể cả analytics. Font được tải kèm theo build, không lấy từ CDN lúc chạy | review network tab |
+| ID         | Ngưỡng                                                                                                                   | Cách kiểm                          |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- |
+| NFR-SEC-01 | Không có secret nào trong repo. Dự án không có backend nên cũng không có secret nào để lộ                                | grep + review                      |
+| NFR-SEC-02 | Dependency không có lỗ hổng mức high trở lên                                                                             | `yarn check:audit` — gate trong CI |
+| NFR-SEC-03 | Không gọi ra bất kỳ dịch vụ ngoài nào lúc chạy, kể cả analytics. Font được tải kèm theo build, không lấy từ CDN lúc chạy | review network tab                 |
 
 ## Accessibility
 
-| ID          | Ngưỡng                                                                                              | Cách kiểm                            |
-| ----------- | --------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| NFR-A11Y-01 | Tương phản chữ thường ≥ 4.5:1, chữ lớn ≥ 3:1                                                        | devtools                             |
-| NFR-A11Y-02 | Mọi hành động ngoài canvas thao tác được bằng bàn phím, focus luôn thấy được                        | thử tay                              |
-| NFR-A11Y-03 | Vùng bấm ≥ 44×44px trên thiết bị cảm ứng                                                            | đo trên mockup và trên bản chạy thật |
-| NFR-A11Y-04 | Không mã hoá thông tin **chỉ** bằng màu. Mỗi power-up có màu, hình và tên                           | review                               |
-| NFR-A11Y-05 | Tôn trọng `prefers-reduced-motion`: tắt particle, rung màn, vệt đẩy, transition. Gameplay không đổi | review CSS + test                    |
-| NFR-A11Y-06 | Canvas có nhãn thay thế; đổi mạng, đổi wave và hết lượt được công bố qua `aria-live="polite"`       | thử với trình đọc màn hình           |
+| ID          | Ngưỡng                                                                                              | Cách kiểm                         |
+| ----------- | --------------------------------------------------------------------------------------------------- | --------------------------------- |
+| NFR-A11Y-01 | Tương phản chữ thường ≥ 4.5:1, chữ lớn ≥ 3:1                                                        | devtools                          |
+| NFR-A11Y-02 | Mọi hành động ngoài canvas thao tác được bằng bàn phím, focus luôn thấy được                        | thử tay                           |
+| NFR-A11Y-03 | Vùng bấm ≥ 44×44px trên thiết bị cảm ứng                                                            | e2e đo `boundingBox` trên Pixel 5 |
+| NFR-A11Y-04 | Không mã hoá thông tin **chỉ** bằng màu. Mỗi power-up có màu, hình và tên                           | review                            |
+| NFR-A11Y-05 | Tôn trọng `prefers-reduced-motion`: tắt particle, rung màn, vệt đẩy, transition. Gameplay không đổi | review CSS + test                 |
+| NFR-A11Y-06 | Canvas có nhãn thay thế; đổi mạng, đổi wave và hết lượt được công bố qua `aria-live="polite"`       | thử với trình đọc màn hình        |
 
 ## i18n
 

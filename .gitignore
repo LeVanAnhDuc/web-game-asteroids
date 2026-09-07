@@ -18,3 +18,10 @@ npm-debug.log*
 /coverage/
 .DS_Store
 dev.log
+
+# Playwright
+/playwright-report/
+/test-results/
+/blob-report/
+/playwright/.cache/
+RELEASE_NOTES.md

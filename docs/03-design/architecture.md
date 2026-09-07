@@ -75,3 +75,7 @@ Một frame, kể từ khi người chơi bấm phím:
 | Test           | Vitest + happy-dom + Testing Library      | ADR-0001  |
 | Quản lý gói    | Yarn classic 1.x                          | ADR-0001  |
 | Design tokens  | `docs/design-system/asteroids/MASTER.md`  | ADR-0007  |
+| E2E            | Playwright, 5 cấu hình, chạy trên `out/`  | ADR-0008  |
+| CI             | GitHub Actions, hai job song song         | ADR-0008  |
+| Hosting        | GitHub Pages, publish từ workflow         | ADR-0008  |
+| Phát hành      | Tag và note suy từ lịch sử commit         | ADR-0009  |
