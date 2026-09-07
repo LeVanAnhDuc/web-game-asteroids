@@ -41,11 +41,26 @@ jobs:
       - name: Unit and component tests
         run: yarn test
 
-      # NFR-SEC-02. `yarn audit` một mình không diễn đạt được "high trở lên": yarn 1
-      # trả về một bitmask gộp mọi mức, nên một advisory mức moderate cũng làm đỏ
-      # build. Script gate đúng theo ngưỡng đã viết, không hơn.
-      - name: Dependency audit
-        run: yarn audit --json | node scripts/check-audit.mjs
+      # KHÔNG có bước `yarn audit` ở đây, có chủ ý. Endpoint audit của yarn 1 trả về
+      # một summary rỗng (0 dependency, 0 devDependency) kèm exit code 0, nên bất kỳ
+      # gate dựng trên nó cũng xanh vĩnh viễn — một cổng bảo mật không bao giờ đỏ
+      # được thì tệ hơn không có cổng, vì người ta tin nó.
+      # `scripts/check-audit.mjs` giờ phát hiện và báo đỏ tình trạng đó; nó dành cho
+      # việc chạy ở máy. Việc gate thật do job `dependency-review` bên dưới làm.
+
+  # NFR-SEC-02, đọc từ advisory database của GitHub thay vì endpoint của yarn.
+  # Chỉ chạy trên pull request được: action này so sánh cây phụ thuộc của base với
+  # của head, nên nó cần hai đầu để so.
+  dependency-review:
+    name: Dependency review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+          comment-summary-in-pr: on-failure
 
   e2e:
     name: Build and end-to-end
