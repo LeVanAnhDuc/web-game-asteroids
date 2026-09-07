@@ -1,0 +1,57 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Mỗi lần một deploy, và không bao giờ huỷ giữa chừng: một deploy bị cắt ngang có
+# thể để site phục vụ một artifact mới upload được một nửa.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+
+      # Test chạy lại ở đây thay vì tin vào workflow CI: hai workflow này độc lập,
+      # và một deploy giả định rằng có một lần chạy xanh mà nó không nhìn thấy là
+      # một deploy sớm muộn sẽ đẩy bản đỏ lên.
+      - run: yarn test
+
+      - run: yarn build
+        env:
+          # Chỉ đặt ở đây. Nó bật basePath cho đường dẫn con /web-game-asteroids;
+          # `yarn dev` và build ở máy vẫn chạy ở gốc.
+          GITHUB_PAGES: 'true'
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -23,12 +23,18 @@ export function Hud({ hud, onPause }: { hud: HudSnapshot; onPause: () => void })
           {hud.shield ? <ShieldPip /> : null}
         </div>
 
-        <span className="text-base text-accent" aria-label={`${vi.hud.score}: ${hud.score}`}>
+        <span
+          data-testid="hud-score"
+          className="text-base text-accent"
+          aria-label={`${vi.hud.score}: ${hud.score}`}
+        >
           {formatScore(hud.score)}
         </span>
 
         <div className="flex items-center gap-2">
-          <span className="text-muted">
+          {/* testid vì chuỗi "Wave 1" cũng xuất hiện trong vùng aria-live;
+              e2e cần trỏ đúng vào HUD chứ không phải vào thông báo. */}
+          <span data-testid="hud-wave" className="text-muted">
             {vi.hud.wave} {hud.wave}
           </span>
           <button
