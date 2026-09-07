@@ -79,7 +79,15 @@ Chi tiết và các phương án đã loại: [ADR-0008](docs/decisions/0008-ci-
 
 E2E chạy trên **bản export tĩnh** — đúng thứ Pages phục vụ — ở `375 / 768 / 1024 / 1440` và trên một Pixel 5 cảm ứng. Đó là chỗ duy nhất kiểm tự động được bố cục ở các khổ hẹp và ngưỡng vùng bấm 44px.
 
-`deploy.yml` truyền `enablement: true` cho `actions/configure-pages`, nên **workflow tự tạo Pages site** ở lần chạy đầu — không cần vào Settings bấm gì. Site lên tại <https://levananhduc.github.io/web-game-asteroids/>.
+Site: <https://levananhduc.github.io/web-game-asteroids/>
+
+**Bật Pages là bước một-lần, làm từ ngoài workflow.** Repo này đã bật (07.09.2026). Với một fork hoặc một clone mới thì cần làm lại, bằng Settings → Pages → Source: **GitHub Actions**, hoặc:
+
+```bash
+gh api -X POST repos/<owner>/<repo>/pages -f build_type=workflow
+```
+
+Workflow **không** tự bật được: `GITHUB_TOKEN` có `pages: write` nên deploy được, nhưng tạo Pages site cần quyền admin repo mà nó không có — `enablement: true` của `actions/configure-pages` đỏ với `Resource not accessible by integration`.
 
 ## Phát hành
 
