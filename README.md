@@ -1,6 +1,16 @@
-# Asteroids
+# 🪨 Asteroids — the 1979 flight model, power-ups, and controls that work with a thumb
 
-Game bắn thiên thạch kiểu arcade, thêm hệ power-up, chơi ngay trong trình duyệt bằng bàn phím hoặc bằng ngón tay. Không cài đặt, không đăng nhập, không backend.
+[![CI](https://github.com/LeVanAnhDuc/web-game-asteroids/actions/workflows/ci.yml/badge.svg)](https://github.com/LeVanAnhDuc/web-game-asteroids/actions/workflows/ci.yml)
+[![Deploy](https://github.com/LeVanAnhDuc/web-game-asteroids/actions/workflows/deploy.yml/badge.svg)](https://github.com/LeVanAnhDuc/web-game-asteroids/actions/workflows/deploy.yml)
+[![Release](https://img.shields.io/github/v/release/LeVanAnhDuc/web-game-asteroids?sort=semver)](https://github.com/LeVanAnhDuc/web-game-asteroids/releases)
+
+An Asteroids clone built with Next.js and Canvas 2D. No account, no server, no
+analytics: it exports to static HTML and the whole game runs on the player's machine.
+Scores live in `localStorage`.
+
+**Play**: https://levananhduc.github.io/web-game-asteroids/
+
+Part of the `web-game/` folder in the `web-app-ecosystem` workspace.
 
 ## Features
 
@@ -13,118 +23,166 @@ Game bắn thiên thạch kiểu arcade, thêm hệ power-up, chơi ngay trong t
 - Local top-10 high scores with arcade-style three-letter initials, kept in the browser.
 - Respects `prefers-reduced-motion`, announces game events to screen readers, and encodes every power-up with a shape as well as a colour.
 
-## Chạy dự án
+## Controls
+
+| Action     | Keys               |
+| ---------- | ------------------ |
+| Rotate     | `←` `→` or `A` `D` |
+| Thrust     | `↑` or `W`         |
+| Fire       | `Space`            |
+| Hyperspace | `Shift`            |
+| Pause      | `Esc` or `P`       |
+
+On a touch screen the buttons appear across the lower half: rotate under the left
+thumb, thrust and fire under the right, hyperspace in the middle because it is the
+one you reach for least.
+
+## Commands
 
 ```bash
 yarn install
 yarn dev          # http://localhost:3000
+yarn test         # unit + component tests
+yarn test:e2e     # Playwright, against the static export in out/
+yarn typecheck
+yarn lint
+yarn build        # writes out/
 ```
 
-Không cần biến môi trường nào để chạy ở máy — xem [`.env.example`](.env.example).
+`yarn test:e2e` needs a build first (`yarn build`) and a Chromium install
+(`npx playwright install chromium`). No environment variables are needed to run
+locally — see [`.env.example`](.env.example).
 
-| Lệnh              | Việc                                                  |
-| ----------------- | ----------------------------------------------------- |
-| `yarn dev`        | chạy dev server                                       |
-| `yarn build`      | build tĩnh ra `out/`                                  |
-| `yarn test`       | chạy toàn bộ test (vitest)                            |
-| `yarn test:watch` | chạy test ở chế độ watch                              |
-| `yarn test:e2e`   | Playwright, chạy trên bản export tĩnh trong `out/`    |
-| `yarn typecheck`  | `tsc --noEmit`                                        |
-| `yarn lint`       | ESLint, gồm cả rule chặn `Math.random` trong lõi game |
-
-`yarn test:e2e` cần build trước (`yarn build`) và cần Chromium (`npx playwright install chromium`).
-
-Hai ngưỡng dưới đây nếu không có script thì sẽ chỉ nằm trên giấy:
+Two checks enforce thresholds that would otherwise only be written down:
 
 ```bash
-yarn check:bundle   # NFR-PERF-04: JS lần tải đầu, đo từ HTML đã export
-yarn check:audit    # NFR-SEC-02: đọc yarn audit, và báo đỏ nếu audit không thật sự chạy
+yarn check:bundle   # NFR-PERF-04: first-load JS, measured from the exported HTML
+yarn check:audit    # NFR-SEC-02: reads yarn audit, and fails if the audit did not run
 ```
 
-⚠️ `yarn check:audit` **hiện đang đỏ ở máy**, và đó là hành vi đúng: endpoint audit của yarn 1 trả về một summary rỗng (`0 dependencies`, `0 devDependencies`) kèm exit code 0. Script phát hiện điều đó và báo "không kiểm được" thay vì in một dấu tích xanh vô nghĩa. Việc gate thật cho `NFR-SEC-02` do job `dependency-review` trên mỗi PR làm, cộng với Dependabot alerts.
+⚠️ **`yarn check:audit` currently fails, and that is the correct output.** Yarn 1's
+audit endpoint answers with an empty summary — `0 dependencies`, `0 devDependencies`
+— and exit code 0, so any gate built on it passes forever. The script detects that
+and reports "could not be checked" instead of a meaningless green tick. `NFR-SEC-02`
+is actually gated by the `dependency-review` job on every pull request, plus
+Dependabot alerts.
 
-## Điều khiển
-
-| Hành động   | Phím                 |
-| ----------- | -------------------- |
-| Xoay        | `←` `→` hoặc `A` `D` |
-| Đẩy         | `↑` hoặc `W`         |
-| Bắn         | `Space`              |
-| Dịch chuyển | `Shift`              |
-| Tạm dừng    | `Esc` hoặc `P`       |
-
-Trên thiết bị cảm ứng, các nút hiện ở nửa dưới màn hình.
-
-## Cấu trúc
+## How it is put together
 
 ```
 src/
-  game/core/     luật chơi — TypeScript thuần, không React, không DOM
-  game/render/   vẽ Canvas 2D, chỉ đọc state
-  game/loop.ts   fixed timestep 60Hz
-  input/         bàn phím và cảm ứng, cùng đổ về một InputState
-  storage/       bảng điểm sau interface ScoreStore
-  components/    giao diện React ngoài canvas
-e2e/             Playwright, chạy trên bản export tĩnh
-scripts/         gate ngân sách bundle, gate audit, server tĩnh, hai script release
+  game/core/     the rules — plain TypeScript, no React, no DOM
+  game/render/   Canvas 2D drawing, reads state and never writes it
+  game/loop.ts   fixed 60 Hz timestep
+  input/         keyboard and touch, both producing one InputState
+  storage/       high scores behind a ScoreStore interface
+  components/    the React UI outside the canvas
+e2e/             Playwright, against the static export
+scripts/         bundle budget, audit gate, static server, two release scripts
 ```
 
-## Chạy trên GitHub
+The rules are pure functions over a `GameState`, entered through a single
+`step(state, input, dt)`. They cannot reach `Math.random`, `Date.now`, `window` or
+React — an ESLint override enforces that, because one stray `Math.random` silently
+ends determinism and surfaces months later as a flaky test.
 
-| Workflow      | Khi nào                                 | Làm gì                                                                                                                                          |
-| ------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ci.yml`      | mọi pull request và mọi push vào `main` | Hai job song song: lint + typecheck + unit test + audit dependency; và build + ngân sách JS lần tải đầu + e2e ở năm cấu hình                    |
-| `deploy.yml`  | push vào `main`                         | Build lại với `GITHUB_PAGES=true` rồi publish `out/` lên GitHub Pages. Nó chạy lại test thay vì tin vào một lần chạy xanh mà nó không nhìn thấy |
-| `release.yml` | push vào `main`                         | Tính số phiên bản kế tiếp, soạn note, tạo GitHub release                                                                                        |
+Logic runs at a fixed 60 steps per second while rendering follows
+`requestAnimationFrame`. With a variable `dt`, the same keystrokes produce different
+results on a 60 Hz and a 144 Hz screen, and no test can reproduce a bug.
 
-Chi tiết và các phương án đã loại: [ADR-0008](docs/decisions/0008-ci-and-github-pages-deploy.md).
+React never holds `GameState`. It receives a small `HudSnapshot`, compared before each
+emit, so a score that did not change costs no render.
 
-E2E chạy trên **bản export tĩnh** — đúng thứ Pages phục vụ — ở `375 / 768 / 1024 / 1440` và trên một Pixel 5 cảm ứng. Đó là chỗ duy nhất kiểm tự động được bố cục ở các khổ hẹp và ngưỡng vùng bấm 44px.
+## What runs on GitHub
 
-Site: <https://levananhduc.github.io/web-game-asteroids/>
+| Workflow                                       | When                                  | What it does                                                                                                                                                                                                                                                       |
+| ---------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [`ci.yml`](.github/workflows/ci.yml)           | every pull request and push to `main` | Parallel jobs: lint + typecheck + unit tests; and build + first-load-JS budget + the end-to-end suite at five configurations. A third job, dependency review, runs on pull requests only — the action compares base against head, so a push has nothing to compare |
+| [`deploy.yml`](.github/workflows/deploy.yml)   | push to `main`                        | Rebuilds with `GITHUB_PAGES=true` and publishes `out/` to Pages. It re-runs the tests rather than trusting a green run it cannot see                                                                                                                               |
+| [`release.yml`](.github/workflows/release.yml) | push to `main`                        | Works out the next version, composes the notes, and publishes a GitHub release                                                                                                                                                                                     |
 
-**Bật Pages là bước một-lần, làm từ ngoài workflow.** Repo này đã bật (07.09.2026). Với một fork hoặc một clone mới thì cần làm lại, bằng Settings → Pages → Source: **GitHub Actions**, hoặc:
+The end-to-end suite runs against the **static export** — the artifact Pages actually
+serves — at `375 / 768 / 1024 / 1440` and on a Pixel 5 with a real touch screen. That
+is the only automated check of the narrow layouts and of the 44px touch-target
+threshold. It deliberately does not assert on scores or entity positions: that is a
+real-time simulation on a shared runner, and a test depending on it goes red because
+the machine was busy, not because the game broke. The rules belong to the unit suite,
+which calls `step()` directly.
+
+Pages has to be switched on **once per repository**, with a token that has admin
+rights — the workflow's own `GITHUB_TOKEN` can deploy to an existing Pages site but
+cannot create one:
 
 ```bash
-gh api -X POST repos/<owner>/<repo>/pages -f build_type=workflow
+gh api -X POST repos/LeVanAnhDuc/web-game-asteroids/pages -f build_type=workflow
 ```
 
-Workflow **không** tự bật được: `GITHUB_TOKEN` có `pages: write` nên deploy được, nhưng tạo Pages site cần quyền admin repo mà nó không có — `enablement: true` của `actions/configure-pages` đỏ với `Resource not accessible by integration`.
+If `configure-pages` fails with "Get Pages site failed", that command is the fix, not
+a change to the workflow. `enablement: true` was tried and fails with "Resource not
+accessible by integration". See
+[ADR-0008](docs/decisions/0008-ci-and-github-pages-deploy.md).
 
-## Phát hành
+## Releases
 
-Số phiên bản và nội dung release note **suy ra từ lịch sử commit**, nên không thứ nào phụ thuộc vào việc ai đó nhớ làm một bước. Cả hai nằm trong script chạy được ở máy — một quy trình release chỉ kiểm được bằng cách đẩy lên `main` là quy trình không ai kiểm:
+Version numbers and release notes are **derived from the commit history**, so neither
+depends on anyone remembering to do something. Both live in scripts you can run
+locally — a release process you can only exercise by pushing to `main` is one nobody
+exercises:
 
 ```bash
-yarn release:next            # tag kế tiếp sẽ là gì, và vì sao
-yarn release:notes v1.1.0    # note của nó sẽ viết gì
+yarn release:next            # which tag the next release would get, and why
+yarn release:notes v1.1.0    # what its notes would say
 ```
 
-**Số phiên bản được quyết thế nào**, so với tag `v*` gần nhất:
+**How the version is decided**, against the previous `v*` tag:
 
-| Kể từ tag trước                                                 | Bump  |
-| --------------------------------------------------------------- | ----- |
-| có commit `feat!:` / `fix!:` …, hoặc body có `BREAKING CHANGE:` | major |
-| có bất kỳ commit `feat:`                                        | minor |
-| còn lại                                                         | patch |
+| Since the last tag                                                 | Bump  |
+| ------------------------------------------------------------------ | ----- |
+| a commit marked `feat!:` / `fix!:` …, or a `BREAKING CHANGE:` body | major |
+| any `feat:` commit                                                 | minor |
+| anything else                                                      | patch |
 
-**Subject** của commit HEAD ghi đè được: `[release major]`, `[release minor]`, hoặc `[skip release]` để không phát hành gì. Chỉ subject được đọc — một body chỉ _nhắc đến_ marker (chính dòng README này, chẳng hạn) không được phép kích hoạt release.
+The head commit's **subject** can override it: `[release major]`, `[release minor]`,
+or `[skip release]` to publish nothing. Only the subject counts — a body that merely
+mentions the marker (this README, for one) must not trigger a release.
 
-**Note được soạn thế nào:** subject của các commit kể từ tag trước, nhóm theo tiền tố Conventional Commit — breaking trước, rồi What's new (`feat`), Fixes (`fix`), Performance, Internals, Tests, Documentation, Build and tooling. Scope giữ làm nhãn, nên `feat(game): …` đọc thành **game**: …
+**How the notes are composed:** commit subjects since the previous tag, grouped by
+their Conventional Commit prefix — breaking changes first, then What's new (`feat`),
+Fixes (`fix`), Performance, Internals, Tests, Documentation, Build and tooling.
+Scopes are kept as labels, so `feat(game): …` reads as **game**: …
 
-Commit không phải Conventional Commit vào mục "Other" chứ không bị bỏ: một release note âm thầm nuốt commit là release note đã bắt đầu nói sai.
+Commits that are not Conventional Commits land under "Other" rather than being
+dropped. A release note that swallows commits is a release note that has started
+lying. It is also why pull requests here are **rebased, not squashed**: a squash
+collapses every subject into one line and the notes lose their content.
 
-Không dùng `--generate-notes` của GitHub: nó nhóm theo nhãn pull request, mà repo này không gắn nhãn PR. Xem [ADR-0009](docs/decisions/0009-releases-derived-from-commits.md).
+GitHub's own `--generate-notes` is not used: it groups by pull-request label, and this
+repository does not label its PRs. What it does have is a conventional subject on
+every commit. See [ADR-0009](docs/decisions/0009-releases-derived-from-commits.md).
 
-## Giữ README này không nói sai
+## Keeping this README honest
 
-`## Features` là cam kết với người chơi, nên nó đổi **trong cùng branch** với code làm đổi hành vi, không phải trong một lượt dọn về sau:
+`## Features` is the user-facing contract, so it changes in the **same branch** as the
+code that changes behaviour — never in a catch-up pass afterwards:
 
-- một `feat:` mà người chơi nhận ra được thì thêm **một bullet ngắn**, bằng tiếng Anh, theo đúng giọng đang có: người chơi giờ làm được gì, không phải component nào vừa được thêm
-- bullet mô tả hành vi **đang có hôm nay**. Không có gì ở đây là dự định — nằm trong danh sách nghĩa là nó chạy
-- thay đổi chỉ người phát triển thấy (refactor, tooling, test) thì **không** thuộc `## Features`
-- commit chỉ sửa README là `docs:`, và tự nó phát hành một bản patch
+- a `feat:` that a player would notice gets **one short bullet**, in English, in the
+  existing voice: what the player can now do, not which component was added
+- a bullet describes behaviour that exists **today**. Nothing here is aspirational —
+  if it is in this list, it works
+- a change that only a developer would notice (refactor, tooling, tests) does **not**
+  belong in `## Features`
+- a README-only change is a `docs:` commit and, on its own, releases a patch
 
-## Tài liệu
+## Where the documentation lives
 
-Bản đồ ở [`docs/README.md`](docs/README.md). Ngắn gọn: [kiến trúc](docs/03-design/architecture.md), [bất biến](docs/03-design/invariants.md) (đọc trước khi sửa code), [ngưỡng phi chức năng](docs/02-requirements/nfr.md), và [các quyết định kỹ thuật](docs/decisions/README.md).
+`docs/README.md` is the map. In short:
+
+| Question                                   | File                             |
+| ------------------------------------------ | -------------------------------- |
+| What is this, and what will it never do?   | `docs/01-product/overview.md`    |
+| What can the player do?                    | `docs/02-requirements/scope.md`  |
+| What thresholds apply everywhere?          | `docs/02-requirements/nfr.md`    |
+| What breaks silently if I change it?       | `docs/03-design/invariants.md`   |
+| How do the pieces fit together?            | `docs/03-design/architecture.md` |
+| Why is it built this way?                  | `docs/decisions/`                |
+| What is being worked on, and what is owed? | `docs/04-state/backlog.md`       |
