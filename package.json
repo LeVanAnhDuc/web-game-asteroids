@@ -15,8 +15,8 @@
     "typecheck": "tsc --noEmit",
     "check:bundle": "node scripts/check-bundle-size.mjs out",
     "check:audit": "yarn audit --json | node scripts/check-audit.mjs",
-    "release:next": "bash scripts/next-version.sh --explain",
-    "release:notes": "bash scripts/release-notes.sh"
+    "release:next": "npx --yes git-cliff@2.13.1 --bumped-version",
+    "release:notes": "npx --yes git-cliff@2.13.1 --unreleased --tag $(npx --yes git-cliff@2.13.1 --bumped-version) --strip all"
   },
   "dependencies": {
     "next": "^15.5.0",
