@@ -41,7 +41,7 @@ jobs:
 
       - run: yarn build
         env:
-          # Chỉ đặt ở đây. Nó bật basePath cho đường dẫn con /web-game-asteroids;
+          # Chỉ đặt ở đây. Nó bật basePath cho đường dẫn con /web-game-duck-drift;
           # `yarn dev` và build ở máy vẫn chạy ở gốc.
           GITHUB_PAGES: 'true'
 

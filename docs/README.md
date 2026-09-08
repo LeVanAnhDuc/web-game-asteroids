@@ -1,4 +1,4 @@
-# Tài liệu dự án `web-game-asteroids`
+# Tài liệu dự án `web-game-duck-drift`
 
 ## Bản đồ
 

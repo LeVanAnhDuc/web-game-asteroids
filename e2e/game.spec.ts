@@ -23,7 +23,7 @@ test.describe('bắt đầu một ván', () => {
     await page.goto('/')
     await startGame(page)
 
-    await expect(page.getByRole('heading', { name: 'ASTEROIDS', exact: true })).toHaveCount(0)
+    await expect(page.getByRole('heading', { name: 'DUCK DRIFT', exact: true })).toHaveCount(0)
     await expect(page.getByRole('button', { name: 'Tạm dừng', exact: true })).toBeVisible()
   })
 
@@ -70,7 +70,7 @@ test.describe('tạm dừng — US-04', () => {
 
     await page.keyboard.press('Escape')
     await page.getByRole('button', { name: 'Về menu', exact: true }).click()
-    await expect(page.getByRole('heading', { name: 'ASTEROIDS', exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'DUCK DRIFT', exact: true })).toBeVisible()
   })
 
   test('chuyển sang tab khác thì tự tạm dừng — FR-15', async ({ page }) => {

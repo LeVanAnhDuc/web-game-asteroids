@@ -3,12 +3,12 @@
 
 export const vi = {
   meta: {
-    title: 'Asteroids',
+    title: 'Duck Drift',
     description: 'Game bắn thiên thạch kiểu arcade, chơi ngay trong trình duyệt.',
   },
 
   menu: {
-    title: 'ASTEROIDS',
+    title: 'DUCK DRIFT',
     play: 'Chơi',
     highScores: 'Bảng điểm',
     help: 'Cách chơi',

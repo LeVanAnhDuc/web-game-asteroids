@@ -6,7 +6,7 @@ import type { NextConfig } from 'next'
  * máy vẫn chạy ở gốc — xem `.env.example`.
  */
 const isGithubPages = process.env.GITHUB_PAGES === 'true'
-const basePath = '/web-game-asteroids'
+const basePath = '/web-game-duck-drift'
 
 const nextConfig: NextConfig = {
   // Trang tĩnh thuần (ADR-0001): `next build` sinh thẳng ra `out/`, không cần runtime.

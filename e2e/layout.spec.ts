@@ -12,7 +12,7 @@ test.describe('màn hình chính', () => {
   test('hiện tên game và ba lối vào', async ({ page }) => {
     await page.goto('/')
 
-    await expect(page.getByRole('heading', { name: 'ASTEROIDS', exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'DUCK DRIFT', exact: true })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Chơi', exact: true })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Bảng điểm', exact: true })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Cách chơi', exact: true })).toBeVisible()
@@ -90,6 +90,6 @@ test.describe('màn Cách chơi liệt kê đủ năm vật phẩm — NFR-A11Y-
     await page.goto('/')
     await page.getByRole('button', { name: 'Cách chơi', exact: true }).click()
     await page.getByRole('button', { name: 'Quay lại', exact: true }).click()
-    await expect(page.getByRole('heading', { name: 'ASTEROIDS', exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'DUCK DRIFT', exact: true })).toBeVisible()
   })
 })
