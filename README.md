@@ -10,6 +10,8 @@ Scores live in `localStorage`.
 
 **Play**: https://levananhduc.github.io/web-game-asteroids/
 
+![Asteroids gameplay](docs/assets/screenshot.png)
+
 Part of the `web-game/` folder in the `web-app-ecosystem` workspace.
 
 ## Features
@@ -122,7 +124,7 @@ a change to the workflow. `enablement: true` was tried and fails with "Resource 
 accessible by integration". See
 [ADR-0008](docs/decisions/0008-ci-and-github-pages-deploy.md).
 
-## Releases
+## Releases and versioning
 
 Version numbers and release notes are **derived from the commit history**, so neither
 depends on anyone remembering to do something. Both live in scripts you can run
@@ -173,7 +175,7 @@ code that changes behaviour — never in a catch-up pass afterwards:
   belong in `## Features`
 - a README-only change is a `docs:` commit and, on its own, releases a patch
 
-## Where the documentation lives
+## Documentation
 
 `docs/README.md` is the map. In short:
 
