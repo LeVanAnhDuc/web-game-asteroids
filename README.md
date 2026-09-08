@@ -1,16 +1,16 @@
-# 🪨 Asteroids — the 1979 flight model, power-ups, and controls that work with a thumb
+# 🪨 Duck Drift — the 1979 Asteroids flight model, power-ups, and controls that work with a thumb
 
-[![CI](https://github.com/LeVanAnhDuc/web-game-asteroids/actions/workflows/ci.yml/badge.svg)](https://github.com/LeVanAnhDuc/web-game-asteroids/actions/workflows/ci.yml)
-[![Deploy](https://github.com/LeVanAnhDuc/web-game-asteroids/actions/workflows/deploy.yml/badge.svg)](https://github.com/LeVanAnhDuc/web-game-asteroids/actions/workflows/deploy.yml)
-[![Release](https://img.shields.io/github/v/release/LeVanAnhDuc/web-game-asteroids?sort=semver)](https://github.com/LeVanAnhDuc/web-game-asteroids/releases)
+[![CI](https://github.com/LeVanAnhDuc/web-game-duck-drift/actions/workflows/ci.yml/badge.svg)](https://github.com/LeVanAnhDuc/web-game-duck-drift/actions/workflows/ci.yml)
+[![Deploy](https://github.com/LeVanAnhDuc/web-game-duck-drift/actions/workflows/deploy.yml/badge.svg)](https://github.com/LeVanAnhDuc/web-game-duck-drift/actions/workflows/deploy.yml)
+[![Release](https://img.shields.io/github/v/release/LeVanAnhDuc/web-game-duck-drift?sort=semver)](https://github.com/LeVanAnhDuc/web-game-duck-drift/releases)
 
 An Asteroids clone built with Next.js and Canvas 2D. No account, no server, no
 analytics: it exports to static HTML and the whole game runs on the player's machine.
 Scores live in `localStorage`.
 
-**Play**: https://levananhduc.github.io/web-game-asteroids/
+**Play**: https://levananhduc.github.io/web-game-duck-drift/
 
-![Asteroids gameplay](docs/assets/screenshot.png)
+![Duck Drift gameplay](docs/assets/screenshot.png)
 
 Part of the `web-game/` folder in the `web-app-ecosystem` workspace.
 
@@ -116,7 +116,7 @@ rights — the workflow's own `GITHUB_TOKEN` can deploy to an existing Pages sit
 cannot create one:
 
 ```bash
-gh api -X POST repos/LeVanAnhDuc/web-game-asteroids/pages -f build_type=workflow
+gh api -X POST repos/LeVanAnhDuc/web-game-duck-drift/pages -f build_type=workflow
 ```
 
 If `configure-pages` fails with "Get Pages site failed", that command is the fix, not

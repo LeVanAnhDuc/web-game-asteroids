@@ -9,7 +9,7 @@
 
 ```mermaid
 graph LR
-  User[Người chơi] --> App[Asteroids web · trang tĩnh]
+  User[Người chơi] --> App[Duck Drift · trang tĩnh]
   App --> LS[(localStorage của trình duyệt)]
   Pages[GitHub Pages] -. phục vụ file tĩnh .-> App
 ```

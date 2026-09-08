@@ -6,7 +6,7 @@
 
 ---
 
-**Project:** Asteroids
+**Project:** Duck Drift
 **Generated:** 2026-09-04 09:34:07
 **Category:** Arcade & Retro Game
 

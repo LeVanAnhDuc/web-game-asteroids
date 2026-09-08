@@ -7,6 +7,18 @@
 
 ## Đang làm
 
+**Đổi thương hiệu sang `Duck Drift`** (2026-09-08). Repo GitHub đổi từ
+`web-game-asteroids` thành `web-game-duck-drift`; GitHub redirect URL *repo* cũ nhưng
+**không** redirect đường dẫn Pages cũ — địa chỉ chơi giờ là
+<https://levananhduc.github.io/web-game-duck-drift/>. **Thư mục local vẫn là**
+`web-game-asteroids` — thương hiệu đổi, đường dẫn không.
+
+Từ "asteroid" trong code **không** đổi: đó là tên *đối tượng trong game* (viên thiên
+thạch) — `integrateAsteroids`, `bulletsVsAsteroids`, `state.asteroids`. Chỉ hai chuỗi
+hiển thị đổi (`vi.meta.title`, `vi.menu.title`), và **4 assert e2e** đọc heading menu
+phải đổi theo, nếu không suite fail đúng ở chỗ nó bảo vệ. Khoá `localStorage`
+`asteroids.highscores.v1` **không** đổi: đổi là xoá bảng điểm của người đang chơi.
+
 Không có việc nào đang dở. CI/CD đã xong trên branch `feat/ci-cd-and-releases`: ba workflow (CI, deploy GitHub Pages, release tự động), e2e Playwright ở năm cấu hình, hai gate ngưỡng. Feature `asteroids-core` đã xong toàn bộ 10 task của `docs/specs/asteroids-core/plan.md` trên branch `feat/asteroids-core`: 151 test xanh, `typecheck`/`lint`/`build` sạch, bundle 117 kB. Việc còn lại đều là việc mới, nằm ở mục dưới.
 
 ## Việc tiếp theo

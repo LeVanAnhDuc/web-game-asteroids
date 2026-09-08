@@ -7,7 +7,7 @@
 
 ## 1. Một câu định vị
 
-Asteroids bản web: game bắn thiên thạch kiểu arcade cổ điển, thêm hệ power-up, chơi được ngay trong trình duyệt bằng bàn phím hoặc bằng ngón tay, không cài đặt và không đăng nhập.
+Duck Drift là Asteroids bản web: game bắn thiên thạch kiểu arcade cổ điển, thêm hệ power-up, chơi được ngay trong trình duyệt bằng bàn phím hoặc bằng ngón tay, không cài đặt và không đăng nhập.
 
 ## 2. Vấn đề đang giải
 
