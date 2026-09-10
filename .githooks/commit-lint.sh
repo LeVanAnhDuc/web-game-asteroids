@@ -62,7 +62,10 @@ groups() {
   ext=$(ext_file)
   {
     printf '%s\n' "$STANDARD_TYPES"
-    [ -f "$ext" ] && cat "$ext"
+    # `[ -f ] && cat` as the LAST command of the group would make the group exit 1
+    # whenever the extension file is absent - which is the common case - and
+    # `set -o pipefail` would then propagate that as the exit status of --groups.
+    if [ -f "$ext" ]; then cat "$ext"; fi
   } | awk '
     BEGIN { auto = 50 }
     {
