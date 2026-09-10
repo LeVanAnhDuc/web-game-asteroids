@@ -18,11 +18,12 @@ Part of the `web-game/` folder in the `web-app-ecosystem` workspace.
 
 - Classic Asteroids flight model: rotation, inertial thrust, friction and screen wrap on a fixed 1600×1200 world.
 - Asteroids split large → medium → small, scoring 20 / 50 / 100 per hit.
-- Endless waves that grow in size and speed, with two UFO types appearing from wave 3.
+- Endless waves that grow in size and speed, with two UFO types appearing from wave 3 on the default difficulty.
 - Five power-ups — shield, rapid fire, spread shot, piercing rounds and an extra life — where the three weapons share one slot.
 - Hyperspace on a 5-second cooldown, with no random self-destruct.
 - Keyboard controls on desktop and real hold-to-act touch controls on phones and tablets.
-- Local top-10 high scores with arcade-style three-letter initials, kept in the browser.
+- Three difficulty presets — easy, normal, hard — chosen on the menu, plus a custom mode with four sliders for lives, asteroid speed, power-up drop rate and the wave UFOs start on.
+- Local top-10 high scores with arcade-style three-letter initials, kept in the browser, one table per difficulty.
 - Respects `prefers-reduced-motion`, announces game events to screen readers, and encodes every power-up with a shape as well as a colour.
 
 ## Controls

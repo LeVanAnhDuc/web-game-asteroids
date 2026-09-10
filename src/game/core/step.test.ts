@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { createAsteroid } from './asteroids'
-import { EFFECTS, FIXED_DT, SCORING, UFO, WORLD_H, WORLD_W } from './constants'
+import { DIFFICULTY, EFFECTS, FIXED_DT, SCORING, UFO, WORLD_H, WORLD_W } from './constants'
 import { spawnBreakParticles } from './particles'
 import { step } from './step'
 import { spawnUfo } from './ufo'
-import type { GameState, InputState } from './types'
+import type { GameState, InputState, Tuning } from './types'
 import { freezeWaves, IDLE, input, newGame, run, steps } from './testkit'
 
 function immortalRun(seed: number): GameState {
@@ -161,6 +161,20 @@ describe('tái lập — NFR-ROB-04', () => {
     expect(a.rng.next()).toBe(b.rng.next())
     // Test chỉ có nghĩa nếu ván thật sự đã chạy chứ không đứng yên.
     expect(a.score + a.wave).toBeGreaterThan(1)
+  })
+
+  it('cùng seed VÀ cùng tuning thì cùng một trạng thái; đổi tuning thì khác', () => {
+    // Tuning nằm trong state (ADR-0010) nên một ván tái lập được từ seed + tuning
+    // + chuỗi input. Test này khoá lại phần "+ tuning".
+    const runWith = (tuning: Tuning) => {
+      const state = newGame(20260910, tuning)
+      const inp: InputState = { ...IDLE }
+      for (let i = 0; i < 1000; i++) step(state, scriptedInput(inp, i), FIXED_DT)
+      return snapshot(state)
+    }
+
+    expect(runWith(DIFFICULTY.hard)).toBe(runWith(DIFFICULTY.hard))
+    expect(runWith(DIFFICULTY.hard)).not.toBe(runWith(DIFFICULTY.easy))
   })
 
   it('seed khác cho ván khác', () => {

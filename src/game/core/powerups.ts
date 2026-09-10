@@ -29,7 +29,7 @@ export function pickKind(rng: Rng): PowerUpKind {
 /** Quay xúc xắc rơi power-up tại chỗ thiên thạch vừa vỡ. */
 export function rollDrop(state: GameState, x: number, y: number): void {
   if (state.powerUps.length >= POWERUP.maxOnScreen) return
-  if (state.rng.next() >= POWERUP.dropChance) return
+  if (state.rng.next() >= state.tuning.dropChance) return
 
   const angle = state.rng.range(0, TAU)
   state.powerUps.push({

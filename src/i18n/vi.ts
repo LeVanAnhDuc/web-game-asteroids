@@ -12,8 +12,30 @@ export const vi = {
     play: 'Chơi',
     highScores: 'Bảng điểm',
     help: 'Cách chơi',
+    custom: 'Tuỳ chỉnh',
     best: 'Điểm cao nhất',
+    bestOf: (name: string) => `Điểm cao nhất — ${name}`,
     noBest: 'Chưa có điểm nào',
+  },
+
+  difficulty: {
+    label: 'Độ khó',
+    easy: 'Dễ',
+    normal: 'Thường',
+    hard: 'Khó',
+    custom: 'Tuỳ chỉnh',
+  },
+
+  custom: {
+    title: 'TUỲ CHỈNH',
+    startLives: 'Số mạng',
+    asteroidSpeed: 'Tốc độ thiên thạch',
+    dropChance: 'Tỉ lệ rơi vật phẩm',
+    ufoFirstWave: 'UFO từ wave',
+    ufoOff: 'tắt',
+    notSaved: 'Ván tuỳ chỉnh không được ghi vào bảng điểm.',
+    play: 'Chơi',
+    back: 'Về menu',
   },
 
   hud: {
@@ -40,6 +62,7 @@ export const vi = {
     save: 'Lưu điểm',
     playAgain: 'Chơi lại',
     toMenu: 'Về menu',
+    customNoSave: 'Ván tuỳ chỉnh không ghi vào bảng điểm.',
   },
 
   highScores: {
@@ -51,6 +74,9 @@ export const vi = {
     wave: 'Wave',
     date: 'Ngày',
     clear: 'Xoá bảng điểm',
+    clearOf: (name: string) => `Xoá bảng ${name}`,
+    emptyOf: (name: string) => `Chưa có điểm nào ở mức ${name}. Chơi một ván đi.`,
+    tabsLabel: 'Bảng điểm theo mức',
     back: 'Quay lại',
     localOnly: 'Bảng điểm này chỉ lưu trên máy bạn.',
   },

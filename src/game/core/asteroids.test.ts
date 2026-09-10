@@ -124,9 +124,9 @@ describe('sinh wave — FR-06', () => {
   })
 
   it('hệ số tốc độ tăng 6% mỗi wave và dừng ở trần 1.8', () => {
-    expect(waveSpeedFactor(1)).toBe(1)
-    expect(waveSpeedFactor(2)).toBeCloseTo(1.06)
-    expect(waveSpeedFactor(11)).toBeCloseTo(1.6)
-    expect(waveSpeedFactor(50)).toBe(WAVE.maxSpeedFactor)
+    expect(waveSpeedFactor(1, 1)).toBe(1)
+    expect(waveSpeedFactor(2, 1)).toBeCloseTo(1.06)
+    expect(waveSpeedFactor(11, 1)).toBeCloseTo(1.6)
+    expect(waveSpeedFactor(50, 1)).toBe(WAVE.maxSpeedFactor)
   })
 })

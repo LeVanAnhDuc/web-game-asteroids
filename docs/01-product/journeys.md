@@ -2,7 +2,7 @@
 
 > **Trả lời:** Người dùng đi qua những luồng nào từ đầu đến cuối?
 > **Trạng thái:** 🟢 đủ
-> **Cập nhật:** 2026-09-04 · commit —
+> **Cập nhật:** 2026-09-10 · commit —
 > **Cập nhật khi:** có luồng người dùng mới · một luồng cũ đổi bản chất
 
 ## US-01 · Chơi ván đầu tiên
@@ -136,3 +136,52 @@
 - Bảng điểm trống ở lần chơi đầu: phải nói rõ chưa có điểm nào, không hiện một bảng rỗng không giải thích.
 
 **Chức năng liên quan:** FR-11 · FR-12
+
+---
+
+## US-07 · Chọn độ khó rồi chơi
+
+**Bối cảnh:** Người chơi đã chết vài lần ở độ khó mặc định và muốn dễ hơn, hoặc đã thắng dễ dàng và muốn khó hơn.
+
+**Các bước:**
+
+1. Ở màn hình chính, dãy ba mức Dễ · Thường · Khó nằm ngay trên nút Chơi, mức đang chọn được làm nổi.
+2. Bấm một mức khác. Dòng "Điểm cao nhất" bên dưới đổi theo, vì mỗi mức có bảng điểm riêng.
+3. Bấm Chơi. Ván bắt đầu ngay với số mạng, tốc độ thiên thạch, tỉ lệ rơi vật phẩm và thời điểm UFO xuất hiện của mức đó.
+4. Hết lượt, điểm được xét vào bảng của **mức vừa chơi**, không phải một bảng chung.
+5. Mở Bảng điểm: ba tab, mở sẵn tab của mức đang chọn.
+
+**Kết quả mong đợi:** Lựa chọn mức được nhớ cho lần mở trang sau. Điểm ở mức Dễ không bao giờ đứng chung hạng với điểm ở mức Khó.
+
+**Điều gì có thể sai:**
+
+- Bấm Chơi mà chưa từng chọn gì: phải vào mức Thường, đúng độ khó của game trước khi có tính năng này. Không được bắt chọn trước khi chơi.
+- Xoá bảng điểm ở tab Khó: chỉ bảng Khó mất, hai bảng kia còn nguyên. Nút xoá phải ghi rõ nó xoá bảng nào.
+- Bảng của một mức chưa có điểm nào: nói rõ chưa có điểm ở mức đó, và nút xoá biến mất hẳn.
+- `localStorage` bị chặn: vẫn chọn và chơi được mức bất kỳ, chỉ không nhớ lựa chọn sau khi tải lại trang.
+
+**Chức năng liên quan:** FR-20 · FR-22
+
+---
+
+## US-08 · Tự tinh chỉnh một ván
+
+**Bối cảnh:** Ba mức sẵn không đúng ý — muốn nhiều mạng nhưng thiên thạch vẫn nhanh, hoặc muốn tắt hẳn UFO.
+
+**Các bước:**
+
+1. Ở màn hình chính bấm Tuỳ chỉnh, sang màn riêng.
+2. Bốn thanh trượt: số mạng, tốc độ thiên thạch, tỉ lệ rơi vật phẩm, wave UFO xuất hiện. Kéo tới đâu số hiện ra tới đó.
+3. Kéo thanh UFO tới mốc cuối thì nó ghi "tắt" — ván sẽ không có UFO nào.
+4. Bấm Chơi. Ván chạy đúng bốn số đó.
+5. Hết lượt: màn Hết lượt hiện điểm và wave, **không** hỏi tên và **không** hiện thứ hạng.
+
+**Kết quả mong đợi:** Bốn số được nhớ cho lần sau, nên không phải kéo lại từ đầu mỗi ván. Người chơi hiểu ngay vì sao ván này không được ghi điểm — dòng cảnh báo nằm trên nút Chơi, đọc trước khi bấm.
+
+**Điều gì có thể sai:**
+
+- Hỏi tên rồi vứt điểm đi: tệ hơn không hỏi. Ván tuỳ chỉnh không hỏi.
+- Bốn số lưu trong máy bị sửa tay ra ngoài biên: kéo về biên gần nhất, không được ra một ván không chơi được hay làm trắng màn hình.
+- Đặt tốc độ 0.6× và 6 mạng rồi tưởng mình đang phá kỷ lục: dòng cảnh báo và việc không có thứ hạng phải nói rõ điều đó ngay tại màn Hết lượt.
+
+**Chức năng liên quan:** FR-21

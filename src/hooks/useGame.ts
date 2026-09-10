@@ -9,6 +9,7 @@ import {
   resetForNewGame,
   resumeGame,
   takeAnnouncement,
+  type NewGameOptions,
 } from '@/game/core/state'
 import type { GameState, HudSnapshot, InputState, Phase } from '@/game/core/types'
 import { createLoop, type Loop } from '@/game/loop'
@@ -17,7 +18,8 @@ import { attachKeyboard, createInput, resetInput } from '@/input/keyboard'
 import { createTouchInput, type TouchInput } from '@/input/touch'
 
 export interface GameActions {
-  start(): void
+  /** Bỏ trống thì chơi lại đúng mức và bộ núm của ván trước (ADR-0010). */
+  start(options?: NewGameOptions): void
   pause(): void
   resume(): void
   toMenu(): void
@@ -99,10 +101,10 @@ export function useGame(seed: number): UseGame {
     }
   }, [])
 
-  const start = useCallback(() => {
+  const start = useCallback((options?: NewGameOptions) => {
     const state = stateRef.current
     if (!state) return
-    resetForNewGame(state)
+    resetForNewGame(state, options ?? {})
     setHud(hudOf(state))
   }, [])
 

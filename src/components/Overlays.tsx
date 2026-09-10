@@ -32,6 +32,7 @@ export function GameOverOverlay({
   score,
   wave,
   rank,
+  canSave,
   onSubmit,
   onPlayAgain,
   onMenu,
@@ -40,6 +41,11 @@ export function GameOverOverlay({
   wave: number
   /** `null` nghĩa là không lọt top 10 — khi đó KHÔNG hỏi tên (US-02). */
   rank: number | null
+  /**
+   * `false` ở ván tuỳ chỉnh: ván đó không ghi bảng nào (FR-21). Hỏi tên rồi vứt
+   * điểm đi tệ hơn không hỏi, nên không hỏi, và cũng không hiện thứ hạng.
+   */
+  canSave: boolean
   onSubmit: (initials: string) => void
   onPlayAgain: () => void
   onMenu: () => void
@@ -60,10 +66,14 @@ export function GameOverOverlay({
         <div className="flex flex-col gap-2">
           <Stat label={vi.gameOver.score} value={formatScore(score)} />
           <Stat label={vi.gameOver.wave} value={wave} />
-          <Stat label={vi.gameOver.rank} value={rank === null ? vi.gameOver.noRank : `#${rank}`} />
+          {canSave ? (
+            <Stat label={vi.gameOver.rank} value={rank === null ? vi.gameOver.noRank : `#${rank}`} />
+          ) : (
+            <p className="text-xs leading-relaxed text-muted">{vi.gameOver.customNoSave}</p>
+          )}
         </div>
 
-        {rank !== null && !saved ? (
+        {canSave && rank !== null && !saved ? (
           <div className="flex flex-col gap-3">
             <InitialsInput value={initials} onChange={setInitials} label={vi.gameOver.enterName} />
             <Button variant="primary" onClick={save}>
@@ -73,7 +83,7 @@ export function GameOverOverlay({
         ) : null}
 
         <div className="flex flex-col gap-3">
-          <Button variant="primary" onClick={onPlayAgain} autoFocus={rank === null}>
+          <Button variant="primary" onClick={onPlayAgain} autoFocus={!canSave || rank === null}>
             {vi.gameOver.playAgain}
           </Button>
           <Button onClick={onMenu}>{vi.gameOver.toMenu}</Button>

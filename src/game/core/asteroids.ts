@@ -25,10 +25,17 @@ export function makeShape(rng: Rng): number[] {
   return shape
 }
 
-/** Wave càng cao thiên thạch càng nhanh, tới trần `WAVE.maxSpeedFactor`. */
-export function waveSpeedFactor(wave: number): number {
-  const factor = 1 + WAVE.speedStep * (wave - 1)
-  return factor > WAVE.maxSpeedFactor ? WAVE.maxSpeedFactor : factor
+/**
+ * Wave càng cao thiên thạch càng nhanh, tới trần `WAVE.maxSpeedFactor`; hệ số độ
+ * khó nhân lên TRÊN trần đó — design.md §4.
+ *
+ * Thứ tự này là chủ ý. Chặn trần sau khi nhân thì mức Khó và mức Thường hội tụ
+ * về cùng một tốc độ ở wave cao, tức là mức Khó tự biến mất đúng lúc nó cần có ý
+ * nghĩa nhất.
+ */
+export function waveSpeedFactor(wave: number, speedMul: number): number {
+  const ramp = 1 + WAVE.speedStep * (wave - 1)
+  return (ramp > WAVE.maxSpeedFactor ? WAVE.maxSpeedFactor : ramp) * speedMul
 }
 
 export function createAsteroid(
@@ -68,7 +75,7 @@ export function breakAsteroid(state: GameState, a: Asteroid, dropPowerUp: boolea
 
   const childSize = ASTEROID_CHILD[a.size]
   if (childSize !== null) {
-    const factor = waveSpeedFactor(state.wave)
+    const factor = waveSpeedFactor(state.wave, state.tuning.asteroidSpeed)
     for (let i = 0; i < ASTEROID.childCount; i++) {
       state.asteroids.push(createAsteroid(state, a.x, a.y, childSize, factor))
     }

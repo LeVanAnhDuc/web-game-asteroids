@@ -1,11 +1,29 @@
 // Kiểu dữ liệu của lõi game. Không import gì ngoài file này — bất biến #1.
 // Tên gọi khoá theo docs/01-product/glossary.md.
 
-export type Phase = 'menu' | 'playing' | 'paused' | 'gameover' | 'highscores' | 'help'
+export type Phase = 'menu' | 'playing' | 'paused' | 'gameover' | 'highscores' | 'help' | 'custom'
 
 export type AsteroidSize = 'large' | 'medium' | 'small'
 
 export type PowerUpKind = 'shield' | 'rapid' | 'spread' | 'pierce' | 'life'
+
+/** Ba mức dựng sẵn cộng một mức người chơi tự đặt — glossary.md. */
+export type DifficultyId = 'easy' | 'normal' | 'hard' | 'custom'
+
+/**
+ * Bốn số quyết định độ khó. Đặt một lần lúc bắt đầu ván rồi không đổi nữa —
+ * ADR-0010. Thêm núm thứ năm thì phải sửa ADR đó trước.
+ */
+export interface Tuning {
+  /** Mạng lúc bắt đầu ván. */
+  startLives: number
+  /** Nhân vào hệ số tốc độ thiên thạch của wave. 1 = như mức Thường. */
+  asteroidSpeed: number
+  /** Xác suất rơi power-up mỗi lần thiên thạch vỡ, 0..1. */
+  dropChance: number
+  /** Wave đầu tiên UFO xuất hiện. `UFO_NEVER` nghĩa là không bao giờ. */
+  ufoFirstWave: number
+}
 
 /** Ba loại chiếm khe vũ khí. `shield` và `life` không chiếm khe — ADR-0004. */
 export type WeaponKind = Extract<PowerUpKind, 'rapid' | 'spread' | 'pierce'>
@@ -79,6 +97,10 @@ export interface Particle extends Body {
 export interface GameState {
   phase: Phase
   rng: Rng
+  /** Mức của ván này. Màn Hết lượt đọc nó để biết có hỏi tên hay không. */
+  difficulty: DifficultyId
+  /** Bốn số cân bằng của ván này — ADR-0010. */
+  tuning: Tuning
   ship: Ship
   asteroids: Asteroid[]
   bullets: Bullet[]
@@ -118,6 +140,7 @@ export interface InputState {
 /** Bản rút gọn React nhận được. Chỉ chứa thứ HUD vẽ — bất biến #8. */
 export interface HudSnapshot {
   phase: Phase
+  difficulty: DifficultyId
   lives: number
   score: number
   wave: number

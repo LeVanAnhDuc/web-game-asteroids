@@ -1,6 +1,6 @@
 // UFO: hẹn giờ xuất hiện, chọn to/nhỏ theo điểm, đi ngang, đổi hướng, bắn (FR-07).
 
-import { COLOR, EFFECTS, UFO, WORLD_H, WORLD_W } from './constants'
+import { COLOR, EFFECTS, UFO, UFO_NEVER, WORLD_H, WORLD_W } from './constants'
 import { spawnUfoBullet } from './bullets'
 import { spawnBreakParticles } from './particles'
 import { addScore } from './score'
@@ -48,7 +48,10 @@ export function spawnUfo(state: GameState): void {
  * thì tới wave 10 màn hình chỉ còn đĩa bay.
  */
 export function updateUfos(state: GameState, dtMs: number): void {
-  if (state.wave >= UFO.firstWave && state.ufos.length === 0) {
+  // `UFO_NEVER` nghĩa là ván này không có UFO. Phải so sánh nó TRƯỚC điều kiện
+  // wave: đọc `wave >= 10` một mình sẽ hiểu ngược thành "từ wave 10 thì có".
+  const firstWave = state.tuning.ufoFirstWave
+  if (firstWave < UFO_NEVER && state.wave >= firstWave && state.ufos.length === 0) {
     state.ufoTimerMs -= dtMs
     if (state.ufoTimerMs <= 0) {
       spawnUfo(state)

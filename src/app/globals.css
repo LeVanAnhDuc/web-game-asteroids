@@ -78,6 +78,52 @@ body {
     linear-gradient(to top, rgba(242, 245, 249, 0.3) 12px, transparent 12px) bottom right / 1px 100% no-repeat;
 }
 
+/* Thanh trượt của màn Tuỳ chỉnh (FR-21).
+   Phải viết ở đây chứ không bằng utility class: các phần của <input type="range">
+   là pseudo-element riêng của từng engine, Tailwind không với tới được. Track mặc
+   định của trình duyệt là một dải xám SÁNG — trên nền #08090F nó thành thứ to
+   tiếng nhất màn hình, ngược hẳn "nét mảnh, không tô đặc" của MASTER.md §0.
+   Vùng chạm vẫn là 44px do chiều cao của chính input (NFR-A11Y-03); chỉ phần VẼ
+   mảnh đi. */
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+
+.range::-webkit-slider-runnable-track {
+  height: 2px;
+  border-radius: 1px;
+  background: var(--color-border);
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  /* (2px track − 20px thumb) / 2 — căn núm vào giữa đường ray. */
+  margin-top: -9px;
+  border-radius: 50%;
+  background: var(--color-foreground);
+  box-shadow: 0 0 8px rgba(79, 124, 255, 0.35);
+}
+
+.range::-moz-range-track {
+  height: 2px;
+  border-radius: 1px;
+  background: var(--color-border);
+}
+
+.range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-foreground);
+  box-shadow: 0 0 8px rgba(79, 124, 255, 0.35);
+}
+
 /* Focus luôn thấy được — NFR-A11Y-02 */
 :where(button, a, input, [tabindex]):focus-visible {
   outline: 2px solid var(--color-primary);
