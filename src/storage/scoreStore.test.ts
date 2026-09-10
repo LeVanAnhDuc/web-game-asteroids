@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { ScoreEntry } from '@/game/core/types'
-import { createLocalScoreStore, STORAGE_KEY } from './localScoreStore'
+import { createLocalScoreStore, SCORE_KEYS, STORAGE_KEY } from './localScoreStore'
 import { createMemoryScoreStore, isValidEntry, normalizeInitials, TOP_N } from './scoreStore'
 
 const entry = (score: number, at = 1_000_000, initials = 'ABC'): ScoreEntry => ({
@@ -9,6 +9,22 @@ const entry = (score: number, at = 1_000_000, initials = 'ABC'): ScoreEntry => (
   wave: 3,
   at,
 })
+
+/** Storage giả NHIỀU khoá — `fakeStorage` chỉ giữ một giá trị nên không dùng
+ *  được cho ba bảng độc lập. */
+function mapStorage(): Storage {
+  const map = new Map<string, string>()
+  return {
+    get length() {
+      return map.size
+    },
+    clear: () => map.clear(),
+    key: (i: number) => Array.from(map.keys())[i] ?? null,
+    getItem: (k: string) => map.get(k) ?? null,
+    setItem: (k: string, v: string) => void map.set(k, v),
+    removeItem: (k: string) => void map.delete(k),
+  } as Storage
+}
 
 /** Storage giả trong bộ nhớ; `failOn` cho phép bắt chước storage bị chặn. */
 function fakeStorage(initial?: string, failOn: 'none' | 'get' | 'set' | 'all' = 'none'): Storage {
@@ -143,5 +159,49 @@ describe('localScoreStore — NFR-ROB-02', () => {
     const store = createLocalScoreStore(fakeStorage())
     store.submit({ initials: 'zz', score: -5, wave: 1, at: 1 } as ScoreEntry)
     expect(store.top()).toEqual([])
+  })
+})
+
+describe('ba bảng độc lập — ADR-0011', () => {
+  it('khoá mức Thường vẫn là khoá cũ, không đổi', () => {
+    // Đổi khoá này là xoá bảng điểm của người đang chơi.
+    expect(SCORE_KEYS.normal).toBe('asteroids.highscores.v1')
+    expect(SCORE_KEYS.normal).toBe(STORAGE_KEY)
+  })
+
+  it('ba mức ba khoá khác nhau', () => {
+    expect(new Set([SCORE_KEYS.easy, SCORE_KEYS.normal, SCORE_KEYS.hard]).size).toBe(3)
+  })
+
+  it('ghi điểm ở một mức không đụng bảng của mức khác', () => {
+    const storage = mapStorage()
+    const easy = createLocalScoreStore(storage, SCORE_KEYS.easy)
+    const normal = createLocalScoreStore(storage, SCORE_KEYS.normal)
+
+    normal.submit(entry(9000))
+    easy.submit(entry(100))
+
+    expect(normal.top()).toHaveLength(1)
+    expect(normal.top()[0]!.score).toBe(9000)
+    expect(easy.top()).toHaveLength(1)
+    expect(easy.top()[0]!.score).toBe(100)
+  })
+
+  it('điểm thấp ở mức Khó vẫn là hạng 1 của bảng Khó', () => {
+    const storage = mapStorage()
+    createLocalScoreStore(storage, SCORE_KEYS.normal).submit(entry(50_000))
+    expect(createLocalScoreStore(storage, SCORE_KEYS.hard).rankOf(10)).toBe(1)
+  })
+
+  it('xoá một bảng không đụng hai bảng kia', () => {
+    const storage = mapStorage()
+    const easy = createLocalScoreStore(storage, SCORE_KEYS.easy)
+    const hard = createLocalScoreStore(storage, SCORE_KEYS.hard)
+    easy.submit(entry(100))
+    hard.submit(entry(200))
+
+    hard.clear()
+    expect(hard.top()).toHaveLength(0)
+    expect(easy.top()).toHaveLength(1)
   })
 })

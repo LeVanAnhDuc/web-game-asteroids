@@ -1,21 +1,33 @@
-import type { ScoreEntry } from '@/game/core/types'
+import type { DifficultyId, ScoreEntry } from '@/game/core/types'
 import { isValidEntry, rankIn, sortEntries, TOP_N, type ScoreStore } from './scoreStore'
 
 export const STORAGE_KEY = 'asteroids.highscores.v1'
+
+/**
+ * Một khoá cho mỗi mức, top 10 độc lập — ADR-0011.
+ *
+ * Mức Thường DÙNG LẠI khoá cũ, nên tên khoá không đối xứng: nó không có chữ
+ * `normal` trong tên. Đó là cái giá của việc không xoá điểm của ai cả.
+ */
+export const SCORE_KEYS: Record<Exclude<DifficultyId, 'custom'>, string> = {
+  easy: 'asteroids.highscores.easy.v1',
+  normal: STORAGE_KEY,
+  hard: 'asteroids.highscores.hard.v1',
+}
 
 /**
  * Bản localStorage. Mọi lời gọi đều bọc try/catch vì storage có thể bị chặn hoàn
  * toàn (chế độ riêng tư, cấu hình trình duyệt) — NFR-ROB-02: mất tính năng lưu
  * điểm là chấp nhận được, crash thì không.
  */
-export function createLocalScoreStore(storage?: Storage): ScoreStore {
+export function createLocalScoreStore(storage?: Storage, key: string = STORAGE_KEY): ScoreStore {
   const backing = storage ?? safeStorage()
 
   const read = (): ScoreEntry[] => {
     if (!backing) return []
     let raw: string | null
     try {
-      raw = backing.getItem(STORAGE_KEY)
+      raw = backing.getItem(key)
     } catch {
       return []
     }
@@ -37,7 +49,7 @@ export function createLocalScoreStore(storage?: Storage): ScoreStore {
   const write = (entries: ScoreEntry[]): void => {
     if (!backing) return
     try {
-      backing.setItem(STORAGE_KEY, JSON.stringify(entries))
+      backing.setItem(key, JSON.stringify(entries))
     } catch {
       // Hết dung lượng hoặc bị chặn. Ván này không lưu được, game vẫn chạy tiếp.
     }
@@ -53,7 +65,7 @@ export function createLocalScoreStore(storage?: Storage): ScoreStore {
     clear: () => {
       if (!backing) return
       try {
-        backing.removeItem(STORAGE_KEY)
+        backing.removeItem(key)
       } catch {
         // không làm gì được, và cũng không cần
       }
