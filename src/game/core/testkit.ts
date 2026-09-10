@@ -5,7 +5,7 @@
 import { FIXED_DT } from './constants'
 import { createGameState, resetForNewGame } from './state'
 import { step } from './step'
-import type { Bullet, GameState, InputState } from './types'
+import type { Bullet, GameState, InputState, Tuning } from './types'
 
 export const IDLE: InputState = { rotate: 0, thrust: false, fire: false, hyperspace: false }
 
@@ -14,9 +14,9 @@ export function input(over: Partial<InputState>): InputState {
 }
 
 /** Một ván đang chạy, chưa có wave nào — bước đầu tiên sẽ sinh wave 1. */
-export function newGame(seed: number): GameState {
+export function newGame(seed: number, tuning?: Tuning): GameState {
   const state = createGameState(seed)
-  resetForNewGame(state)
+  resetForNewGame(state, tuning === undefined ? {} : { tuning })
   return state
 }
 

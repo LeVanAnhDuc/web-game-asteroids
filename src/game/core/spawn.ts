@@ -21,7 +21,7 @@ export function spawnWave(state: GameState): void {
   state.wave += 1
 
   const count = waveAsteroidCount(state.wave)
-  const factor = waveSpeedFactor(state.wave)
+  const factor = waveSpeedFactor(state.wave, state.tuning.asteroidSpeed)
   const rng = state.rng
   // Chỉ wave đầu mới chừa chỗ quanh tàu: từ wave 2 người chơi đã ở giữa ván và
   // biết mình đang ở đâu, còn wave 1 thì thiên thạch hiện ra trước khi kịp nhìn.
