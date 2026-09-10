@@ -160,7 +160,7 @@ export function TuningSlider({
         value={value}
         aria-valuetext={valueText}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="h-11 w-full cursor-pointer accent-primary"
+        className="range h-11 w-full cursor-pointer"
       />
     </div>
   )
