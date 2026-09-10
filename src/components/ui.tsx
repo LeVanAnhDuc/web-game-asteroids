@@ -46,3 +46,107 @@ export function Stat({ label, value }: { label: string; value: ReactNode }) {
 }
 
 export const formatScore = (n: number) => new Intl.NumberFormat('vi-VN').format(n)
+
+/**
+ * Dãy lựa chọn dùng ở hai chỗ có HAI ngữ nghĩa khác nhau:
+ *
+ * - `group` (menu): nhóm nút bật/tắt — một lựa chọn để dùng SAU, khi bấm Chơi.
+ * - `tablist` (bảng điểm): tab thật — nó lọc ngay cái bảng ngay bên dưới.
+ *
+ * Cùng một hình, khác ngữ nghĩa, nên khác role. Đừng gộp thành một role duy nhất.
+ */
+export function Segmented<T extends string>({
+  options,
+  value,
+  onChange,
+  label,
+  variant = 'group',
+  controls,
+}: {
+  options: readonly { id: T; label: string }[]
+  value: T
+  onChange: (id: T) => void
+  label: string
+  variant?: 'group' | 'tablist'
+  controls?: string
+}) {
+  const tabs = variant === 'tablist'
+  return (
+    <div
+      role={tabs ? 'tablist' : 'group'}
+      aria-label={label}
+      className="grid grid-cols-3 gap-1 rounded-[10px] border border-hairline bg-surface p-1"
+    >
+      {options.map((option) => {
+        const on = option.id === value
+        return (
+          <button
+            key={option.id}
+            type="button"
+            role={tabs ? 'tab' : undefined}
+            aria-selected={tabs ? on : undefined}
+            aria-pressed={tabs ? undefined : on}
+            aria-controls={tabs ? controls : undefined}
+            onClick={() => onChange(option.id)}
+            // min-h-11 = 44px — NFR-A11Y-03
+            className={`min-h-11 cursor-pointer rounded-lg border text-sm font-medium tracking-wide transition-colors ${
+              on
+                ? 'border-primary/60 bg-primary/15 text-fg'
+                : 'border-transparent bg-transparent text-muted hover:text-fg'
+            }`}
+          >
+            {option.label}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+/**
+ * Một núm cân bằng. `valueText` là giá trị đọc được cho người ("1.0×", "8%",
+ * "tắt") và nó phải vào CẢ `aria-valuetext`: con số thô của thanh trượt nói sai —
+ * 10 ở núm UFO nghĩa là TẮT, không phải wave 10.
+ */
+export function TuningSlider({
+  id,
+  label,
+  value,
+  valueText,
+  min,
+  max,
+  step,
+  onChange,
+}: {
+  id: string
+  label: string
+  value: number
+  valueText: string
+  min: number
+  max: number
+  step: number
+  onChange: (value: number) => void
+}) {
+  return (
+    <div className="flex flex-col gap-1">
+      <div className="flex items-baseline justify-between gap-6">
+        <label htmlFor={id} className="text-xs uppercase tracking-widest text-muted">
+          {label}
+        </label>
+        <span className="font-mono text-lg tabular-nums text-accent">{valueText}</span>
+      </div>
+      {/* h-11 = 44px vùng bấm — NFR-A11Y-03. Thanh vẽ mảnh, vùng chạm thì không. */}
+      <input
+        id={id}
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        aria-valuetext={valueText}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="h-11 w-full cursor-pointer accent-primary"
+      />
+    </div>
+  )
+}
