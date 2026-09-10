@@ -4,7 +4,7 @@
 // Đơn vị: toạ độ là đơn vị thế giới (bất biến #4), thời gian là GIÂY trong tên
 // hằng số nhưng mọi đồng hồ trong state đếm bằng MS.
 
-import type { AsteroidSize, PowerUpKind } from './types'
+import type { AsteroidSize, DifficultyId, PowerUpKind, Tuning } from './types'
 
 /** Thế giới cố định 4:3 — ADR-0003. */
 export const WORLD_W = 1600
@@ -137,6 +137,36 @@ export const EFFECTS = {
   particleSpeedMax: 220,
   maxParticles: 240,
 } as const
+
+/**
+ * Giá trị cuối của núm `ufoFirstWave`: ván không có UFO nào. Đặt tên chứ không
+ * rải số 10 trong `ufo.ts` — số 10 ở đó đọc như "từ wave 10", nghĩa ngược lại.
+ */
+export const UFO_NEVER = 10
+
+/**
+ * Ba mức sẵn. `normal` PHẢI bằng đúng bộ hằng số ở trên: đó là điều kiện để
+ * bảng điểm cũ còn so sánh được với điểm mới (ADR-0011). Số của `easy` và `hard`
+ * là ước lượng trên giấy — backlog.md §Nợ kỹ thuật.
+ */
+export const DIFFICULTY: Record<Exclude<DifficultyId, 'custom'>, Tuning> = {
+  easy: { startLives: 5, asteroidSpeed: 0.75, dropChance: 0.16, ufoFirstWave: 6 },
+  normal: {
+    startLives: SCORING.startLives,
+    asteroidSpeed: 1,
+    dropChance: POWERUP.dropChance,
+    ufoFirstWave: UFO.firstWave,
+  },
+  hard: { startLives: 2, asteroidSpeed: 1.3, dropChance: 0.05, ufoFirstWave: 1 },
+}
+
+/** Biên của bốn thanh trượt ở chế độ Tuỳ chỉnh — design.md §3. */
+export const TUNING_LIMITS: Record<keyof Tuning, { min: number; max: number; step: number }> = {
+  startLives: { min: 1, max: 6, step: 1 },
+  asteroidSpeed: { min: 0.6, max: 1.6, step: 0.1 },
+  dropChance: { min: 0, max: 0.3, step: 0.01 },
+  ufoFirstWave: { min: 1, max: UFO_NEVER, step: 1 },
+}
 
 export const POWERUP_COLOR: Record<PowerUpKind, string> = {
   shield: '#22D3EE',

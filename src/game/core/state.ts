@@ -1,6 +1,13 @@
-import { SCORING, SHIP, WORLD_H, WORLD_W } from './constants'
+import { DIFFICULTY, SCORING, SHIP, WORLD_H, WORLD_W } from './constants'
 import { createRng } from './rng'
-import type { GameState, HudSnapshot, Ship } from './types'
+import type { DifficultyId, GameState, HudSnapshot, Ship, Tuning } from './types'
+
+/** Tuỳ chọn của một ván mới. Bỏ trống trường nào thì giữ nguyên trường đó. */
+export interface NewGameOptions {
+  seed?: number
+  difficulty?: DifficultyId
+  tuning?: Tuning
+}
 
 /** Tàu ở giữa thế giới, đứng yên, hướng lên, đang bất tử. */
 export function createShip(): Ship {
@@ -31,6 +38,8 @@ export function createGameState(seed: number): GameState {
   return {
     phase: 'menu',
     rng: createRng(seed),
+    difficulty: 'normal',
+    tuning: DIFFICULTY.normal,
     ship: createShip(),
     asteroids: [],
     bullets: [],
@@ -38,7 +47,7 @@ export function createGameState(seed: number): GameState {
     powerUps: [],
     particles: [],
     score: 0,
-    lives: SCORING.startLives,
+    lives: DIFFICULTY.normal.startLives,
     wave: 0,
     nextExtraLifeAt: SCORING.extraLifeEvery,
     shakeMs: 0,
@@ -51,8 +60,10 @@ export function createGameState(seed: number): GameState {
 }
 
 /** Đưa state về đầu một ván mới, giữ nguyên object để không phá tham chiếu. */
-export function resetForNewGame(state: GameState, seed?: number): void {
-  if (seed !== undefined) state.rng = createRng(seed)
+export function resetForNewGame(state: GameState, options: NewGameOptions = {}): void {
+  if (options.seed !== undefined) state.rng = createRng(options.seed)
+  if (options.difficulty !== undefined) state.difficulty = options.difficulty
+  if (options.tuning !== undefined) state.tuning = options.tuning
   state.phase = 'playing'
   state.ship = createShip()
   state.asteroids.length = 0
@@ -61,7 +72,7 @@ export function resetForNewGame(state: GameState, seed?: number): void {
   state.powerUps.length = 0
   state.particles.length = 0
   state.score = 0
-  state.lives = SCORING.startLives
+  state.lives = state.tuning.startLives
   state.wave = 0
   state.nextExtraLifeAt = SCORING.extraLifeEvery
   state.shakeMs = 0
@@ -97,6 +108,7 @@ export function takeAnnouncement(state: GameState): string | null {
 export function hudOf(state: GameState): HudSnapshot {
   return {
     phase: state.phase,
+    difficulty: state.difficulty,
     lives: state.lives,
     score: state.score,
     wave: state.wave,
@@ -111,6 +123,7 @@ export function hudOf(state: GameState): HudSnapshot {
 export function hudEquals(a: HudSnapshot, b: HudSnapshot): boolean {
   return (
     a.phase === b.phase &&
+    a.difficulty === b.difficulty &&
     a.lives === b.lives &&
     a.score === b.score &&
     a.wave === b.wave &&
