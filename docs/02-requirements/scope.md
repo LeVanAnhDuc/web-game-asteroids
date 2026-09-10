@@ -26,6 +26,6 @@
 | FR-17 | Canvas scale-to-fit, bố cục đổi theo 375 / 768 / 1440                           | US-03                 | xong       |
 | FR-18 | Hiệu ứng vỡ: particle, glow, rung màn khi mất mạng                              | US-01                 | xong       |
 | FR-19 | Trạng thái game công bố qua `aria-live` cho trình đọc màn hình                  | US-01                 | xong       |
-| FR-20 | Ba mức độ khó sẵn (Dễ · Thường · Khó) đặt bốn núm cân bằng, chọn ngay ở menu | US-07 | đang làm |
-| FR-21 | Chế độ Tuỳ chỉnh: màn riêng, bốn thanh trượt, ván không ghi bảng điểm | US-08 | đang làm |
-| FR-22 | Bảng điểm tách theo mức: ba khoá riêng, ba tab, xoá theo tab đang mở | US-06 · US-07 | đang làm |
+| FR-20 | Ba mức độ khó sẵn (Dễ · Thường · Khó) đặt bốn núm cân bằng, chọn ngay ở menu    | US-07                 | xong       |
+| FR-21 | Chế độ Tuỳ chỉnh: màn riêng, bốn thanh trượt, ván không ghi bảng điểm           | US-08                 | xong       |
+| FR-22 | Bảng điểm tách theo mức: ba khoá riêng, ba tab, xoá theo tab đang mở            | US-06 · US-07         | xong       |

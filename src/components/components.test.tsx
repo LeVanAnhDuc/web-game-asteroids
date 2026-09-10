@@ -213,7 +213,18 @@ describe('TuningSlider — FR-21 · NFR-A11Y-03', () => {
 
   it('kéo thanh trượt gọi onChange với SỐ, không phải chuỗi', () => {
     const onChange = vitestVi.fn()
-    render(<TuningSlider id="lives" label="Số mạng" value={3} valueText="3" min={1} max={6} step={1} onChange={onChange} />)
+    render(
+      <TuningSlider
+        id="lives"
+        label="Số mạng"
+        value={3}
+        valueText="3"
+        min={1}
+        max={6}
+        step={1}
+        onChange={onChange}
+      />,
+    )
     fireEvent.change(screen.getByRole('slider'), { target: { value: '5' } })
     expect(onChange).toHaveBeenCalledWith(5)
   })
@@ -355,7 +366,15 @@ describe('màn Hết lượt ở ván tuỳ chỉnh — FR-21', () => {
 
   it('ván mức sẵn thì vẫn hỏi tên như trước', () => {
     render(
-      <GameOverOverlay score={5000} wave={4} rank={1} canSave onSubmit={noop} onPlayAgain={noop} onMenu={noop} />,
+      <GameOverOverlay
+        score={5000}
+        wave={4}
+        rank={1}
+        canSave
+        onSubmit={noop}
+        onPlayAgain={noop}
+        onMenu={noop}
+      />,
     )
     expect(screen.getByRole('button', { name: strings.gameOver.save })).toBeTruthy()
   })

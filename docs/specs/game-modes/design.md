@@ -47,11 +47,11 @@ interface HudSnapshot {
 
 `constants.ts` giữ `DIFFICULTY: Record<'easy' | 'normal' | 'hard', Tuning>`:
 
-| Mức     | `startLives` | `asteroidSpeed` | `dropChance` | `ufoFirstWave` |
-| ------- | ------------ | --------------- | ------------ | -------------- |
-| Dễ      | 5            | 0.75            | 0.16         | 6              |
-| Thường  | 3            | 1.0             | 0.08         | 3              |
-| Khó     | 2            | 1.3             | 0.05         | 1              |
+| Mức    | `startLives` | `asteroidSpeed` | `dropChance` | `ufoFirstWave` |
+| ------ | ------------ | --------------- | ------------ | -------------- |
+| Dễ     | 5            | 0.75            | 0.16         | 6              |
+| Thường | 3            | 1.0             | 0.08         | 3              |
+| Khó    | 2            | 1.3             | 0.05         | 1              |
 
 **Mức Thường bằng đúng game hiện tại** — đó là điều kiện để bảng điểm cũ (`asteroids.highscores.v1`) còn so sánh được với điểm mới. Test phải khoá điều này lại, không phải tin vào việc đọc bảng.
 
@@ -61,12 +61,12 @@ Số của Dễ và Khó là ước lượng trên giấy, cùng loại nợ v�
 
 Bốn thanh trượt, biên và bước:
 
-| Núm             | Biên        | Bước | Mặc định | Hiện ra |
-| --------------- | ----------- | ---- | -------- | ------- |
-| `startLives`    | 1 … 6       | 1    | 3        | `3`     |
-| `asteroidSpeed` | 0.6 … 1.6   | 0.1  | 1.0      | `1.0×`  |
-| `dropChance`    | 0 … 0.30    | 0.01 | 0.08     | `8%`    |
-| `ufoFirstWave`  | 1 … 10      | 1    | 3        | `3` · `tắt` ở mốc 10 |
+| Núm             | Biên      | Bước | Mặc định | Hiện ra              |
+| --------------- | --------- | ---- | -------- | -------------------- |
+| `startLives`    | 1 … 6     | 1    | 3        | `3`                  |
+| `asteroidSpeed` | 0.6 … 1.6 | 0.1  | 1.0      | `1.0×`               |
+| `dropChance`    | 0 … 0.30  | 0.01 | 0.08     | `8%`                 |
+| `ufoFirstWave`  | 1 … 10    | 1    | 3        | `3` · `tắt` ở mốc 10 |
 
 `UFO_NEVER = 10` là hằng số có tên, không phải số 10 rải trong `ufo.ts`. Điều kiện sinh UFO thành:
 
@@ -82,12 +82,12 @@ Ván Tuỳ chỉnh **không ghi bảng điểm và không hỏi tên**. Đây l�
 
 Chỉ bốn chỗ, mỗi chỗ một dòng. Không chỗ nào khác được đọc `state.tuning`.
 
-| Núm             | File                | Hàm                | Đang đọc              |
-| --------------- | ------------------- | ------------------ | --------------------- |
+| Núm             | File                | Hàm                                   | Đang đọc             |
+| --------------- | ------------------- | ------------------------------------- | -------------------- |
 | `startLives`    | `core/state.ts`     | `createGameState` · `resetForNewGame` | `SCORING.startLives` |
-| `asteroidSpeed` | `core/asteroids.ts` | `waveSpeedFactor`  | `WAVE.speedStep`      |
-| `dropChance`    | `core/powerups.ts`  | `rollDrop`         | `POWERUP.dropChance`  |
-| `ufoFirstWave`  | `core/ufo.ts`       | `updateUfos`       | `UFO.firstWave`       |
+| `asteroidSpeed` | `core/asteroids.ts` | `waveSpeedFactor`                     | `WAVE.speedStep`     |
+| `dropChance`    | `core/powerups.ts`  | `rollDrop`                            | `POWERUP.dropChance` |
+| `ufoFirstWave`  | `core/ufo.ts`       | `updateUfos`                          | `UFO.firstWave`      |
 
 `waveSpeedFactor` nhận thêm tham số thứ hai và **chặn trần trước, nhân hệ số sau**:
 
@@ -98,7 +98,7 @@ export function waveSpeedFactor(wave: number, speedMul: number): number {
 }
 ```
 
-Thứ tự này là chủ ý: trần `maxSpeedFactor` giới hạn phần *tăng theo wave*, còn hệ số độ khó nhân lên trên đó — nên mức Khó ở wave cao đạt 1.8 × 1.3 = 2.34, vẫn khó hơn Thường. Nếu chặn trần sau khi nhân thì Khó và Thường **hội tụ về cùng một tốc độ** ở wave cao, tức là mức Khó tự biến mất đúng lúc nó cần có ý nghĩa nhất.
+Thứ tự này là chủ ý: trần `maxSpeedFactor` giới hạn phần _tăng theo wave_, còn hệ số độ khó nhân lên trên đó — nên mức Khó ở wave cao đạt 1.8 × 1.3 = 2.34, vẫn khó hơn Thường. Nếu chặn trần sau khi nhân thì Khó và Thường **hội tụ về cùng một tốc độ** ở wave cao, tức là mức Khó tự biến mất đúng lúc nó cần có ý nghĩa nhất.
 
 `SCORING.startLives`, `POWERUP.dropChance`, `UFO.firstWave` và `WAVE.speedStep` vẫn ở lại `constants.ts` — chúng là giá trị của mức Thường và là nơi `DIFFICULTY.normal` lấy số từ đó, không phải hằng số chết.
 
@@ -106,13 +106,13 @@ Thứ tự này là chủ ý: trần `maxSpeedFactor` giới hạn phần *tăng
 
 Năm khoá `localStorage`, tất cả giữ tiền tố `asteroids.` đang có:
 
-| Khoá                            | Giữ gì                    | Ghi chú                                        |
-| ------------------------------- | ------------------------- | ---------------------------------------------- |
-| `asteroids.highscores.v1`       | top 10 mức **Thường**     | **Không đổi** — đổi là xoá điểm người đang chơi |
-| `asteroids.highscores.easy.v1`  | top 10 mức Dễ             | mới                                            |
-| `asteroids.highscores.hard.v1`  | top 10 mức Khó            | mới                                            |
-| `asteroids.difficulty.v1`       | mức đang chọn ở menu      | mới                                            |
-| `asteroids.tuning.v1`           | bốn số của Tuỳ chỉnh      | mới                                            |
+| Khoá                           | Giữ gì                | Ghi chú                                         |
+| ------------------------------ | --------------------- | ----------------------------------------------- |
+| `asteroids.highscores.v1`      | top 10 mức **Thường** | **Không đổi** — đổi là xoá điểm người đang chơi |
+| `asteroids.highscores.easy.v1` | top 10 mức Dễ         | mới                                             |
+| `asteroids.highscores.hard.v1` | top 10 mức Khó        | mới                                             |
+| `asteroids.difficulty.v1`      | mức đang chọn ở menu  | mới                                             |
+| `asteroids.tuning.v1`          | bốn số của Tuỳ chỉnh  | mới                                             |
 
 Ba khoá điểm độc lập, mỗi khoá top 10 riêng — ADR-0011. `isValidEntry`, `rankIn`, `sortEntries` và interface `ScoreStore` (ADR-0006) **không đổi một dòng**; `createLocalScoreStore` chỉ nhận thêm tham số khoá.
 

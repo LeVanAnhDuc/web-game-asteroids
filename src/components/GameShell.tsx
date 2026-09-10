@@ -28,10 +28,7 @@ export function GameShell() {
   const { canvasRef, hud, announce, touch, actions } = useGame(20260904)
 
   const settings = useMemo(() => createSettingsStore(), [])
-  const storeOf = useCallback(
-    (id: PresetId) => createLocalScoreStore(undefined, SCORE_KEYS[id]),
-    [],
-  )
+  const storeOf = useCallback((id: PresetId) => createLocalScoreStore(undefined, SCORE_KEYS[id]), [])
 
   /** Mức sẽ chơi khi bấm Chơi ở menu. */
   const [preset, setPreset] = useState<PresetId>('normal')

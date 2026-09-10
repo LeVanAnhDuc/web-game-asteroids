@@ -37,12 +37,7 @@ export function MenuScreen({
       <div className="flex w-full max-w-xs flex-col gap-3">
         {/* Dãy mức ngay trên nút Chơi: bấm Chơi là vào ván, không thêm cú bấm
             nào cho người không quan tâm — overview.md §4, Non-Goal đầu tiên. */}
-        <Segmented
-          options={PRESETS}
-          value={difficulty}
-          onChange={onDifficulty}
-          label={vi.difficulty.label}
-        />
+        <Segmented options={PRESETS} value={difficulty} onChange={onDifficulty} label={vi.difficulty.label} />
         <Button variant="primary" onClick={onPlay} autoFocus>
           {vi.menu.play}
         </Button>
@@ -55,7 +50,9 @@ export function MenuScreen({
       </div>
 
       <p className="font-mono text-xs uppercase tracking-widest text-muted">
-        {best === null ? vi.menu.noBest : `${vi.menu.bestOf(vi.difficulty[difficulty])}  ${formatScore(best)}`}
+        {best === null
+          ? vi.menu.noBest
+          : `${vi.menu.bestOf(vi.difficulty[difficulty])}  ${formatScore(best)}`}
       </p>
     </div>
   )

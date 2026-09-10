@@ -185,4 +185,3 @@
 - Đặt tốc độ 0.6× và 6 mạng rồi tưởng mình đang phá kỷ lục: dòng cảnh báo và việc không có thứ hạng phải nói rõ điều đó ngay tại màn Hết lượt.
 
 **Chức năng liên quan:** FR-21
-

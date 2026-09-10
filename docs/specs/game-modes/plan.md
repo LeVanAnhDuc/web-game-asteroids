@@ -28,25 +28,25 @@
 
 ## Cấu trúc file
 
-| File | Trách nhiệm | Task |
-| --- | --- | --- |
-| `src/game/core/types.ts` | thêm `DifficultyId`, `Tuning`, hai trường của `GameState`, một trường của `HudSnapshot`, `'custom'` vào `Phase` | 1 |
-| `src/game/core/constants.ts` | thêm `UFO_NEVER`, `DIFFICULTY`, `TUNING_LIMITS` | 1 |
-| `src/game/core/state.ts` | `createGameState` mặc định mức Thường · `resetForNewGame(state, options)` · `hudOf`/`hudEquals` | 1 |
-| `src/game/core/asteroids.ts` | `waveSpeedFactor(wave, speedMul)` | 2 |
-| `src/game/core/spawn.ts` · `powerups.ts` · `ufo.ts` | ba chỗ đọc `state.tuning` còn lại | 2 |
-| `src/game/core/testkit.ts` | `newGame(seed, tuning?)` | 2 |
-| `src/storage/localScoreStore.ts` | `SCORE_KEYS` + tham số khoá | 3 |
-| `src/storage/settingsStore.ts` | **mới** — đọc/ghi mức đang chọn và bốn số Tuỳ chỉnh, có clamp | 4 |
-| `src/i18n/vi.ts` | chuỗi của ba màn mới | 5 |
-| `src/components/ui.tsx` | **mới trong file cũ** — `Segmented`, `TuningSlider` | 5 |
-| `src/components/MenuScreen.tsx` | dãy ba mức + nút Tuỳ chỉnh | 6 |
-| `src/components/CustomScreen.tsx` | **mới** — màn bốn thanh trượt | 6 |
-| `src/components/HighScoresScreen.tsx` | ba tab, xoá theo tab, trạng thái trống theo mức | 7 |
-| `src/components/Overlays.tsx` | màn Hết lượt không hỏi tên ở ván tuỳ chỉnh | 8 |
-| `src/hooks/useGame.ts` | `start(options)` | 8 |
-| `src/components/GameShell.tsx` | nối dây: ba store điểm, settings store, pha `'custom'` | 8 |
-| `e2e/game.spec.ts` · `e2e/modes.spec.ts` | E2E | 9 |
+| File                                                | Trách nhiệm                                                                                                     | Task |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ---- |
+| `src/game/core/types.ts`                            | thêm `DifficultyId`, `Tuning`, hai trường của `GameState`, một trường của `HudSnapshot`, `'custom'` vào `Phase` | 1    |
+| `src/game/core/constants.ts`                        | thêm `UFO_NEVER`, `DIFFICULTY`, `TUNING_LIMITS`                                                                 | 1    |
+| `src/game/core/state.ts`                            | `createGameState` mặc định mức Thường · `resetForNewGame(state, options)` · `hudOf`/`hudEquals`                 | 1    |
+| `src/game/core/asteroids.ts`                        | `waveSpeedFactor(wave, speedMul)`                                                                               | 2    |
+| `src/game/core/spawn.ts` · `powerups.ts` · `ufo.ts` | ba chỗ đọc `state.tuning` còn lại                                                                               | 2    |
+| `src/game/core/testkit.ts`                          | `newGame(seed, tuning?)`                                                                                        | 2    |
+| `src/storage/localScoreStore.ts`                    | `SCORE_KEYS` + tham số khoá                                                                                     | 3    |
+| `src/storage/settingsStore.ts`                      | **mới** — đọc/ghi mức đang chọn và bốn số Tuỳ chỉnh, có clamp                                                   | 4    |
+| `src/i18n/vi.ts`                                    | chuỗi của ba màn mới                                                                                            | 5    |
+| `src/components/ui.tsx`                             | **mới trong file cũ** — `Segmented`, `TuningSlider`                                                             | 5    |
+| `src/components/MenuScreen.tsx`                     | dãy ba mức + nút Tuỳ chỉnh                                                                                      | 6    |
+| `src/components/CustomScreen.tsx`                   | **mới** — màn bốn thanh trượt                                                                                   | 6    |
+| `src/components/HighScoresScreen.tsx`               | ba tab, xoá theo tab, trạng thái trống theo mức                                                                 | 7    |
+| `src/components/Overlays.tsx`                       | màn Hết lượt không hỏi tên ở ván tuỳ chỉnh                                                                      | 8    |
+| `src/hooks/useGame.ts`                              | `start(options)`                                                                                                | 8    |
+| `src/components/GameShell.tsx`                      | nối dây: ba store điểm, settings store, pha `'custom'`                                                          | 8    |
+| `e2e/game.spec.ts` · `e2e/modes.spec.ts`            | E2E                                                                                                             | 9    |
 
 ---
 
@@ -181,16 +181,16 @@ export interface Tuning {
 Trong `interface GameState`, thêm ngay dưới `rng`:
 
 ```ts
-  /** Mức của ván này. Màn Hết lượt đọc nó để biết có hỏi tên hay không. */
-  difficulty: DifficultyId
-  /** Bốn số cân bằng của ván này — ADR-0010. */
-  tuning: Tuning
+/** Mức của ván này. Màn Hết lượt đọc nó để biết có hỏi tên hay không. */
+difficulty: DifficultyId
+/** Bốn số cân bằng của ván này — ADR-0010. */
+tuning: Tuning
 ```
 
 Trong `interface HudSnapshot`, thêm dưới `phase`:
 
 ```ts
-  difficulty: DifficultyId
+difficulty: DifficultyId
 ```
 
 - [ ] **Bước 4: Thêm hằng số vào `constants.ts`**
@@ -392,17 +392,17 @@ describe('bốn núm thật sự đổi hành vi — FR-20', () => {
 Thêm vào `describe('tái lập — NFR-ROB-04')` trong `src/game/core/step.test.ts`:
 
 ```ts
-  it('cùng seed VÀ cùng tuning thì cùng một trạng thái; đổi tuning thì khác', () => {
-    const runWith = (tuning: Tuning) => {
-      const state = newGame(20260910, tuning)
-      const inp: InputState = { ...IDLE }
-      for (let i = 0; i < 1000; i++) step(state, scriptedInput(inp, i), FIXED_DT)
-      return snapshot(state)
-    }
+it('cùng seed VÀ cùng tuning thì cùng một trạng thái; đổi tuning thì khác', () => {
+  const runWith = (tuning: Tuning) => {
+    const state = newGame(20260910, tuning)
+    const inp: InputState = { ...IDLE }
+    for (let i = 0; i < 1000; i++) step(state, scriptedInput(inp, i), FIXED_DT)
+    return snapshot(state)
+  }
 
-    expect(runWith(DIFFICULTY.hard)).toBe(runWith(DIFFICULTY.hard))
-    expect(runWith(DIFFICULTY.hard)).not.toBe(runWith(DIFFICULTY.easy))
-  })
+  expect(runWith(DIFFICULTY.hard)).toBe(runWith(DIFFICULTY.hard))
+  expect(runWith(DIFFICULTY.hard)).not.toBe(runWith(DIFFICULTY.easy))
+})
 ```
 
 (thêm `DIFFICULTY` và `Tuning` vào import của file đó)
@@ -428,7 +428,7 @@ export function waveSpeedFactor(wave: number, speedMul: number): number {
 Trong `breakAsteroid`, dòng 71:
 
 ```ts
-    const factor = waveSpeedFactor(state.wave, state.tuning.asteroidSpeed)
+const factor = waveSpeedFactor(state.wave, state.tuning.asteroidSpeed)
 ```
 
 - [ ] **Bước 4: Sửa ba file lõi còn lại**
@@ -436,13 +436,13 @@ Trong `breakAsteroid`, dòng 71:
 `spawn.ts:24`:
 
 ```ts
-  const factor = waveSpeedFactor(state.wave, state.tuning.asteroidSpeed)
+const factor = waveSpeedFactor(state.wave, state.tuning.asteroidSpeed)
 ```
 
 `powerups.ts:32`:
 
 ```ts
-  if (state.rng.next() >= state.tuning.dropChance) return
+if (state.rng.next() >= state.tuning.dropChance) return
 ```
 
 (bỏ `dropChance` khỏi chỗ dùng nhưng **giữ** import `POWERUP` — còn dùng cho `maxOnScreen`, `lifeMs`, `radius`, `driftSpeed`.)
@@ -474,10 +474,10 @@ export function newGame(seed: number, tuning?: Tuning): GameState {
 `src/game/core/asteroids.test.ts:127-130` — thêm hệ số 1 cho mọi lời gọi:
 
 ```ts
-    expect(waveSpeedFactor(1, 1)).toBe(1)
-    expect(waveSpeedFactor(2, 1)).toBeCloseTo(1.06)
-    expect(waveSpeedFactor(11, 1)).toBeCloseTo(1.6)
-    expect(waveSpeedFactor(50, 1)).toBe(WAVE.maxSpeedFactor)
+expect(waveSpeedFactor(1, 1)).toBe(1)
+expect(waveSpeedFactor(2, 1)).toBeCloseTo(1.06)
+expect(waveSpeedFactor(11, 1)).toBeCloseTo(1.6)
+expect(waveSpeedFactor(50, 1)).toBe(WAVE.maxSpeedFactor)
 ```
 
 - [ ] **Bước 7: Chạy toàn bộ test**
@@ -729,7 +729,12 @@ describe('bốn số Tuỳ chỉnh — FR-21', () => {
   })
 
   it('NaN và Infinity không lọt qua', () => {
-    const t = clampTuning({ startLives: NaN, asteroidSpeed: Infinity, dropChance: -Infinity, ufoFirstWave: NaN })
+    const t = clampTuning({
+      startLives: NaN,
+      asteroidSpeed: Infinity,
+      dropChance: -Infinity,
+      ufoFirstWave: NaN,
+    })
     expect(t).toEqual(DIFFICULTY.normal)
   })
 
@@ -771,7 +776,8 @@ const IDS: readonly DifficultyId[] = ['easy', 'normal', 'hard', 'custom']
  * không phải ra một ván không chơi được, và cũng không được reset ba núm kia.
  */
 export function clampTuning(raw: unknown): Tuning {
-  const source = typeof raw === 'object' && raw !== null && !Array.isArray(raw) ? (raw as Record<string, unknown>) : {}
+  const source =
+    typeof raw === 'object' && raw !== null && !Array.isArray(raw) ? (raw as Record<string, unknown>) : {}
   const out = { ...DIFFICULTY.normal }
   for (const key of Object.keys(out) as (keyof Tuning)[]) {
     const value = source[key]
@@ -898,7 +904,14 @@ describe('Segmented — FR-20', () => {
 
   it('ở bảng điểm là tab thật, không phải nút bật/tắt', () => {
     render(
-      <Segmented options={options} value="easy" onChange={() => {}} label="Bảng điểm" variant="tablist" controls="p" />,
+      <Segmented
+        options={options}
+        value="easy"
+        onChange={() => {}}
+        label="Bảng điểm"
+        variant="tablist"
+        controls="p"
+      />,
     )
     expect(screen.getByRole('tablist')).toBeTruthy()
     expect(screen.getByRole('tab', { selected: true })).toHaveTextContent('Dễ')
@@ -918,7 +931,16 @@ describe('TuningSlider — FR-21 · NFR-A11Y-03', () => {
     // `valueText` nằm ở <span> bên cạnh nên AT không thấy. Không có
     // aria-valuetext thì thanh UFO đọc là "10" — mà 10 nghĩa là TẮT.
     render(
-      <TuningSlider id="ufo" label="UFO từ wave" value={10} valueText="tắt" min={1} max={10} step={1} onChange={() => {}} />,
+      <TuningSlider
+        id="ufo"
+        label="UFO từ wave"
+        value={10}
+        valueText="tắt"
+        min={1}
+        max={10}
+        step={1}
+        onChange={() => {}}
+      />,
     )
     const slider = screen.getByRole('slider', { name: 'UFO từ wave' })
     expect(slider).toHaveAttribute('aria-valuetext', 'tắt')
@@ -927,7 +949,16 @@ describe('TuningSlider — FR-21 · NFR-A11Y-03', () => {
 
   it('nhãn trỏ đúng vào thanh trượt', () => {
     render(
-      <TuningSlider id="lives" label="Số mạng" value={3} valueText="3" min={1} max={6} step={1} onChange={() => {}} />,
+      <TuningSlider
+        id="lives"
+        label="Số mạng"
+        value={3}
+        valueText="3"
+        min={1}
+        max={6}
+        step={1}
+        onChange={() => {}}
+      />,
     )
     expect(screen.getByLabelText('Số mạng')).toHaveAttribute('id', 'lives')
   })
@@ -935,7 +966,16 @@ describe('TuningSlider — FR-21 · NFR-A11Y-03', () => {
   it('kéo thanh trượt gọi onChange với số, không phải chuỗi', () => {
     const onChange = vitestVi.fn()
     render(
-      <TuningSlider id="lives" label="Số mạng" value={3} valueText="3" min={1} max={6} step={1} onChange={onChange} />,
+      <TuningSlider
+        id="lives"
+        label="Số mạng"
+        value={3}
+        valueText="3"
+        min={1}
+        max={6}
+        step={1}
+        onChange={onChange}
+      />,
     )
     fireEvent.change(screen.getByRole('slider'), { target: { value: '5' } })
     expect(onChange).toHaveBeenCalledWith(5)
@@ -1144,7 +1184,10 @@ describe('MenuScreen — FR-20', () => {
         onCustom={noop}
       />,
     )
-    expect(screen.getByRole('button', { name: strings.difficulty.hard })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: strings.difficulty.hard })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
   })
 
   it('có nút Tuỳ chỉnh, và nó KHÔNG nằm trong dãy ba mức', () => {
@@ -1208,13 +1251,18 @@ describe('CustomScreen — FR-21', () => {
 
   it('tỉ lệ rơi hiện theo phần trăm, không phải 0.08', () => {
     render(<CustomScreen tuning={DIFFICULTY.normal} onChange={noop} onPlay={noop} onBack={noop} />)
-    expect(screen.getByRole('slider', { name: strings.custom.dropChance })).toHaveAttribute('aria-valuetext', '8%')
+    expect(screen.getByRole('slider', { name: strings.custom.dropChance })).toHaveAttribute(
+      'aria-valuetext',
+      '8%',
+    )
   })
 
   it('kéo một núm gọi onChange với cả bốn số, núm kia không đổi', () => {
     const onChange = vitestVi.fn()
     render(<CustomScreen tuning={DIFFICULTY.normal} onChange={onChange} onPlay={noop} onBack={noop} />)
-    fireEvent.change(screen.getByRole('slider', { name: strings.custom.startLives }), { target: { value: '6' } })
+    fireEvent.change(screen.getByRole('slider', { name: strings.custom.startLives }), {
+      target: { value: '6' },
+    })
     expect(onChange).toHaveBeenCalledWith({ ...DIFFICULTY.normal, startLives: 6 })
   })
 })
@@ -1402,7 +1450,9 @@ describe('bảng điểm ba tab — FR-22', () => {
 
   it('nút xoá ghi rõ nó xoá bảng nào — nó chỉ xoá tab đang mở', () => {
     render(<HighScoresScreen entries={rows} difficulty="easy" onDifficulty={noop} {...props} />)
-    expect(screen.getByRole('button', { name: strings.highScores.clearOf(strings.difficulty.easy) })).toBeTruthy()
+    expect(
+      screen.getByRole('button', { name: strings.highScores.clearOf(strings.difficulty.easy) }),
+    ).toBeTruthy()
   })
 
   it('bảng trống thì nói rõ mức nào trống, và nút xoá biến mất hẳn', () => {
@@ -1452,14 +1502,14 @@ export function HighScoresScreen({
 Ngay dưới `<ScreenTitle>`, thêm dãy tab:
 
 ```tsx
-        <Segmented
-          options={PRESETS}
-          value={difficulty}
-          onChange={onDifficulty}
-          label={vi.highScores.tabsLabel}
-          variant="tablist"
-          controls="scores-panel"
-        />
+<Segmented
+  options={PRESETS}
+  value={difficulty}
+  onChange={onDifficulty}
+  label={vi.highScores.tabsLabel}
+  variant="tablist"
+  controls="scores-panel"
+/>
 ```
 
 `Panel` bọc bảng và `Panel` của trạng thái trống đều thêm `id="scores-panel" role="tabpanel"`. Chuỗi trống đổi thành `vi.highScores.emptyOf(name)`, nhãn nút xoá đổi thành `vi.highScores.clearOf(name)`.
@@ -1519,7 +1569,15 @@ describe('màn Hết lượt ở ván tuỳ chỉnh — FR-21', () => {
 
   it('ván mức sẵn thì vẫn hỏi tên như trước', () => {
     render(
-      <GameOverOverlay score={5000} wave={4} rank={1} canSave onSubmit={noop} onPlayAgain={noop} onMenu={noop} />,
+      <GameOverOverlay
+        score={5000}
+        wave={4}
+        rank={1}
+        canSave
+        onSubmit={noop}
+        onPlayAgain={noop}
+        onMenu={noop}
+      />,
     )
     expect(screen.getByRole('button', { name: strings.gameOver.save })).toBeTruthy()
   })
@@ -1536,11 +1594,13 @@ Mong đợi: FAIL — `canSave` chưa là prop.
 Thêm prop `canSave: boolean`. Điều kiện hỏi tên thành `canSave && rank !== null && !saved`. Dòng `Stat` thứ ba chỉ hiện khi `canSave`; khi `!canSave` thay bằng:
 
 ```tsx
-        {canSave ? (
-          <Stat label={vi.gameOver.rank} value={rank === null ? vi.gameOver.noRank : `#${rank}`} />
-        ) : (
-          <p className="text-xs leading-relaxed text-muted">{vi.gameOver.customNoSave}</p>
-        )}
+{
+  canSave ? (
+    <Stat label={vi.gameOver.rank} value={rank === null ? vi.gameOver.noRank : `#${rank}`} />
+  ) : (
+    <p className="text-xs leading-relaxed text-muted">{vi.gameOver.customNoSave}</p>
+  )
+}
 ```
 
 `autoFocus` của nút Chơi lại thành `autoFocus={!canSave || rank === null}`.
@@ -1557,12 +1617,12 @@ export interface GameActions {
 ```
 
 ```ts
-  const start = useCallback((options?: NewGameOptions) => {
-    const state = stateRef.current
-    if (!state) return
-    resetForNewGame(state, options ?? {})
-    setHud(hudOf(state))
-  }, [])
+const start = useCallback((options?: NewGameOptions) => {
+  const state = stateRef.current
+  if (!state) return
+  resetForNewGame(state, options ?? {})
+  setHud(hudOf(state))
+}, [])
 ```
 
 - [ ] **Bước 5: Sửa `GameShell.tsx`**
@@ -1576,114 +1636,122 @@ import { CustomScreen } from './CustomScreen'
 ```
 
 ```tsx
-  const settings = useMemo(() => createSettingsStore(), [])
-  const [difficulty, setDifficulty] = useState<DifficultyId>('normal')
-  const [tuning, setTuning] = useState<Tuning>(DIFFICULTY.normal)
-  /** Mức của bảng đang xem. Tách khỏi `difficulty` vì xem bảng mức khác
+const settings = useMemo(() => createSettingsStore(), [])
+const [difficulty, setDifficulty] = useState<DifficultyId>('normal')
+const [tuning, setTuning] = useState<Tuning>(DIFFICULTY.normal)
+/** Mức của bảng đang xem. Tách khỏi `difficulty` vì xem bảng mức khác
       không có nghĩa là đổi mức sẽ chơi. */
-  const [table, setTable] = useState<Exclude<DifficultyId, 'custom'>>('normal')
+const [table, setTable] = useState<Exclude<DifficultyId, 'custom'>>('normal')
 
-  const storeOf = useCallback(
-    (id: Exclude<DifficultyId, 'custom'>) => createLocalScoreStore(undefined, SCORE_KEYS[id]),
-    [],
-  )
+const storeOf = useCallback(
+  (id: Exclude<DifficultyId, 'custom'>) => createLocalScoreStore(undefined, SCORE_KEYS[id]),
+  [],
+)
 ```
 
 Trong `useEffect` đọc client-only, đọc thêm settings và đặt `table` theo mức đã lưu:
 
 ```tsx
-  useEffect(() => {
-    const saved = settings.difficulty()
-    setDifficulty(saved)
-    setTuning(settings.tuning())
-    const t = saved === 'custom' ? 'normal' : saved
-    setTable(t)
-    setEntries(storeOf(t).top())
-    setCoarse(isCoarsePointer())
-  }, [settings, storeOf])
+useEffect(() => {
+  const saved = settings.difficulty()
+  setDifficulty(saved)
+  setTuning(settings.tuning())
+  const t = saved === 'custom' ? 'normal' : saved
+  setTable(t)
+  setEntries(storeOf(t).top())
+  setCoarse(isCoarsePointer())
+}, [settings, storeOf])
 ```
 
 `rankRef` chỉ chốt hạng khi ván ghi được bảng:
 
 ```tsx
-  const canSave = hud.difficulty !== 'custom'
+const canSave = hud.difficulty !== 'custom'
 
-  useEffect(() => {
-    if (hud.phase !== 'gameover') return
-    rankRef.current = canSave ? storeOf(hud.difficulty as Exclude<DifficultyId, 'custom'>).rankOf(hud.score) : null
-  }, [hud.phase, hud.score, hud.difficulty, canSave, storeOf])
+useEffect(() => {
+  if (hud.phase !== 'gameover') return
+  rankRef.current = canSave
+    ? storeOf(hud.difficulty as Exclude<DifficultyId, 'custom'>).rankOf(hud.score)
+    : null
+}, [hud.phase, hud.score, hud.difficulty, canSave, storeOf])
 ```
 
 `submit` ghi vào bảng của mức **vừa chơi**, rồi mở đúng tab đó:
 
 ```tsx
-  const submit = (initials: string) => {
-    const id = hud.difficulty as Exclude<DifficultyId, 'custom'>
-    const entry: ScoreEntry = { initials, score: hud.score, wave: hud.wave, at: Date.now() }
-    const store = storeOf(id)
-    store.submit(entry)
-    setTable(id)
-    setEntries(store.top())
-    setHighlightAt(entry.at)
-    actions.show('highscores')
-  }
+const submit = (initials: string) => {
+  const id = hud.difficulty as Exclude<DifficultyId, 'custom'>
+  const entry: ScoreEntry = { initials, score: hud.score, wave: hud.wave, at: Date.now() }
+  const store = storeOf(id)
+  store.submit(entry)
+  setTable(id)
+  setEntries(store.top())
+  setHighlightAt(entry.at)
+  actions.show('highscores')
+}
 ```
 
 Đổi mức ở menu ghi luôn xuống storage và đổi cả bảng đang xem:
 
 ```tsx
-  const chooseDifficulty = (id: DifficultyId) => {
-    setDifficulty(id)
-    settings.setDifficulty(id)
-    if (id !== 'custom') {
-      setTable(id)
-      setEntries(storeOf(id).top())
-    }
-  }
-
-  const showTable = (id: Exclude<DifficultyId, 'custom'>) => {
+const chooseDifficulty = (id: DifficultyId) => {
+  setDifficulty(id)
+  settings.setDifficulty(id)
+  if (id !== 'custom') {
     setTable(id)
     setEntries(storeOf(id).top())
-    setHighlightAt(null)
   }
+}
+
+const showTable = (id: Exclude<DifficultyId, 'custom'>) => {
+  setTable(id)
+  setEntries(storeOf(id).top())
+  setHighlightAt(null)
+}
 ```
 
 `playing` giữ nguyên (pha `'custom'` **không** thuộc nó). Bốn chỗ render đổi theo:
 
 ```tsx
-      {hud.phase === 'menu' ? (
-        <div className="relative z-10 h-full">
-          <MenuScreen
-            best={best}
-            difficulty={difficulty}
-            onDifficulty={chooseDifficulty}
-            onPlay={() => actions.start({ difficulty, tuning: difficulty === 'custom' ? tuning : DIFFICULTY[difficulty] })}
-            onHighScores={() => {
-              showTable(table)
-              actions.show('highscores')
-            }}
-            onHelp={() => actions.show('help')}
-            onCustom={() => actions.show('custom')}
-          />
-        </div>
-      ) : null}
+{
+  hud.phase === 'menu' ? (
+    <div className="relative z-10 h-full">
+      <MenuScreen
+        best={best}
+        difficulty={difficulty}
+        onDifficulty={chooseDifficulty}
+        onPlay={() =>
+          actions.start({ difficulty, tuning: difficulty === 'custom' ? tuning : DIFFICULTY[difficulty] })
+        }
+        onHighScores={() => {
+          showTable(table)
+          actions.show('highscores')
+        }}
+        onHelp={() => actions.show('help')}
+        onCustom={() => actions.show('custom')}
+      />
+    </div>
+  ) : null
+}
 
-      {hud.phase === 'custom' ? (
-        <div className="relative z-10 h-full">
-          <CustomScreen
-            tuning={tuning}
-            onChange={(next) => {
-              setTuning(next)
-              settings.setTuning(next)
-            }}
-            onPlay={() => {
-              chooseDifficulty('custom')
-              actions.start({ difficulty: 'custom', tuning })
-            }}
-            onBack={actions.toMenu}
-          />
-        </div>
-      ) : null}
+{
+  hud.phase === 'custom' ? (
+    <div className="relative z-10 h-full">
+      <CustomScreen
+        tuning={tuning}
+        onChange={(next) => {
+          setTuning(next)
+          settings.setTuning(next)
+        }}
+        onPlay={() => {
+          chooseDifficulty('custom')
+          actions.start({ difficulty: 'custom', tuning })
+        }}
+        onBack={actions.toMenu}
+      />
+    </div>
+  ) : null
+}
 ```
 
 `HighScoresScreen` nhận `difficulty={table}` và `onDifficulty={showTable}`; `GameOverOverlay` nhận `canSave={canSave}`. `best` đổi thành `entries[0]?.score ?? null` như cũ (nó đã là bảng của `table`).
@@ -1744,7 +1812,10 @@ test.describe('chọn độ khó — US-07', () => {
     await page.goto('/')
     await page.getByRole('button', { name: 'Khó', exact: true }).click()
     await page.reload()
-    await expect(page.getByRole('button', { name: 'Khó', exact: true })).toHaveAttribute('aria-pressed', 'true')
+    await expect(page.getByRole('button', { name: 'Khó', exact: true })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
   })
 
   test('bảng điểm có ba tab', async ({ page }) => {
