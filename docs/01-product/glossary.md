@@ -2,7 +2,7 @@
 
 > **Trả lời:** Khái niệm này gọi là gì trong code, và hiện ra sao trên UI?
 > **Trạng thái:** 🟢 đủ
-> **Cập nhật:** 2026-09-04 · commit —
+> **Cập nhật:** 2026-09-10 · commit —
 > **Cập nhật khi:** xuất hiện một khái niệm nghiệp vụ mới trong code hoặc UI
 
 | Thuật ngữ       | Định nghĩa một câu                                             | Tên trong code                                                                      | Tên trên UI (VI)                                    | Tên trên UI (EN)       |
@@ -24,6 +24,10 @@
 | Snapshot HUD    | Bản rút gọn chỉ chứa số React cần vẽ                           | `HudSnapshot`                                                                       | —                                                   | —                      |
 | Bảng điểm       | Top 10 điểm cao của máy này                                    | `ScoreEntry[]`, `ScoreStore`                                                        | Bảng điểm                                           | High scores            |
 | Đơn vị thế giới | Hệ toạ độ cố định 1600×1200 của lõi game                       | `WORLD_W`, `WORLD_H`                                                                | —                                                   | —                      |
+| Độ khó | Một trong bốn chế độ chơi: ba mức sẵn và một mức tự đặt | `DifficultyId` = `'easy' \| 'normal' \| 'hard' \| 'custom'` | Dễ · Thường · Khó · Tuỳ chỉnh | easy · normal · hard · custom |
+| Bộ núm cân bằng | Bốn số một độ khó đặt ra: mạng đầu ván, hệ số tốc độ thiên thạch, tỉ lệ rơi power-up, wave UFO xuất hiện | `Tuning`, `state.tuning` | (bốn thanh trượt) | — |
+| Mức sẵn | Bộ núm dựng sẵn cho một trong ba mức, không sửa được | `DIFFICULTY` | Dễ · Thường · Khó | preset |
+| Tắt UFO | Giá trị cuối của núm `ufoFirstWave`, nghĩa là ván không có UFO nào | `UFO_NEVER` (= 10) | tắt | off |
 
 **Tên bị cấm:**
 
@@ -32,3 +36,5 @@
 - Dùng `wave`, **không** dùng `level` / `stage` / `round`.
 - Dùng `Ship`, **không** dùng `Player` / `Rocket` / `Shuttle`.
 - Dùng `step`, **không** dùng `update` / `tick` cho luật chơi (`tick` dành riêng cho `loop`).
+- Dùng `Tuning`, **không** dùng `Settings` / `Config` / `Options` — `Tuning` chỉ là bốn số cân bằng của một ván, không phải cài đặt của người dùng.
+- Dùng `difficulty`, **không** dùng `mode` / `gameMode` cho ba mức và Tuỳ chỉnh. `mode` để dành cho chế độ chơi khác luật (Time Attack) nếu có sau này.

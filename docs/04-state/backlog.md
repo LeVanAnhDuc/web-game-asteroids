@@ -2,24 +2,52 @@
 
 > **Trả lời:** Đang làm gì, tiếp theo làm gì, và đang nợ những gì?
 > **Trạng thái:** 🟢 đủ
-> **Cập nhật:** 2026-09-07 · commit —
+> **Cập nhật:** 2026-09-10 · commit —
 > **Cập nhật khi:** bắt đầu/kết thúc một việc · brainstorm ra việc mới · cố ý đi đường tắt
 
 ## Đang làm
 
-**Đổi thương hiệu sang `Duck Drift`** (2026-09-08). Repo GitHub đổi từ
-`web-game-asteroids` thành `web-game-duck-drift`; GitHub redirect URL *repo* cũ nhưng
-**không** redirect đường dẫn Pages cũ — địa chỉ chơi giờ là
-<https://levananhduc.github.io/web-game-duck-drift/>. **Thư mục local vẫn là**
-`web-game-asteroids` — thương hiệu đổi, đường dẫn không.
+**Chế độ chơi & độ khó** (2026-09-10) — đang ở **bước 1 của `feature-flow`**, chờ cổng
+duyệt. Phạm vi đã chốt với người dùng: ba mức sẵn Dễ · Thường · Khó **cộng** một chế độ
+Tuỳ chỉnh với thanh trượt, và **ván Tuỳ chỉnh không ghi vào bảng điểm** — đó là cách
+tránh việc điểm ở hai mức khác nhau đứng chung một hạng.
+
+Bốn quyết định đã chốt trong hội thoại, chưa có file nào ghi lại:
+
+1. **Bộ núm đúng 4 số**: `startLives` · hệ số tốc độ thiên thạch · tỉ lệ rơi power-up ·
+   wave UFO bắt đầu. Bốn chỗ đọc tương ứng: `core/state.ts`, `core/asteroids.ts`
+   (`waveSpeedFactor`), `core/powerups.ts` (`rollDrop`), `core/ufo.ts` (`updateUfos`).
+2. **Tuning nằm trong `GameState`** (`state.tuning`), đặt một lần ở `resetForNewGame`.
+   Lý do không truyền theo tham số: `NFR-ROB-04` chỉ còn đúng nếu ván dựng lại được từ
+   seed **và** tuning cùng nằm trong state. Sẽ thành ADR khi bắt đầu viết `design.md`.
+3. **Bảng điểm: ba khoá localStorage riêng**, mỗi mức top 10 độc lập. Khoá hiện có
+   `asteroids.highscores.v1` giữ nguyên làm bảng mức Thường — không migration, không
+   sửa `isValidEntry`/`rankOf`/`sortEntries`, và **không xoá điểm của người đang chơi**.
+4. **Chọn mức inline ở menu**, mặc định Thường, nhớ vào localStorage; chỉ Tuỳ chỉnh mở
+   màn riêng. Lý do: Non-Goal đầu của `overview.md` §4 (chơi được trong 2 giây) loại bỏ
+   một màn chọn chế độ bắt buộc trước mọi ván.
+
+**Đang chặn:** wireframe ASCII của ba màn (menu · tuỳ chỉnh · bảng điểm) đã trình trong
+hội thoại, đang chờ duyệt. Duyệt xong mới dựng canvas ba khổ 375/768/1440, rồi mới viết
+`docs/specs/game-modes/design.md` + `plan.md`. Chưa có FR/US/ADR nào được cấp số, chưa
+tạo branch, chưa sửa một dòng code nào.
+
+---
+
+**Đổi thương hiệu sang `Duck Drift`** — đã xong, merge qua PR #10 (`7e8a753`). Giữ lại ở
+đây vì hai điều còn ràng buộc mọi việc sau: **thư mục local vẫn là**
+`web-game-asteroids` (thương hiệu đổi, đường dẫn không), địa chỉ chơi là
+<https://levananhduc.github.io/web-game-duck-drift/> — GitHub redirect URL *repo* cũ
+nhưng **không** redirect đường dẫn Pages cũ.
 
 Từ "asteroid" trong code **không** đổi: đó là tên *đối tượng trong game* (viên thiên
-thạch) — `integrateAsteroids`, `bulletsVsAsteroids`, `state.asteroids`. Chỉ hai chuỗi
-hiển thị đổi (`vi.meta.title`, `vi.menu.title`), và **4 assert e2e** đọc heading menu
-phải đổi theo, nếu không suite fail đúng ở chỗ nó bảo vệ. Khoá `localStorage`
-`asteroids.highscores.v1` **không** đổi: đổi là xoá bảng điểm của người đang chơi.
+thạch) — `integrateAsteroids`, `bulletsVsAsteroids`, `state.asteroids`. Khoá
+`localStorage` `asteroids.highscores.v1` **không** đổi: đổi là xoá bảng điểm của người
+đang chơi.
 
-Không có việc nào đang dở. CI/CD đã xong trên branch `feat/ci-cd-and-releases`: ba workflow (CI, deploy GitHub Pages, release tự động), e2e Playwright ở năm cấu hình, hai gate ngưỡng. Feature `asteroids-core` đã xong toàn bộ 10 task của `docs/specs/asteroids-core/plan.md` trên branch `feat/asteroids-core`: 151 test xanh, `typecheck`/`lint`/`build` sạch, bundle 117 kB. Việc còn lại đều là việc mới, nằm ở mục dưới.
+CI/CD đã xong: ba workflow (CI, deploy GitHub Pages, release tự động), e2e Playwright ở
+năm cấu hình, hai gate ngưỡng. Feature `asteroids-core` đã xong toàn bộ 10 task của
+`docs/specs/asteroids-core/plan.md`.
 
 ## Việc tiếp theo
 
