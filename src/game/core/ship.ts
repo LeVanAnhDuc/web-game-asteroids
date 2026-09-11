@@ -142,9 +142,13 @@ export function damageShip(state: GameState): ShipHit {
   spawnBreakParticles(state, ship.x, ship.y, EFFECTS.particlesPerBreak * 2, COLOR.accent)
 
   if (state.lives <= 0) {
+    // Chỉ đặt pha. Câu thông báo hết lượt do `step()` phát ở CUỐI step — ADR-0017.
+    // Phát ở đây là chốt `state.score` giữa step: chỗ gọi tới đây là
+    // `shipVsAsteroids`, và nó còn `breakAsteroid` chính viên đá vừa giết tàu, tức
+    // còn cộng điểm. Câu nói ra sẽ thiếu đúng số điểm đó so với HUD — NFR-A11Y-06.
     state.phase = 'gameover'
-    state.announce = ANNOUNCE.gameOver(state.score)
   } else {
+    // Mất một mạng thì số mạng không đổi thêm trong cùng step, nên phát ở đây đúng.
     state.announce = ANNOUNCE.lifeLost(state.lives)
   }
   return 'death'

@@ -150,6 +150,10 @@ export function useGame(seed: number): UseGame {
     if (!input) return
     return attachKeyboard(window, {
       input,
+      // ADR-0015: bàn phím game chỉ sở hữu phím ở pha `playing`, cộng phím tạm dừng ở
+      // `paused`. Đọc pha qua hàm chứ không đưa vào dependency của effect — đưa vào là
+      // gắn lại listener mỗi lần đổi màn, và mất trạng thái phím đang giữ.
+      getPhase: () => stateRef.current?.phase ?? null,
       onPause: () => {
         const state = stateRef.current
         if (!state) return

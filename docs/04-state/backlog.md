@@ -7,7 +7,29 @@
 
 ## Đang làm
 
-Không có việc nào đang dở.
+**Sửa feedback UX — pass 1/4**, branch `fix/keyboard-and-gameover`, worktree
+`../wt-keyboard-gameover`. Spec: `docs/specs/keyboard-and-gameover-fixes/`.
+
+Nguồn việc: `docs/ux-reviews/2026-09-11-lop-vo-7-red-route.md` — 10 phát hiện, chia
+thành bốn pass. Pass 1 là ba lỗi, không thêm UI nên không qua cổng mockup:
+
+- **Lỗi A** — hạng ở màn Hết lượt đọc từ `useRef` không kích hoạt re-render. Đóng F-01
+  (Critical): ván đầu sau khi tải trang luôn hiện "Không lọt bảng" dù bảng trống.
+- **Lỗi B** — `attachKeyboard(window, …)` không guard theo pha, `preventDefault` mũi tên
+  và `Space` trên mọi màn. Đóng F-06 · F-09, và một vi phạm **NFR-A11Y-02** mà báo cáo
+  không có: `Space` không bấm được nút đang có tiêu điểm.
+- **Lỗi C** — câu thông báo hết lượt chốt điểm giữa step nên `aria-live` nói một số,
+  panel nói số khác. Vi phạm **NFR-A11Y-06**. Không có trong báo cáo.
+
+Ba quyết định đi kèm: ADR-0015 (phím thuộc pha nào) · ADR-0016 (hạng nằm trong state
+React) · ADR-0017 (câu thông báo phát ở cuối step). **0012 và 0013 không có trong
+index** — ID không tái dùng, nên đánh tiếp từ 0015.
+
+Còn lại sau pass 1: pass 2 thấy được cách điều khiển (F-02 Critical · F-03) · pass 3
+không mất điểm oan (F-05 · F-04) · pass 4 nói đúng kỳ vọng (F-07 · F-08 · F-10 + đo
+tương phản). Quyết định đã chốt với người dùng: F-03 chỉ làm tàu dễ thấy hơn chứ không
+đổi tên, F-05 cảnh báo trước khi thoát chứ không đổi luật ghi điểm, F-08 chỉ chỉnh kỳ
+vọng ở menu vì bảng xếp hạng online là Non-Goal.
 
 **Chế độ chơi & độ khó** đã xong (2026-09-10) trên branch `feat/game-modes`. FR-20 ·
 FR-21 · FR-22 đóng; US-07 và US-08 là hai luồng mới; ADR-0010 và ADR-0011 ghi hai
@@ -44,8 +66,9 @@ redirect. Từ "asteroid" trong code **không** đổi: đó là tên đối tư
 
 ## Nợ kỹ thuật — cố ý làm tạm
 
-| Chỗ nào                                                     | Đã đánh đổi gì                                                              | Vì sao chấp nhận                                                                                               | Khi nào buộc phải trả                                                            |
-| ----------------------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `src/game/core/constants.ts`                                | Toàn bộ số cân bằng là ước lượng trên giấy, chưa qua chơi thử               | Chốt số trên giấy nhanh hơn và đủ để dựng xong hệ thống; số sai không làm sai kiến trúc                        | Ngay sau khi chơi được ván đầu — xem mục "Việc tiếp theo"                        |
-| `constants.ts` — `DIFFICULTY.easy` và `DIFFICULTY.hard`     | Bốn số của mức Dễ và bốn số của mức Khó cũng là ước lượng trên giấy         | Cùng loại nợ với dòng trên, và rẻ hơn: ba mức chỉ khác nhau ở dữ liệu, không ở luật, nên sửa số không sửa code | Cùng lúc với dòng trên. Mức Thường thì **không** được sửa tự do — ADR-0011       |
-| `docs/README.md` · `docs/decisions/README.md` (khối `auto`) | `docs-regen.sh` viết vạch bảng dạng `\| --- \|`, Prettier viết dạng căn đều | Nội dung không đổi một chữ, chỉ là định dạng; hai script luân phiên sửa lẫn nhau                               | Khi nó gây nhiễu review thật — sửa `docs-regen.sh` để nó xuất đúng dạng Prettier |
+| Chỗ nào                                                     | Đã đánh đổi gì                                                              | Vì sao chấp nhận                                                                                                                                                                                                                                                                                                                                                                                | Khi nào buộc phải trả                                                                                                                                                                                                                    |
+| ----------------------------------------------------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/game/core/constants.ts`                                | Toàn bộ số cân bằng là ước lượng trên giấy, chưa qua chơi thử               | Chốt số trên giấy nhanh hơn và đủ để dựng xong hệ thống; số sai không làm sai kiến trúc                                                                                                                                                                                                                                                                                                         | Ngay sau khi chơi được ván đầu — xem mục "Việc tiếp theo"                                                                                                                                                                                |
+| `constants.ts` — `DIFFICULTY.easy` và `DIFFICULTY.hard`     | Bốn số của mức Dễ và bốn số của mức Khó cũng là ước lượng trên giấy         | Cùng loại nợ với dòng trên, và rẻ hơn: ba mức chỉ khác nhau ở dữ liệu, không ở luật, nên sửa số không sửa code                                                                                                                                                                                                                                                                                  | Cùng lúc với dòng trên. Mức Thường thì **không** được sửa tự do — ADR-0011                                                                                                                                                               |
+| `docs/README.md` · `docs/decisions/README.md` (khối `auto`) | `docs-regen.sh` viết vạch bảng dạng `\| --- \|`, Prettier viết dạng căn đều | Nội dung không đổi một chữ, chỉ là định dạng; hai script luân phiên sửa lẫn nhau                                                                                                                                                                                                                                                                                                                | Khi nó gây nhiễu review thật — sửa `docs-regen.sh` để nó xuất đúng dạng Prettier                                                                                                                                                         |
+| `e2e/game.spec.ts` — helper `startGame`                     | Click "Chơi" với `timeout: 2000` bọc trong `toPass({ timeout: 15_000 })`    | **Nợ có sẵn, không phải của pass này.** Đo 2026-09-11: chạy cả suite trên `main` chưa sửa gì cũng đỏ ngẫu nhiên 1 test ở đúng helper này (`121 passed, 1 failed`); cùng spec đó với `--workers=1` thì 10/10 xanh trong 22 giây. Tức nó đỏ vì đói CPU khi 5 project chạy song song, không vì sản phẩm sai. Ghi lại vì `backlog.md` đang nói "122 test e2e xanh" — câu đó không đúng trên máy này | Khi CI đỏ vì nó, hoặc khi có thêm test dài. Hướng: nới `toPass` cho helper, hoặc chờ một tín hiệu "đã hydrate" thay vì thử-lại-click. Pass 1 đã tự giảm phần mình bằng cách gộp hai test hết lượt (mỗi cái ~22s mô phỏng thật) thành một |
