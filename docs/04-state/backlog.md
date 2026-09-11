@@ -7,8 +7,8 @@
 
 ## Đang làm
 
-**Sửa feedback UX — pass 2/4**, branch `fix/visible-controls`, worktree
-`../wt-keyboard-gameover`. Spec: `docs/specs/visible-controls/`. Pass 1 đã merge vào `main` (ADR-0015 · 0016 · 0017).
+**Sửa feedback UX — pass 3/4**, branch `fix/no-silent-score-loss`, worktree
+`../wt-keyboard-gameover`. Spec: `docs/specs/no-silent-score-loss/`. Pass 1 đã merge vào `main` (ADR-0015 · 0016 · 0017); pass 2 chờ MR (ADR-0018).
 
 Nguồn việc: `docs/ux-reviews/2026-09-11-lop-vo-7-red-route.md` — 10 phát hiện, chia
 thành bốn pass. Pass 1 là ba lỗi, không thêm UI nên không qua cổng mockup:

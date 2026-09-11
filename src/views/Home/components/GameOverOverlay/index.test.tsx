@@ -91,3 +91,72 @@ describe('màn Hết lượt ở ván tuỳ chỉnh — FR-21', () => {
     expect(screen.getByRole('button', { name: strings.gameOver.save })).toBeTruthy()
   })
 })
+
+// F-04 · F-05 của UX review 2026-09-11.
+describe('không để mất điểm âm thầm', () => {
+  it('nhãn khối ba ký tự NHÌN THẤY ĐƯỢC, không chỉ là aria-label — F-04', () => {
+    render(
+      <GameOverOverlay
+        score={40}
+        wave={1}
+        rank={1}
+        canSave
+        onSubmit={() => {}}
+        onPlayAgain={() => {}}
+        onMenu={() => {}}
+      />,
+    )
+
+    // Persona cảm ứng đọc ba chữ A với sáu chevron thành "ô nhập mã bí mật" và sợ nó
+    // tính tiền. Chuỗi này trước đây chỉ vào `aria-label`, tức chỉ tới trình đọc màn hình.
+    const labels = screen.getAllByText(strings.gameOver.enterName)
+    expect(labels.some((el) => el.tagName !== 'DIV' || !el.getAttribute('aria-label'))).toBe(true)
+    expect(screen.getByText(strings.gameOver.initialsHelp)).toBeTruthy()
+  })
+
+  it('cảnh báo chưa lưu khi có hạng và chưa lưu — F-05', () => {
+    render(
+      <GameOverOverlay
+        score={40}
+        wave={1}
+        rank={1}
+        canSave
+        onSubmit={() => {}}
+        onPlayAgain={() => {}}
+        onMenu={() => {}}
+      />,
+    )
+    expect(screen.getByText(strings.gameOver.unsavedWarning)).toBeTruthy()
+  })
+
+  it('KHÔNG cảnh báo khi không lọt bảng — không có gì để mất', () => {
+    render(
+      <GameOverOverlay
+        score={40}
+        wave={1}
+        rank={null}
+        canSave
+        onSubmit={() => {}}
+        onPlayAgain={() => {}}
+        onMenu={() => {}}
+      />,
+    )
+    expect(screen.queryByText(strings.gameOver.unsavedWarning)).toBeNull()
+  })
+
+  it('KHÔNG cảnh báo sau khi đã lưu', () => {
+    render(
+      <GameOverOverlay
+        score={40}
+        wave={1}
+        rank={1}
+        canSave
+        onSubmit={() => {}}
+        onPlayAgain={() => {}}
+        onMenu={() => {}}
+      />,
+    )
+    fireEvent.click(screen.getByRole('button', { name: strings.gameOver.save }))
+    expect(screen.queryByText(strings.gameOver.unsavedWarning)).toBeNull()
+  })
+})

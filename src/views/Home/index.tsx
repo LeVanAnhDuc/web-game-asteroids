@@ -215,7 +215,9 @@ export function Home() {
         </div>
       ) : null}
 
-      {hud.phase === 'paused' ? <PauseOverlay onResume={actions.resume} onMenu={actions.toMenu} /> : null}
+      {hud.phase === 'paused' ? (
+        <PauseOverlay score={hud.score} onResume={actions.resume} onMenu={actions.toMenu} />
+      ) : null}
 
       {hud.phase === 'gameover' ? (
         <GameOverOverlay
