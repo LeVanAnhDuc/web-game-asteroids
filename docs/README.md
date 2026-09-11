@@ -14,7 +14,20 @@
 | [`03-design/invariants.md`](03-design/invariants.md) | Sửa gì thì hệ thống sai **âm thầm** — test vẫn xanh mà kết… | 🟢 đủ — đã rà theo dự án | phát hiện một bất biến mới — thường là ngay sau khi ai đó … |
 | [`04-state/backlog.md`](04-state/backlog.md) | Đang làm gì, tiếp theo làm gì, và đang nợ những gì? | 🟢 đủ | bắt đầu/kết thúc một việc · brainstorm ra việc mới · cố ý … |
 | [`design-system/asteroids/MASTER.md`](design-system/asteroids/MASTER.md) | — | — | — |
-| [`decisions/`](decisions/README.md) | Tại sao lại làm thế này? | 12 ADR | mỗi quyết định kỹ thuật |
+| [`ux-reviews/2026-09-11-lop-vo-7-red-route.md`](ux-reviews/2026-09-11-lop-vo-7-red-route.md) | — | — | — |
+| [`ux-reviews/2026-09-11-lop-vo-7-red-route/00-run-meta.md`](ux-reviews/2026-09-11-lop-vo-7-red-route/00-run-meta.md) | — | — | — |
+| [`ux-reviews/2026-09-11-lop-vo-7-red-route/00-run-meta-phien-truoc-bi-huy.md`](ux-reviews/2026-09-11-lop-vo-7-red-route/00-run-meta-phien-truoc-bi-huy.md) | — | — | — |
+| [`ux-reviews/2026-09-11-lop-vo-7-red-route/00-verify-nghich-ly-bang-diem.md`](ux-reviews/2026-09-11-lop-vo-7-red-route/00-verify-nghich-ly-bang-diem.md) | — | — | — |
+| [`ux-reviews/2026-09-11-lop-vo-7-red-route/p01-RR01.md`](ux-reviews/2026-09-11-lop-vo-7-red-route/p01-RR01.md) | — | — | — |
+| [`ux-reviews/2026-09-11-lop-vo-7-red-route/p02-RR05.md`](ux-reviews/2026-09-11-lop-vo-7-red-route/p02-RR05.md) | — | — | — |
+| [`ux-reviews/2026-09-11-lop-vo-7-red-route/p02-RR07.md`](ux-reviews/2026-09-11-lop-vo-7-red-route/p02-RR07.md) | — | — | — |
+| [`ux-reviews/2026-09-11-lop-vo-7-red-route/p03-RR02.md`](ux-reviews/2026-09-11-lop-vo-7-red-route/p03-RR02.md) | — | — | — |
+| [`ux-reviews/2026-09-11-lop-vo-7-red-route/p04-BLIND1.md`](ux-reviews/2026-09-11-lop-vo-7-red-route/p04-BLIND1.md) | — | — | — |
+| [`ux-reviews/2026-09-11-lop-vo-7-red-route/p04-RR03.md`](ux-reviews/2026-09-11-lop-vo-7-red-route/p04-RR03.md) | — | — | — |
+| [`ux-reviews/2026-09-11-lop-vo-7-red-route/p05-BLIND2.md`](ux-reviews/2026-09-11-lop-vo-7-red-route/p05-BLIND2.md) | — | — | — |
+| [`ux-reviews/2026-09-11-lop-vo-7-red-route/p05-RR04.md`](ux-reviews/2026-09-11-lop-vo-7-red-route/p05-RR04.md) | — | — | — |
+| [`ux-reviews/2026-09-11-lop-vo-7-red-route/p06-RR06.md`](ux-reviews/2026-09-11-lop-vo-7-red-route/p06-RR06.md) | — | — | — |
+| [`decisions/`](decisions/README.md) | Tại sao lại làm thế này? | 18 ADR | mỗi quyết định kỹ thuật |
 | [`../.env.example`](../.env.example) | cần biến nào để chạy được dự án này? | 🟢 đủ — một biến, chỉ dùng lúc build để depl… | code đọc một biến mới (process.env.X / os.getenv / os.Gete… |
 <!-- END:auto -->
 

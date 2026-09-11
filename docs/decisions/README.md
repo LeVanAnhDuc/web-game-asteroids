@@ -20,6 +20,12 @@
 | [ADR-0010](0010-tuning-lives-in-gamestate.md) | Bốn số độ khó nằm trong `GameState`, không truyền theo tham số | 2026-09-10 | accepted |
 | [ADR-0011](0011-one-storage-key-per-difficulty.md) | Mỗi mức độ khó một khoá `localStorage` riêng cho bảng điểm | 2026-09-10 | accepted |
 | [ADR-0014](0014-adopt-the-shared-view-conventions.md) | Nhận bộ quy ước view dùng chung của workspace `web-game` | 2026-09-11 | accepted |
+| [ADR-0015](0015-game-keys-are-owned-per-phase.md) | Bàn phím của game chỉ sở hữu phím ở pha `playing`, `paused` chỉ giữ phím tạm dừng | 2026-09-11 | accepted |
+| [ADR-0016](0016-gameover-rank-lives-in-react-state.md) | Hạng lúc hết lượt nằm trong state React, chốt trong layout effect | 2026-09-11 | accepted |
+| [ADR-0017](0017-gameover-announcement-emitted-at-end-of-step.md) | Câu thông báo hết lượt phát ở cuối `step()`, không phát trong `killShip` | 2026-09-11 | accepted |
+| [ADR-0018](0018-ship-reads-first-and-controls-hint.md) | Tàu là nét nặng nhất trên canvas, và gợi ý điều khiển là DOM suy từ HUD | 2026-09-11 | accepted |
+| [ADR-0019](0019-consequences-announced-before-the-click.md) | Hậu quả phá huỷ nói trước cú bấm, và nhãn phải nhìn thấy được | 2026-09-11 | accepted |
+| [ADR-0020](0020-set-leaderboard-expectations-at-the-menu.md) | Chỉnh kỳ vọng về bảng điểm ngay ở menu, và trạng thái chọn không mã hoá chỉ bằng màu | 2026-09-11 | accepted |
 <!-- END:auto -->
 
 Trạng thái: `accepted` · `superseded by ADR-00xx` · `deprecated`
