@@ -31,3 +31,4 @@ RELEASE_NOTES.md
 !/.claude/settings.local.json
 !/.claude/skills/
 !/.claude/scripts/
+!/.claude/agents/
