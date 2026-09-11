@@ -13,6 +13,10 @@ interface Call {
   args: unknown[]
   /** `strokeStyle` tại thời điểm gọi — dùng để lọc ra lời gọi của từng lớp. */
   style: string
+  /** `lineWidth` tại thời điểm gọi — F-03 cần so bề rộng nét giữa các lớp. */
+  lw: number
+  /** `globalAlpha` tại thời điểm gọi — F-03 cần biết tàu mờ tới đâu lúc bất tử. */
+  alpha: number
 }
 
 interface FakeCtx {
@@ -25,11 +29,12 @@ function createFakeCanvas(): FakeCtx {
   const calls: Call[] = []
   let strokeStyle = ''
   let lineWidth = 1
+  let globalAlpha = 1
 
   const rec =
     (op: string) =>
     (...args: unknown[]): void => {
-      calls.push({ op, args, style: strokeStyle })
+      calls.push({ op, args, style: strokeStyle, lw: lineWidth, alpha: globalAlpha })
     }
 
   const ctx = {
@@ -38,17 +43,22 @@ function createFakeCanvas(): FakeCtx {
     },
     set strokeStyle(v: string) {
       strokeStyle = v
-      calls.push({ op: 'set:strokeStyle', args: [v], style: v })
+      calls.push({ op: 'set:strokeStyle', args: [v], style: v, lw: lineWidth, alpha: globalAlpha })
     },
     get lineWidth() {
       return lineWidth
     },
     set lineWidth(v: number) {
       lineWidth = v
-      calls.push({ op: 'set:lineWidth', args: [v], style: strokeStyle })
+      calls.push({ op: 'set:lineWidth', args: [v], style: strokeStyle, lw: v, alpha: globalAlpha })
     },
     fillStyle: '',
-    globalAlpha: 1,
+    get globalAlpha() {
+      return globalAlpha
+    },
+    set globalAlpha(v: number) {
+      globalAlpha = v
+    },
     lineCap: '',
     lineJoin: '',
     font: '',
@@ -492,5 +502,52 @@ describe('tàu và UFO', () => {
     createRenderer(f.canvas).draw(state)
     const ufoSets = f.calls.filter((c) => c.op === 'set:strokeStyle' && c.args[0] === COLOR.ufo)
     expect(ufoSets.length).toBe(2)
+  })
+})
+
+// F-03 của UX review 2026-09-11. Ba persona gọi vật mình điều khiển là "con vịt",
+// hai người nói thẳng là không thấy nó trên canvas — p01: "con vịt đâu tôi cũng
+// không thấy rõ trên canvas"; p04: "sao không thấy con vịt nhúc nhích". Hai nguyên
+// nhân đo được: nét tàu mảnh hơn nét UFO, và lúc bất tử tàu mờ tới mức mất hẳn —
+// đúng hai thời điểm (vào ván, hồi sinh) mà người mới cần thấy nó nhất.
+describe('tàu là thứ đọc được đầu tiên trên canvas — F-03', () => {
+  it('nét tàu hơn nét thiên thạch một khoảng nhìn ra được', () => {
+    // Khoá TỈ LỆ, không khoá con số: `lw(3.6)` là một lựa chọn, còn yêu cầu là
+    // "chênh đủ để mắt thấy". Trước khi sửa, tàu 2.8 so với thiên thạch 2.6 — chênh
+    // 0.2, trong khi thiên thạch lớn hơn tàu nhiều lần về diện tích.
+    const f = createFakeCanvas()
+    const state = playingState()
+    state.asteroids.push(asteroid(400, 400))
+    state.ship.invulnMs = 0
+
+    createRenderer(f.canvas).draw(state)
+
+    const strokes = f.calls.filter((c) => c.op === 'stroke')
+    const shipWidth = Math.max(...strokes.filter((c) => c.style === COLOR.fg).map((c) => c.lw))
+    const asteroidWidth = Math.max(...strokes.filter((c) => c.style === COLOR.asteroid).map((c) => c.lw))
+
+    expect(asteroidWidth).toBeGreaterThan(0)
+    expect(shipWidth / asteroidWidth).toBeGreaterThanOrEqual(1.25)
+  })
+
+  it('lúc bất tử tàu vẫn đọc được — không mờ dưới 55%', () => {
+    // Sao nền cũng vẽ bằng `COLOR.fg` với alpha 0.16/0.28/0.44, nên không lọc tàu
+    // ra được chỉ bằng màu. Thứ phân biệt: alpha của tàu ĐỔI theo `invulnMs`, alpha
+    // của sao thì không. Nên render hai lần và lấy phần chênh.
+    const fgAlphas = (invulnMs: number): Set<number> => {
+      const f = createFakeCanvas()
+      const state = playingState()
+      state.ship.invulnMs = invulnMs
+      state.ship.thrusting = false
+      createRenderer(f.canvas).draw(state)
+      return new Set(f.calls.filter((c) => c.op === 'stroke' && c.style === COLOR.fg).map((c) => c.alpha))
+    }
+
+    const base = fgAlphas(0)
+    // Nhịp mờ của hiệu ứng nhấp nháy: `Math.floor(invulnMs / 110) % 2 === 1`.
+    const blinking = [...fgAlphas(110)].filter((a) => !base.has(a))
+
+    expect(blinking.length, 'tàu phải mờ đi khi bất tử, nếu không thì test này vô nghĩa').toBe(1)
+    expect(blinking[0]).toBeGreaterThanOrEqual(0.55)
   })
 })

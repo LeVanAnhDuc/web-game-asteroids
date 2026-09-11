@@ -411,7 +411,11 @@ export function createRenderer(canvas: HTMLCanvasElement): Renderer {
 
   function drawShip(s: Ship): void {
     // Nhấp nháy khi bất tử. Nhịp lấy từ `invulnMs` nên vẽ chỉ phụ thuộc state.
-    const blinkAlpha = s.invulnMs > 0 && Math.floor(s.invulnMs / 110) % 2 === 1 ? 0.4 : 1
+    //
+    // Đáy 0.55, không phải 0.4 — ADR-0018. Bất tử xảy ra ngay khi vào ván và ngay
+    // sau mỗi lần hồi sinh, tức đúng hai lúc người mới cần thấy tàu nhất; ở 0.4 thì
+    // tàu biến mất khỏi màn (F-03). 0.55 vẫn đọc ra là "đang nhấp nháy".
+    const blinkAlpha = s.invulnMs > 0 && Math.floor(s.invulnMs / 110) % 2 === 1 ? 0.55 : 1
 
     if (s.thrusting) {
       if (!reducedMotion) {
@@ -429,7 +433,11 @@ export function createRenderer(canvas: HTMLCanvasElement): Renderer {
 
     ctx.globalAlpha = blinkAlpha
     ctx.strokeStyle = COLOR.fg
-    ctx.lineWidth = lw(2.8)
+    // Nét nặng nhất trên canvas — ADR-0018. Thiên thạch và UFO ở lw(2.6), và tàu ở
+    // 2.8 thì chênh 0.2, không nhìn ra được, trong khi thiên thạch lớn hơn tàu nhiều
+    // lần về diện tích nên chiếm hết chú ý. KHÔNG đổi `SHIP.drawRadius` để thay cho
+    // việc này — bất biến #10.
+    ctx.lineWidth = lw(3.6)
     wrapped(s.x, s.y, SHIP.drawRadius * 1.3, s, strokeShipAt)
 
     if (s.shield) {

@@ -44,6 +44,11 @@ export const vi = {
     lives: 'Mạng',
     pause: 'Tạm dừng',
     hyperspace: 'Dịch chuyển',
+    /**
+     * Gợi ý điều khiển, chỉ hiện lúc người chơi chưa làm gì — F-02. Tên phím KHÔNG
+     * viết lại ở đây, chúng lấy từ `help.keyboard` để hai chỗ không thể lệch nhau.
+     */
+    controlsHint: 'Điều khiển',
   },
 
   pause: {
