@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { vi } from '../src/i18n/vi'
 
 /**
  * Chạy ở cả năm project của `playwright.config.ts`, nên mỗi assert dưới đây được
@@ -19,9 +20,16 @@ test.describe('màn hình chính', () => {
     await expect(page.getByRole('button', { name: 'Tuỳ chỉnh', exact: true })).toBeVisible()
   })
 
-  test('máy chưa chơi bao giờ thì nói rõ là chưa có điểm', async ({ page }) => {
+  test('máy chưa chơi bao giờ thì nói rõ là chưa có điểm, VÀ của mức nào', async ({ page }) => {
     await page.goto('/')
-    await expect(page.getByText('Chưa có điểm nào', { exact: true })).toBeVisible()
+    // Nêu cả mức — F-07. Bản cũ chỉ ghi "Chưa có điểm nào", nên đúng lúc người chơi
+    // vừa đổi mức thì menu không xác nhận họ vừa đổi bảng điểm nào.
+    await expect(page.getByText(vi.menu.noBestOf(vi.difficulty.normal), { exact: true })).toBeVisible()
+  })
+
+  test('menu nói điểm chỉ lưu trên máy này, trước khi bấm Bảng điểm — F-08', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.getByText(vi.menu.localNote, { exact: true })).toBeVisible()
   })
 })
 

@@ -15,7 +15,20 @@ export const vi = {
     custom: 'Tuỳ chỉnh',
     best: 'Điểm cao nhất',
     bestOf: (name: string) => `Điểm cao nhất — ${name}`,
+    /**
+     * Nêu MỨC kể cả khi chưa có điểm — F-07. Bản cũ chỉ ghi "Chưa có điểm nào", nên ở
+     * đúng lúc người chơi vừa đổi mức thì menu không có chỗ nào xác nhận họ vừa đổi
+     * bảng điểm nào. Persona đổi sang Dễ rồi không tin là đã đổi được.
+     */
+    noBestOf: (name: string) => `Chưa có điểm nào — ${name}`,
     noBest: 'Chưa có điểm nào',
+    /**
+     * Chỉnh kỳ vọng NGAY Ở MENU, trước cú bấm — F-08. Chữ "Bảng điểm" gợi một bảng
+     * xếp hạng có người khác trong đó; persona vào với đúng kỳ vọng đó rồi hụt hẫng.
+     * Bảng xếp hạng online là Non-Goal (`overview.md` §4), nên việc làm được là nói
+     * trước rằng bảng này là của máy này.
+     */
+    localNote: 'Điểm chỉ lưu trên máy này',
   },
 
   difficulty: {

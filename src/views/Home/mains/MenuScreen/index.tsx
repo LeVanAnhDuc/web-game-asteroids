@@ -52,11 +52,17 @@ export function MenuScreen({
         <Button onClick={onCustom}>{vi.menu.custom}</Button>
       </div>
 
-      <p className="font-mono text-xs uppercase tracking-widest text-muted">
-        {best === null
-          ? vi.menu.noBest
-          : `${vi.menu.bestOf(vi.difficulty[difficulty])}  ${formatScore(best)}`}
-      </p>
+      <div className="flex flex-col items-center gap-1">
+        {/* Luôn nêu MỨC, kể cả khi chưa có điểm — F-07. Đây là chỗ duy nhất ở menu nói
+            về bảng điểm của mức đang chọn, nên nó phải đổi khi người chơi đổi mức. */}
+        <p className="font-mono text-xs uppercase tracking-widest text-muted">
+          {best === null
+            ? vi.menu.noBestOf(vi.difficulty[difficulty])
+            : `${vi.menu.bestOf(vi.difficulty[difficulty])}  ${formatScore(best)}`}
+        </p>
+        {/* Kỳ vọng chỉnh ở menu, TRƯỚC cú bấm "Bảng điểm" — F-08 · ADR-0020. */}
+        <p className="text-[11px] tracking-wide text-muted">{vi.menu.localNote}</p>
+      </div>
     </div>
   )
 }

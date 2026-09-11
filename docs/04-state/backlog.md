@@ -7,8 +7,8 @@
 
 ## Đang làm
 
-**Sửa feedback UX — pass 3/4**, branch `fix/no-silent-score-loss`, worktree
-`../wt-keyboard-gameover`. Spec: `docs/specs/no-silent-score-loss/`. Pass 1 đã merge vào `main` (ADR-0015 · 0016 · 0017); pass 2 chờ MR (ADR-0018).
+**Sửa feedback UX — pass 4/4 (pass cuối)**, branch `fix/expectations-and-contrast`, worktree
+`../wt-keyboard-gameover`. Spec: `docs/specs/expectations-and-contrast/`. Pass 1 đã merge vào `main` (ADR-0015 · 0016 · 0017); pass 2 (ADR-0018), pass 3 (ADR-0019) và pass 4 (ADR-0020) đang chờ MR, mỗi pass một nhánh xếp trên nhánh trước.
 
 Nguồn việc: `docs/ux-reviews/2026-09-11-lop-vo-7-red-route.md` — 10 phát hiện, chia
 thành bốn pass. Pass 1 là ba lỗi, không thêm UI nên không qua cổng mockup:
