@@ -32,3 +32,6 @@ RELEASE_NOTES.md
 !/.claude/skills/
 !/.claude/scripts/
 !/.claude/agents/
+
+# Playwright MCP scratch
+/.playwright-mcp/
