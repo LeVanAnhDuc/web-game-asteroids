@@ -62,6 +62,13 @@ export function GameOverOverlay({
 
         {canSave && rank !== null && !saved ? (
           <div className="flex flex-col gap-3">
+            {/* Nhãn phải NHÌN THẤY ĐƯỢC — F-04 · ADR-0019. Trước đây `enterName` chỉ
+                vào `aria-label`, nên trên màn chỉ có ba chữ A và sáu chevron: đúng
+                hình dạng một ô nhập mã. Một persona sợ nó tính tiền rồi bỏ luôn. */}
+            <div className="flex flex-col gap-1 text-center">
+              <span className="text-xs uppercase tracking-widest text-muted">{vi.gameOver.enterName}</span>
+              <span className="text-xs leading-relaxed text-muted">{vi.gameOver.initialsHelp}</span>
+            </div>
             <InitialsInput value={initials} onChange={setInitials} label={vi.gameOver.enterName} />
             <Button variant="primary" onClick={save}>
               {vi.gameOver.save}
@@ -73,6 +80,11 @@ export function GameOverOverlay({
           <Button variant="primary" onClick={onPlayAgain} autoFocus={!canSave || rank === null}>
             {vi.gameOver.playAgain}
           </Button>
+          {/* Chỉ khi thật sự có gì để mất — F-05. Cảnh báo sai chỗ dạy người ta bỏ qua
+              cảnh báo. */}
+          {canSave && rank !== null && !saved ? (
+            <p className="text-center text-xs leading-relaxed text-muted">{vi.gameOver.unsavedWarning}</p>
+          ) : null}
           <Button onClick={onMenu}>{vi.gameOver.toMenu}</Button>
         </div>
       </Panel>

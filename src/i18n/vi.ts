@@ -55,6 +55,17 @@ export const vi = {
     title: 'TẠM DỪNG',
     resume: 'Tiếp tục',
     toMenu: 'Về menu',
+    /**
+     * Hậu quả nói TRƯỚC cú bấm — F-05. Hai persona bấm "Về menu" vì tin nó an toàn
+     * rồi mất điểm đang chơi. Cùng khuôn với `gameOver.customNoSave`, khuôn đã được
+     * kiểm bằng người thật và thắng (journeys.md:179).
+     *
+     * Chưa có điểm thì KHÔNG nhắc tới điểm: "0 điểm sẽ không được ghi" là cảnh báo về
+     * một mất mát không tồn tại, và cảnh báo sai chỗ dạy người ta bỏ qua cảnh báo
+     * (ADR-0019). Chỉ còn lại sự thật đơn giản là ván này bỏ.
+     */
+    toMenuWarning: (score: string | null) =>
+      score === null ? 'Về menu là bỏ ván này.' : `Về menu là bỏ ván này. ${score} điểm sẽ không được ghi.`,
   },
 
   gameOver: {
@@ -68,6 +79,14 @@ export const vi = {
     playAgain: 'Chơi lại',
     toMenu: 'Về menu',
     customNoSave: 'Ván tuỳ chỉnh không ghi vào bảng điểm.',
+    /** Chỉ hiện khi CÓ hạng và CHƯA lưu — F-05. Sai chỗ thì dạy người ta bỏ qua cảnh báo. */
+    unsavedWarning: 'Điểm này lọt bảng nhưng chưa lưu. Về menu là mất.',
+    /**
+     * Nhãn và hướng dẫn cho khối ba ký tự — F-04. Trước đây `enterName` chỉ vào
+     * `aria-label`, nên trên màn chỉ có ba chữ A và sáu chevron: đúng hình dạng một ô
+     * nhập mã. Một persona sợ nó tính tiền và bỏ luôn.
+     */
+    initialsHelp: 'Tên viết tắt ba chữ. Gõ bàn phím hoặc bấm mũi tên.',
   },
 
   highScores: {
