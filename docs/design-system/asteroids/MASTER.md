@@ -39,11 +39,11 @@
 
 | Vật thể            | Hex             | Ghi chú                                        |
 | ------------------ | --------------- | ---------------------------------------------- |
-| Tàu                | `#F2F5F9`       | nét trắng, glow xanh `--color-primary` khi đẩy |
+| Tàu                | `#F2F5F9`       | nét trắng **nặng nhất trên canvas** (`lw(3.6)` so với `lw(2.6)` của thiên thạch và UFO — ADR-0018), glow xanh `--color-primary` khi đẩy |
 | Đạn                | `#F2F5F9`       |                                                |
 | Thiên thạch        | `#8B94A7`       | xám lạnh — không tranh chú ý với power-up      |
 | UFO                | `#FF5D8F`       | hồng, chỉ UFO dùng màu này                     |
-| Bất tử (nhấp nháy) | `#F2F5F9` @ 40% |                                                |
+| Bất tử (nhấp nháy) | `#F2F5F9` @ 55% | 40% làm tàu biến mất khỏi màn — ADR-0018       |
 
 ### Power-up — màu **và** hình, không bao giờ chỉ màu
 

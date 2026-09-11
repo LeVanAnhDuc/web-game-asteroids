@@ -12,6 +12,7 @@ import { CustomScreen } from './mains/CustomScreen'
 import { Hud } from './mains/Hud'
 import { HelpScreen } from './mains/HelpScreen'
 import { HighScoresScreen } from './mains/HighScoresScreen'
+import { ControlsHint } from './components/ControlsHint'
 import { LiveRegion, translateAnnouncement } from './components/LiveRegion'
 import { MenuScreen, type PresetId } from './mains/MenuScreen'
 import { GameOverOverlay } from './components/GameOverOverlay'
@@ -152,6 +153,10 @@ export function Home() {
             className="block h-full w-full"
           />
         </div>
+
+        {/* Thiết bị cảm ứng đã có năm nút thật; chỉ người dùng chuột/bàn phím mới
+            cần dòng chữ. F-02 · ADR-0018. */}
+        {playing && !coarse ? <ControlsHint wave={hud.wave} /> : null}
 
         {playing && coarse ? <TouchControls touch={touch} /> : null}
       </div>
