@@ -39,3 +39,37 @@ describe('MenuScreen — FR-20', () => {
     expect(screen.getByText(new RegExp(`^${strings.menu.bestOf(strings.difficulty.easy)}`))).toBeTruthy()
   })
 })
+
+// F-07 · F-08 của UX review 2026-09-11.
+describe('menu nói đúng kỳ vọng', () => {
+  const props = {
+    difficulty: 'easy' as const,
+    onDifficulty: () => {},
+    onPlay: () => {},
+    onHighScores: () => {},
+    onHelp: () => {},
+    onCustom: () => {},
+  }
+
+  it('nêu MỨC kể cả khi chưa có điểm nào — F-07', () => {
+    // Bản cũ chỉ ghi "Chưa có điểm nào", nên đúng lúc người chơi vừa đổi mức thì
+    // không có chỗ nào ở menu xác nhận họ vừa đổi bảng điểm nào.
+    render(<MenuScreen best={null} {...props} />)
+    expect(screen.getByText(strings.menu.noBestOf(strings.difficulty.easy))).toBeTruthy()
+  })
+
+  it('dòng nêu mức đổi theo mức đang chọn', () => {
+    const { rerender } = render(<MenuScreen best={null} {...props} />)
+    expect(screen.getByText(strings.menu.noBestOf(strings.difficulty.easy))).toBeTruthy()
+
+    rerender(<MenuScreen best={null} {...props} difficulty="hard" />)
+    expect(screen.getByText(strings.menu.noBestOf(strings.difficulty.hard))).toBeTruthy()
+  })
+
+  it('nói điểm chỉ lưu trên máy này, TRƯỚC khi bấm Bảng điểm — F-08', () => {
+    // Persona vào "Bảng điểm" với kỳ vọng đây là bảng xếp hạng có người khác, rồi
+    // hụt hẫng. Bảng online là Non-Goal, nên việc làm được là chỉnh kỳ vọng ở menu.
+    render(<MenuScreen best={1200} {...props} />)
+    expect(screen.getByText(strings.menu.localNote)).toBeTruthy()
+  })
+})

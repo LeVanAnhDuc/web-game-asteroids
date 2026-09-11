@@ -42,13 +42,24 @@ export function Segmented<T extends string>({
             aria-controls={tabs ? controls : undefined}
             onClick={() => onChange(option.id)}
             // min-h-11 = 44px — NFR-A11Y-03
-            className={`min-h-11 cursor-pointer rounded-lg border text-sm font-medium tracking-wide transition-colors ${
+            // Trạng thái ĐANG CHỌN phải đủ khác để tin — F-07. Bản cũ chỉ khác ở
+            // nền mờ và viền 60%: persona đổi sang Dễ rồi nói "hình như chọn được
+            // rồi, nhưng tôi không chắc lắm nên bấm lại thêm một lần cho chắc ăn".
+            // Nay thêm viền đặc, chữ đậm và một chấm chỉ thị — không mã hoá thông
+            // tin CHỈ bằng màu (NFR-A11Y-04).
+            className={`relative min-h-11 cursor-pointer rounded-lg border text-sm tracking-wide transition-colors ${
               on
-                ? 'border-primary/60 bg-primary/15 text-fg'
-                : 'border-transparent bg-transparent text-muted hover:text-fg'
+                ? 'border-primary bg-primary/20 font-semibold text-fg'
+                : 'border-transparent bg-transparent font-medium text-muted hover:text-fg'
             }`}
           >
             {option.label}
+            {on ? (
+              <span
+                aria-hidden="true"
+                className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-primary"
+              />
+            ) : null}
           </button>
         )
       })}
