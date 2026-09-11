@@ -1,4 +1,3 @@
-/.claude/
 
 # Bí mật — `.env.example` là bản mẫu và ĐƯỢC commit; `.env` là bản thật và không bao giờ commit.
 .env
@@ -25,3 +24,10 @@ dev.log
 /blob-report/
 /playwright/.cache/
 RELEASE_NOTES.md
+
+# --- Claude Code: theo doi config + skills, bo qua worktrees/doc-state ---
+/.claude/*
+!/.claude/CLAUDE.md
+!/.claude/settings.local.json
+!/.claude/skills/
+!/.claude/scripts/
