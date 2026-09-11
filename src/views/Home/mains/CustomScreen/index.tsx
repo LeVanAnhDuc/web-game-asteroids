@@ -3,7 +3,10 @@
 import { TUNING_LIMITS, UFO_NEVER } from '@/game/core/constants'
 import type { Tuning } from '@/game/core/types'
 import { vi } from '@/i18n/vi'
-import { Button, Panel, ScreenTitle, TuningSlider } from './ui'
+import { Button } from '@/components/Button'
+import { Panel } from '@/components/Panel'
+import { ScreenTitle } from '@/components/ScreenTitle'
+import { TuningSlider } from '@/components/TuningSlider'
 
 /** Bốn núm, đúng thứ tự hiện ra. Cùng một nguồn với `TUNING_LIMITS`. */
 const KNOBS: readonly (keyof Tuning)[] = ['startLives', 'asteroidSpeed', 'dropChance', 'ufoFirstWave']

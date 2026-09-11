@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { createInput } from '@/input/keyboard'
 import { createTouchInput, isCoarsePointer } from '@/input/touch'
 import { vi as strings } from '@/i18n/vi'
-import { TouchControls } from './TouchControls'
+import { TouchControls } from './index'
 
 /** happy-dom không có Pointer Capture API; nút phải chạy được mà không cần nó. */
 function stubPointerCapture() {

@@ -3,8 +3,11 @@
 import { ASTEROID_SCORE, UFO } from '@/game/core/constants'
 import type { PowerUpKind } from '@/game/core/types'
 import { vi } from '@/i18n/vi'
-import { PowerUpMark } from './PowerUpMark'
-import { Button, formatScore, Panel, ScreenTitle } from './ui'
+import { PowerUpMark } from '../../components/PowerUpMark'
+import { Button } from '@/components/Button'
+import { Panel } from '@/components/Panel'
+import { ScreenTitle } from '@/components/ScreenTitle'
+import { formatScore } from '@/lib/format'
 
 const KIND_CLASS: Record<PowerUpKind, string> = {
   shield: 'text-power-shield',

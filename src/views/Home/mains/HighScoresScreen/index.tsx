@@ -2,8 +2,12 @@
 
 import type { ScoreEntry } from '@/game/core/types'
 import { vi } from '@/i18n/vi'
-import { PRESETS, type PresetId } from './MenuScreen'
-import { Button, formatScore, Panel, ScreenTitle, Segmented } from './ui'
+import { PRESETS, type PresetId } from '../MenuScreen'
+import { Button } from '@/components/Button'
+import { Panel } from '@/components/Panel'
+import { ScreenTitle } from '@/components/ScreenTitle'
+import { Segmented } from '@/components/Segmented'
+import { formatScore } from '@/lib/format'
 
 /** Panel bảng là tabpanel của dãy tab ngay trên nó. */
 const PANEL_ID = 'scores-panel'

@@ -1,5 +1,5 @@
-import { GameShell } from '@/components/GameShell'
+import { Home } from '@/views/Home'
 
 export default function Page() {
-  return <GameShell />
+  return <Home />
 }

@@ -1,32 +1,19 @@
 'use client'
 
+// libs
 import { useState } from 'react'
+
+// components
+import { Button } from '@/components/Button'
+import { Panel } from '@/components/Panel'
+import { Stat } from '@/components/Stat'
+import { Backdrop } from '../Backdrop'
+import { InitialsInput } from '../InitialsInput'
+
+// others
 import { vi } from '@/i18n/vi'
+import { formatScore } from '@/lib/format'
 import { normalizeInitials } from '@/storage/scoreStore'
-import { InitialsInput } from './InitialsInput'
-import { Button, formatScore, Panel, Stat } from './ui'
-
-function Backdrop({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="absolute inset-0 z-10 flex items-center justify-center bg-bg/80 px-4 backdrop-blur-[2px]">
-      {children}
-    </div>
-  )
-}
-
-export function PauseOverlay({ onResume, onMenu }: { onResume: () => void; onMenu: () => void }) {
-  return (
-    <Backdrop>
-      <Panel className="flex w-full max-w-xs flex-col gap-4 p-6">
-        <h2 className="text-center text-sm uppercase tracking-[0.3em] text-muted">{vi.pause.title}</h2>
-        <Button variant="primary" onClick={onResume} autoFocus>
-          {vi.pause.resume}
-        </Button>
-        <Button onClick={onMenu}>{vi.pause.toMenu}</Button>
-      </Panel>
-    </Backdrop>
-  )
-}
 
 export function GameOverOverlay({
   score,

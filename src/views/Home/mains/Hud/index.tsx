@@ -3,8 +3,8 @@
 import { POWERUP } from '@/game/core/constants'
 import type { HudSnapshot } from '@/game/core/types'
 import { vi } from '@/i18n/vi'
-import { formatScore } from './ui'
-import { PowerUpMark } from './PowerUpMark'
+import { formatScore } from '@/lib/format'
+import { PowerUpMark } from '../../components/PowerUpMark'
 
 const WEAPON_COLOR = {
   rapid: 'text-power-rapid',

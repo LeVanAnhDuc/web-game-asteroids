@@ -1,7 +1,18 @@
 {
   "root": true,
   "extends": ["next/core-web-vitals", "prettier"],
-  "rules": {},
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "arrow-body-style": ["error", "as-needed"],
+    "object-shorthand": "warn",
+    "react/jsx-fragments": ["warn", "syntax"],
+    "@typescript-eslint/array-type": ["warn", { "default": "array" }],
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      { "prefer": "type-imports", "fixStyle": "separate-type-imports" }
+    ]
+  },
   "overrides": [
     {
       "files": ["src/game/core/**/*.ts"],
@@ -44,7 +55,18 @@
           {
             "patterns": [
               {
-                "group": ["react", "react-dom", "next/*", "@/components/*", "@/storage/*", "@/hooks/*"],
+                "group": [
+                  "react",
+                  "react-dom",
+                  "next/*",
+                  "@/components",
+                  "@/components/*",
+                  "@/views",
+                  "@/views/*",
+                  "@/storage/*",
+                  "@/hooks",
+                  "@/hooks/*"
+                ],
                 "message": "Bất biến #1: lõi game là TypeScript thuần (ADR-0002)."
               }
             ]

@@ -2,7 +2,10 @@
 
 import type { DifficultyId } from '@/game/core/types'
 import { vi } from '@/i18n/vi'
-import { Button, formatScore, ScreenTitle, Segmented } from './ui'
+import { Button } from '@/components/Button'
+import { ScreenTitle } from '@/components/ScreenTitle'
+import { Segmented } from '@/components/Segmented'
+import { formatScore } from '@/lib/format'
 
 /** Mức có bảng điểm riêng. `custom` không nằm đây — nó là NÚT, không phải lựa chọn. */
 export type PresetId = Exclude<DifficultyId, 'custom'>

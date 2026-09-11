@@ -19,6 +19,7 @@
 | [ADR-0009](0009-releases-derived-from-commits.md) | Số phiên bản và nội dung release note suy ra từ lịch sử commit | 2026-09-07 | accepted |
 | [ADR-0010](0010-tuning-lives-in-gamestate.md) | Bốn số độ khó nằm trong `GameState`, không truyền theo tham số | 2026-09-10 | accepted |
 | [ADR-0011](0011-one-storage-key-per-difficulty.md) | Mỗi mức độ khó một khoá `localStorage` riêng cho bảng điểm | 2026-09-10 | accepted |
+| [ADR-0014](0014-adopt-the-shared-view-conventions.md) | Nhận bộ quy ước view dùng chung của workspace `web-game` | 2026-09-11 | accepted |
 <!-- END:auto -->
 
 Trạng thái: `accepted` · `superseded by ADR-00xx` · `deprecated`

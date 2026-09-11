@@ -42,7 +42,7 @@ function createHarness() {
       for (const cb of cbs) cb(t)
     },
     /** Trôi `ms` rồi chạy một frame. */
-    frame: function (ms: number): void {
+    frame (ms: number): void {
       t += ms
       const cbs = [...queued.values()]
       queued.clear()

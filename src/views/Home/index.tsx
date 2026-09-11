@@ -8,21 +8,25 @@ import { vi } from '@/i18n/vi'
 import { isCoarsePointer } from '@/input/touch'
 import { createLocalScoreStore, SCORE_KEYS } from '@/storage/localScoreStore'
 import { createSettingsStore } from '@/storage/settingsStore'
-import { CustomScreen } from './CustomScreen'
-import { Hud } from './Hud'
-import { HelpScreen } from './HelpScreen'
-import { HighScoresScreen } from './HighScoresScreen'
-import { LiveRegion, translateAnnouncement } from './LiveRegion'
-import { MenuScreen, type PresetId } from './MenuScreen'
-import { GameOverOverlay, PauseOverlay } from './Overlays'
-import { TouchControls } from './TouchControls'
+import { CustomScreen } from './mains/CustomScreen'
+import { Hud } from './mains/Hud'
+import { HelpScreen } from './mains/HelpScreen'
+import { HighScoresScreen } from './mains/HighScoresScreen'
+import { LiveRegion, translateAnnouncement } from './components/LiveRegion'
+import { MenuScreen, type PresetId } from './mains/MenuScreen'
+import { GameOverOverlay } from './components/GameOverOverlay'
+import { PauseOverlay } from './components/PauseOverlay'
+import { TouchControls } from './components/TouchControls'
+
+// ghosts
+import { FreezeRankAtGameOver } from './ghosts/FreezeRankAtGameOver'
 
 /** Mức lưu trong máy có thể là `custom`; menu chỉ chọn được ba mức sẵn. */
 function presetOf(id: string): PresetId {
   return id === 'easy' || id === 'hard' ? id : 'normal'
 }
 
-export function GameShell() {
+export function Home() {
   // Seed cố định ở lần dựng đầu để server và client render giống nhau; mỗi ván
   // mới dùng lại state đó nên không cần seed ngẫu nhiên ở đây.
   const { canvasRef, hud, announce, touch, actions } = useGame(20260904)
@@ -67,11 +71,15 @@ export function GameShell() {
     setBest(storeOf(preset).top(1)[0]?.score ?? null)
   }, [hud.phase, preset, storeOf])
 
-  // Chốt thứ hạng đúng lúc ván kết thúc, trước khi điểm mới được ghi vào bảng.
-  useEffect(() => {
-    if (hud.phase !== 'gameover') return
-    rankRef.current = canSave ? storeOf(presetOf(hud.difficulty)).rankOf(hud.score) : null
-  }, [hud.phase, hud.score, hud.difficulty, canSave, storeOf])
+  // Hai hàm này phải ổn định: ghost FreezeRankAtGameOver chạy lại theo chúng, và
+  // mỗi lần chạy là một lần JSON.parse cả bảng điểm.
+  const resolveRank = useCallback(
+    (id: string, score: number) => storeOf(presetOf(id)).rankOf(score),
+    [storeOf]
+  )
+  const freezeRank = useCallback((rank: number | null) => {
+    rankRef.current = rank
+  }, [])
 
   const showTable = (id: PresetId) => {
     setTable(id)
@@ -103,6 +111,16 @@ export function GameShell() {
 
   return (
     <main className="flex h-[100dvh] w-full flex-col overflow-hidden bg-bg">
+      {/* Ghost: chạy side-effect, không vẽ gì. Render vô điều kiện — xem R-04. */}
+      <FreezeRankAtGameOver
+        phase={hud.phase}
+        score={hud.score}
+        difficulty={hud.difficulty}
+        canSave={canSave}
+        resolveRank={resolveRank}
+        onFreeze={freezeRank}
+      />
+
       <LiveRegion message={translateAnnouncement(announce)} />
 
       {/* Canvas luôn tồn tại: gỡ nó ra khỏi DOM sẽ phá renderer và loop. Khi
