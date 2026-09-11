@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useGame } from '@/hooks/useGame'
 import { DIFFICULTY } from '@/game/core/constants'
 import type { ScoreEntry, Tuning } from '@/game/core/types'
@@ -47,7 +47,15 @@ export function Home() {
   const [best, setBest] = useState<number | null>(null)
   const [highlightAt, setHighlightAt] = useState<number | null>(null)
   const [coarse, setCoarse] = useState(false)
-  const rankRef = useRef<number | null>(null)
+  /**
+   * Hạng của ván vừa kết thúc, chốt TRƯỚC khi điểm mới được ghi vào bảng.
+   *
+   * Phải là state, không phải `useRef` — ADR-0016. Trước đây nó là ref được đọc lúc
+   * render, mà gán `.current` không lên lịch render: ván đầu sau khi tải trang luôn
+   * hiện "Không lọt bảng" (giá trị khởi tạo) dù bảng trống, và ván sau lại hiện hạng
+   * của ván trước. Đó là F-01 của UX review 2026-09-11.
+   */
+  const [rank, setRank] = useState<number | null>(null)
 
   /** Ván tuỳ chỉnh không ghi bảng nào — FR-21. */
   const canSave = hud.difficulty !== 'custom'
@@ -75,10 +83,10 @@ export function Home() {
   // mỗi lần chạy là một lần JSON.parse cả bảng điểm.
   const resolveRank = useCallback(
     (id: string, score: number) => storeOf(presetOf(id)).rankOf(score),
-    [storeOf]
+    [storeOf],
   )
-  const freezeRank = useCallback((rank: number | null) => {
-    rankRef.current = rank
+  const freezeRank = useCallback((next: number | null) => {
+    setRank(next)
   }, [])
 
   const showTable = (id: PresetId) => {
@@ -208,7 +216,7 @@ export function Home() {
         <GameOverOverlay
           score={hud.score}
           wave={hud.wave}
-          rank={rankRef.current}
+          rank={rank}
           canSave={canSave}
           onSubmit={submit}
           onPlayAgain={actions.start}
